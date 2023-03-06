@@ -1,0 +1,51 @@
+.sidukoTable .cell {
+    border: 1px solid black;
+    padding: 4px;
+}
+
+.sidukoTable table td {
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+    background-color: lightgray;
+    text-align: center;
+}
+
+.sidukoTable table td:hover {
+    background-color: lightskyblue;
+}
+
+.sidukoTable table td:focus {
+    background-color: yellow;
+}
+
+.sidukoTable table td.solved {
+    font-weight: bold;
+    background-color: aqua;
+}
+
+.sidukoTable table td.entered {
+    font-weight: light;
+    background-color: navy;
+    color: white;
+}
+
+.sidukoTable table td.fixed {
+    font-weight: bold;
+    color: red;
+    background-color: lightpink;
+}
+
+.sidukoTable table td.suggested {
+    font-weight: light;
+    color: navy;
+    background-color: rgb(195, 255, 0);
+}
+
+#here {
+    display: inline-flex;
+}
+
+#there {
+    display: inline-flex;
+}
