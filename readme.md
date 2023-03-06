@@ -1,1 +1,1 @@
-Placeholder for sidoku readme
+An animated solver for sudoko problems.
