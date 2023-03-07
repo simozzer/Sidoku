@@ -359,11 +359,9 @@ class SidukoSolver {
         let stepProducedProgress;
         do {
             stepProducedProgress = false;
-            if (this.hasPossibleDefiniteAnswers()) {
-                if (this.applyCellsWithOnePossibleValue()) {
-                    this.solvedSomething = true;
-                    stepProducedProgress = true;
-                }
+            if (this.applyCellsWithOnePossibleValue()) {
+                this.solvedSomething = true;
+                stepProducedProgress = true;
             }
         } while (stepProducedProgress)
     }
@@ -476,6 +474,8 @@ class SidukoSolver {
             await this.doExecute();
         } while (this.#oPuzzle.cells.filter(cell => cell.value === 0).length > 0);
 
+        document.querySelector('#everywhere table').classList.add('solved');
+
     }
 
     rewind() {
@@ -525,40 +525,21 @@ class SidukoSolver {
         }
     }
 
-    hasPossibleDefiniteAnswers() {
-        return this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && this.#oPuzzle.getPossibleValues(oCell).length === 1).length > 0;
-    }
-
     applyCellsWithOnePossibleValue() {
-        const aPossibleAnswers = this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && this.#oPuzzle.getPossibleValues(oCell).length === 1);
-        if (this.singleValuesAreValid(aPossibleAnswers)) {
-            aPossibleAnswers.forEach(oPossibleAnswer => {
-                oPossibleAnswer.value = this.#oPuzzle.getPossibleValues(oPossibleAnswer)[0];
-                oPossibleAnswer.element.innerText = oPossibleAnswer.value;
-                oPossibleAnswer.element.title = '';
-                oPossibleAnswer.element.classList.add('solved');
-                oPossibleAnswer.setSolved();
-                oPossibleAnswer.passIndex = this.#passIndex;
+        const oSingleValueCells = this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && this.#oPuzzle.getPossibleValues(oCell).length === 1);
+        oSingleValueCells.forEach(oCell => {
+            const iValue = this.#oPuzzle.getPossibleValues(oCell)[0];
+            if (iValue && this.#oPuzzle.canSetValue(oCell, iValue)) {
+                oCell.value = iValue;
+                oCell.element.innerText = iValue;
+                oCell.element.title = '';
+                oCell.element.classList.add('solved');
+                oCell.setSolved();
+                oCell.passIndex = this.#passIndex;
                 return true;
-            });
-        }
+            }
+        });
         return false;
     }
 
-    singleValuesAreValid(aPossibleAnswers) {
-        return !aPossibleAnswers.find((oSingleValueCell) => {
-            return (aPossibleAnswers.find((oPossibleAnswerCell) => {
-                if ((oSingleValueCell !== oPossibleAnswerCell) && (this.#oPuzzle.getPossibleValues(oSingleValueCell)[0] === this.#oPuzzle.getPossibleValues(oPossibleAnswerCell)[0])) {
-                    if (oSingleValueCell.column === oPossibleAnswerCell.column) {
-                        return true;
-                    } else if (oSingleValueCell.row === oPossibleAnswerCell.row) {
-                        return true;
-                    } else if (oSingleValueCell.innerTableIndex === oPossibleAnswerCell.innerTableIndex)
-                        return true;
-                }
-                return false;
-            }
-            ))
-        });
-    }
 }

@@ -49,3 +49,14 @@
 #there {
     display: inline-flex;
 }
+
+
+@keyframes puzzlesolved {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.sidukoTable.solved table td {
+    animation-name: puzzlesolved;
+    animation-duration: 4s;
+}
