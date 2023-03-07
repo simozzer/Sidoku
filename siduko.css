@@ -1,3 +1,8 @@
+.sidukoTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .sidukoTable .cell {
     border: 1px solid black;
     padding: 4px;
@@ -42,18 +47,14 @@
     background-color: rgb(195, 255, 0);
 }
 
-#here {
-    display: inline-flex;
-}
-
-#there {
-    display: inline-flex;
-}
-
-
 @keyframes puzzlesolved {
-    from {transform: rotate(0deg);}
-    to {transform: rotate(360deg);}
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .sidukoTable.solved table td {
