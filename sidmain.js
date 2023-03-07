@@ -11,8 +11,6 @@ doLoaded = () => {
 
 };
 
-// Data here is in sequential order from top left cell to bottom right traversing columns before rows.
-//const linearEvilPuzzleData = [0, 0, 9, 0, 3, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 7, 0, 0, 8, 0, 1, 0, 7, 0, 0, 0, 3, 0, 9, 0, 0, 8, 0, 0, 0, 0, 6, 0, 8, 2, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 6, 3, 0, 7, 0, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 2, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0];
 const linearEvilPuzzleData = [9, 0, 0, 0, 4, 3, 1, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 9, 0, 8, 0, 0, 0, 1, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 7, 0, 6, 4, 0, 0, 3, 4, 0, 0, 2, 0, 0, 0, 0, 0];
 
 const cellValueStates = {
