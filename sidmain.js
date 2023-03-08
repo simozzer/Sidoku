@@ -198,12 +198,14 @@ class SidukoCell {
         this.#element = element;
     }
 
-    reset() {
+    reset(bFast) {
         this.#value = 0;
         this.#valueState = undefined;
-        this.element.innerHTML = '';
-        this.element.classList.remove('suggested');
-        this.element.classList.remove('solved');
+        if (!bFast) {
+            this.element.innerHTML = '';
+            this.element.classList.remove('suggested');
+            this.element.classList.remove('solved');
+        }
     }
 }
 
@@ -357,6 +359,7 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
+    #fast = true;
 
     constructor(oPuzzle) {
         this.#oPuzzle = oPuzzle;
@@ -396,9 +399,11 @@ class SidukoSolver {
                         stepProducedProgress = true;
                         continueLooping = true;
                         oCellToAdjust.value = possibleValue;
-                        oCellToAdjust.element.innerText = possibleValue;
-                        oCellToAdjust.element.title = '';
-                        oCellToAdjust.element.classList.add('solved');
+                        if (!this.#fast) {
+                            oCellToAdjust.element.innerText = possibleValue;
+                            oCellToAdjust.element.title = '';
+                            oCellToAdjust.element.classList.add('solved');
+                        }
                         oCellToAdjust.setSolved();
                         oCellToAdjust.passIndex = this.#passIndex;
                     }
@@ -454,7 +459,7 @@ class SidukoSolver {
         }
     }
 
-    async doExecute() {
+    async doExecuteAsync() {
         return new Promise((resolve, reject) => {
             var that = this;
             window.setTimeout(function (that) {
@@ -468,6 +473,15 @@ class SidukoSolver {
         });
     }
 
+
+    doExecute() {
+        if (this.processNextCell()) {
+            this.#passIndex++
+        } else {
+            this.rewind();
+        }
+    }
+
     async execute() {
         this.#passIndex++;
 
@@ -475,15 +489,29 @@ class SidukoSolver {
 
         this.#passIndex = 1;
         let iExecutionCount = 0;
-        let solved = false;
-        do {
-            await this.doExecute();
-            iExecutionCount++;
-        } while (this.#oPuzzle.cells.filter(cell => cell.value === 0).length > 0);
+        const startTime = new Date().getTime();
+        if (this.#fast) {
+            do {
+                this.doExecute();
+                iExecutionCount++;
+            } while (this.#oPuzzle.cells.filter(oCell => oCell.value === 0).length > 0);
 
+            this.#oPuzzle.cells.forEach(oCell => {
+                if (!oCell.fixed) {
+                    oCell.element.innerHTML = oCell.value;
+                    oCell.element.classList.add('solved');
+                }
+            });
+        } else {
+            do {
+                await this.doExecuteAsync();
+                iExecutionCount++;
+            } while (this.#oPuzzle.cells.filter(cell => cell.value === 0).length > 0);
+        }
+        const duration = new Date().getTime() - startTime;
         document.querySelector('#everywhere table').classList.add('solved');
         window.setTimeout(()=>{
-            window.alert(`Done: 'doExecute' was called ${iExecutionCount} times.`);
+            window.alert(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
         },4000)
     }
 
@@ -524,8 +552,10 @@ class SidukoSolver {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
-            oSolveCell.element.innerHTML = oSolveCell.value;
-            oSolveCell.element.classList.add('suggested');
+            if (!this.#fast) {
+                oSolveCell.element.innerHTML = oSolveCell.value;
+                oSolveCell.element.classList.add('suggested');
+            }
             this.#stack.push(oSolveCell);
             this.doSimpleSolve();
             return true;
@@ -540,9 +570,11 @@ class SidukoSolver {
             const iValue = this.#oPuzzle.getPossibleValues(oCell)[0];
             if (iValue && this.#oPuzzle.canSetValue(oCell, iValue)) {
                 oCell.value = iValue;
-                oCell.element.innerText = iValue;
-                oCell.element.title = '';
-                oCell.element.classList.add('solved');
+                if (!this.#fast) {
+                    oCell.element.innerText = iValue;
+                    oCell.element.title = '';
+                    oCell.element.classList.add('solved');
+                }
                 oCell.setSolved();
                 oCell.passIndex = this.#passIndex;
                 return true;
