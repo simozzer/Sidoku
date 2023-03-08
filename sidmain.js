@@ -11,8 +11,8 @@ doLoaded = () => {
 
 };
 
-const linearEvilPuzzleData = [9, 0, 0, 0, 4, 3, 1, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 9, 0, 8, 0, 0, 0, 1, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 7, 0, 6, 4, 0, 0, 3, 4, 0, 0, 2, 0, 0, 0, 0, 0];
-
+//const linearEvilPuzzleData = [9, 0, 0, 0, 4, 3, 1, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 9, 0, 8, 0, 0, 0, 1, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 7, 0, 6, 4, 0, 0, 3, 4, 0, 0, 2, 0, 0, 0, 0, 0];
+const linearEvilPuzzleData = [0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 7, 0, 0, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 3, 8, 0, 0, 9, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 6, 0, 8, 0, 2, 0, 0, 0, 4, 0, 6, 0, 0, 0, 0, 7, 2, 0, 0, 0, 0, 9, 0, 6, 0];
 const cellValueStates = {
     FIXED: 1,
     ENTERED: 2,
@@ -23,11 +23,21 @@ Object.freeze(cellValueStates);
 
 class SidukoPuzzle {
     #cells;
+    #rowCells = [];
+    #columnCells = [];
+    #innerTableCells = [];
     constructor() {
         this.#cells = [];
         for (let iCellIndex = 0; iCellIndex < 81; iCellIndex++) {
             const oCell = new SidukoCell(iCellIndex);
             this.#cells.push(oCell);
+        }
+
+        // Optimisation. Build a collection of the cells in each column, row and inner table
+        for(let i=0; i < 9; i++) {
+            this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i);
+            this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i);
+            this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i);
         }
     }
 
@@ -36,19 +46,19 @@ class SidukoPuzzle {
     }
 
     cell(iColIndex, iRowIndex) {
-        return this.#cells.filter(oCell => oCell.column === iColIndex && oCell.row === iRowIndex)[0];
+        return this.#rowCells[iRowIndex].find(oCell => oCell.column === iColIndex);
     }
 
     cellsInRow(iRowIndex) {
-        return this.#cells.filter(oCell => oCell.row === iRowIndex);
+        return this.#rowCells[iRowIndex];
     }
 
     cellsInColumn(iColumnIndex) {
-        return this.#cells.filter(oCell => oCell.column === iColumnIndex);
+        return this.#columnCells[iColumnIndex];
     }
 
     cellsInInnerTable(iInnerTableIndex) {
-        return this.#cells.filter(oCell => oCell.innerTableIndex === iInnerTableIndex);
+        return this.#innerTableCells[iInnerTableIndex];
     }
 
     setPuzzleStartData(aStartData) {
@@ -64,9 +74,9 @@ class SidukoPuzzle {
     getPossibleValues(oCell) {
         const aPossibleValues = [];
         for (let iPossibleValue = 1; iPossibleValue < 10; iPossibleValue++) {
-            if ((this.cellsInRow(oCell.row).filter(oRowCell => oRowCell.value === iPossibleValue).length === 0)
-                && (this.cellsInColumn(oCell.column).filter(oColumnCell => oColumnCell.value === iPossibleValue).length === 0)
-                && (this.cellsInInnerTable(oCell.innerTableIndex).filter(oInnerTableCell => oInnerTableCell.value === iPossibleValue).length === 0)) {
+            if ((!this.cellsInRow(oCell.row).find(oRowCell => oRowCell.value === iPossibleValue))
+                && (!this.cellsInColumn(oCell.column).find(oColumnCell => oColumnCell.value === iPossibleValue))
+                && (!this.cellsInInnerTable(oCell.innerTableIndex).find(oInnerTableCell => oInnerTableCell.value === iPossibleValue))) {
                 aPossibleValues.push(iPossibleValue);
             }
         }
@@ -374,7 +384,7 @@ class SidukoSolver {
             for (let possibleValue = 1; possibleValue < 10; possibleValue++) {
                 let iOccurenceCount = 0;
                 aCellsToSolve.forEach(oCell => {
-                    if ((this.#oPuzzle.getPossibleValues(oCell).indexOf(possibleValue) > -1) || (oCell.value === possibleValue)) {
+                    if ((this.#oPuzzle.getPossibleValues(oCell).indexOf(possibleValue) > -1)) {
                         iOccurenceCount++;
                     }
                 });
@@ -403,8 +413,7 @@ class SidukoSolver {
         do {
             stepProducedProgress = false;
             for (let i = 0; i < 9; i++) {
-                const aCellsInInnerTable = this.#oPuzzle.cells.filter(oCell => oCell.innerTableIndex === i);
-                stepProducedProgress = this.solveCells(aCellsInInnerTable);
+                stepProducedProgress = this.solveCells(this.#oPuzzle.cellsInInnerTable(i));
             }
         } while (stepProducedProgress);
     }
@@ -414,8 +423,7 @@ class SidukoSolver {
         do {
             stepProducedProgress = false;
             for (let i = 0; i < 9; i++) {
-                const aCellsInRow = this.#oPuzzle.cells.filter(oCell => oCell.row === i);
-                stepProducedProgress = this.solveCells(aCellsInRow);
+                stepProducedProgress = this.solveCells(this.#oPuzzle.cellsInRow(i));
             }
         } while (stepProducedProgress);
     }
@@ -425,8 +433,7 @@ class SidukoSolver {
         do {
             stepProducedProgress = false;
             for (let i = 0; i < 9; i++) {
-                const aCellsInColumn = this.#oPuzzle.cells.filter(oCell => oCell.column === i);
-                stepProducedProgress = this.solveCells(aCellsInColumn);
+                stepProducedProgress = this.solveCells(this.#oPuzzle.cellsInColumn(i));
             }
         } while (stepProducedProgress);
     }
@@ -442,7 +449,6 @@ class SidukoSolver {
                 this.solveColumns();
                 this.solveSomething();
             }
-
         } catch (err) {
             window.alert(err);
         }
@@ -450,6 +456,7 @@ class SidukoSolver {
 
     async doExecute() {
         return new Promise((resolve, reject) => {
+            var that = this;
             window.setTimeout(function (that) {
                 if (that.processNextCell()) {
                     that.#passIndex++
@@ -457,7 +464,7 @@ class SidukoSolver {
                     that.rewind();
                 }
                 resolve(true);
-            }, 50, this);
+            }, 0, this);
         });
     }
 
@@ -473,7 +480,7 @@ class SidukoSolver {
         } while (this.#oPuzzle.cells.filter(cell => cell.value === 0).length > 0);
 
         document.querySelector('#everywhere table').classList.add('solved');
-
+        window.alert('done');
     }
 
     rewind() {
