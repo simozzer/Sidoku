@@ -474,13 +474,17 @@ class SidukoSolver {
         this.doSimpleSolve();
 
         this.#passIndex = 1;
+        let iExecutionCount = 0;
         let solved = false;
         do {
             await this.doExecute();
+            iExecutionCount++;
         } while (this.#oPuzzle.cells.filter(cell => cell.value === 0).length > 0);
 
         document.querySelector('#everywhere table').classList.add('solved');
-        window.alert('done');
+        window.setTimeout(()=>{
+            window.alert(`Done: 'doExecute' was called ${iExecutionCount} times.`);
+        },4000)
     }
 
     rewind() {
