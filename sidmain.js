@@ -34,7 +34,7 @@ class SidukoPuzzle {
         }
 
         // Optimisation. Build a collection of the cells in each column, row and inner table
-        for(let i=0; i < 9; i++) {
+        for (let i = 0; i < 9; i++) {
             this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i);
             this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i);
             this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i);
@@ -84,19 +84,20 @@ class SidukoPuzzle {
     }
 
     canSetValue(oCell, value) {
-        if ((this.cells.filter(o => (o.row === oCell.Row) && (o !== oCell) && (o.value === value)).length > 0)
-            || (this.cells.filter(o => (o.column === oCell.column) && (o !== oCell) && (o.value === value)).length > 0)
-            || (this.cells.filter(o => (o.innerTableIndex === oCell.innerTableIndex) && (o !== oCell) && (o.value === value)).length > 0)) {
-            return false;
+        if ((!this.cellsInRow(oCell.row).find(oRowCell => oRowCell.value === value))
+            && (!this.cellsInColumn(oCell.column).find(oColumnCell => oColumnCell.value === value))
+            && (!this.cellsInInnerTable(oCell.innerTableIndex).find(oInnerTableCell => oInnerTableCell.value === value))) {
+            return true
         }
-        return true;
+        return false;
     }
 
     canSetACellValue(oCell) {
         const aPossibleCellValues = this.getPossibleValues(oCell);
         let iChoiceIndex = oCell.choiceIndex;
-        if (iChoiceIndex < aPossibleCellValues.length) {
-            while ((iChoiceIndex < aPossibleCellValues.length - 1) && (!this.canSetValue(oCell, aPossibleCellValues[iChoiceIndex]))) {
+        const iLen = aPossibleCellValues.length;
+        if (iChoiceIndex < iLen) {
+            while ((iChoiceIndex < iLen - 1) && (!this.canSetValue(oCell, aPossibleCellValues[iChoiceIndex]))) {
                 iChoiceIndex++;
             }
             if (this.canSetValue(oCell, aPossibleCellValues[iChoiceIndex])) {
@@ -510,29 +511,29 @@ class SidukoSolver {
         }
         const duration = new Date().getTime() - startTime;
         document.querySelector('#everywhere table').classList.add('solved');
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
             window.alert(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
-        },4000)
+        }, 4000)
     }
 
     rewind() {
         const oLastUpdatedCell = this.#stack.pop();
         this.#oPuzzle.cells.forEach(o => {
             if (o.passIndex === oLastUpdatedCell.passIndex) {
-                o.reset();
+                o.reset(this.#fast);
             }
         })
         oLastUpdatedCell.choiceIndex++;
-        oLastUpdatedCell.reset();
+        oLastUpdatedCell.reset(this.#fast);
         if (!this.#oPuzzle.canSetACellValue(oLastUpdatedCell)) {
             oLastUpdatedCell.choiceIndex = 0;
             const oPrevCell = this.#stack[this.#stack.length - 1];
             this.#oPuzzle.cells.forEach(o => {
                 if (o.passIndex === oPrevCell.passIndex) {
-                    o.reset();
+                    o.reset(this.#fast);
                 }
             });
-            oPrevCell.reset();
+            oPrevCell.reset(this.#fast);
             this.rewind();
         }
     }
@@ -548,7 +549,8 @@ class SidukoSolver {
 
         const oSolveCell = cellsWithMutlipleSolutions[0];
         const aPossibleCellValues = this.#oPuzzle.getPossibleValues(oSolveCell);
-        if (oSolveCell.choiceIndex < aPossibleCellValues.length && this.#oPuzzle.canSetACellValue(oSolveCell)) {
+        const iLen = aPossibleCellValues.length;
+        if (oSolveCell.choiceIndex < iLen && this.#oPuzzle.canSetACellValue(oSolveCell)) {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
