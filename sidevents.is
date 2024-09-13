@@ -65,8 +65,8 @@ class SidukoEventsHandler {
             if (!oEventTarget.classList.contains('fixed')) {
                 const column = 0 | oEventTarget.dataset.column;
                 const row = 0 | oEventTarget.dataset.row;
-                const oCellData = this.#puzzle.cell(column, row);
-                if (this.#puzzle.getPossibleValues(oCellData).indexOf(iValue) >= 0) {
+                const oCellData = this.#puzzle.data.cell(column, row);
+                if (SidukoCellQueries.getPossibleValues(this.#puzzle.data,oCellData).indexOf(iValue) >= 0) {
                     oCellData.value = iValue;
                     oCellData.entered = true;
                     oEventTarget.innerText = oEvent.key;

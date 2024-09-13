@@ -4,12 +4,15 @@ class SidukoSolver {
     #passIndex = 0;
     #stack = [];
     #fast = false;
+    #fnComplete;
+
     
 
-    constructor(oPuzzle) {
+    constructor(oPuzzle, fnComplete) {
         this.#oPuzzle = oPuzzle;
         this.cells = this.#oPuzzle.data.cells;        
         this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,a).length - SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,b).length);
+        this.#fnComplete = fnComplete;
     }
 
     solveSomething() {
@@ -156,9 +159,10 @@ class SidukoSolver {
         }
         const duration = new Date().getTime() - startTime;
         document.querySelector('#everywhere table').classList.add('solved');
-        window.setTimeout(() => {
-            window.alert(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
-        }, 4000)
+        if (typeof(this.#fnComplete) === "function") {
+            this.#fnComplete(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
+        }
+        
     }
 
     rewind() {
