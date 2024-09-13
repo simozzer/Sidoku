@@ -61,3 +61,26 @@
     animation-name: puzzlesolved;
     animation-duration: 4s;
 }
+
+#outer {
+    width: 100%;
+}
+
+#menucontainer {
+    text-align: center;
+}
+
+#infotext {
+    text-align: center;
+}
+
+#mainheader {
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+    font-weight: 100;
+    font-style: italic;
+    color:cornflowerblue;
+}
