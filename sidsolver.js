@@ -156,6 +156,7 @@ class SidukoSolver {
             } while (oCells.filter(oCell => oCell.value === 0).length > 0);
 
             
+            
             oCells.forEach(oCell => {
                 if (!oCell.fixed) {
                     const oElem = oCell.element;
@@ -164,7 +165,8 @@ class SidukoSolver {
                     oElem.classList.add('solved');                    
                 }
             });
-                    } else {
+
+            } else {
             do {
 
                     await this.doExecuteAsync().then(() => {                        
