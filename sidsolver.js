@@ -3,7 +3,7 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = false;
+    #fast = true;
     #fnComplete;
     #fastinterval = 8000;    
     #intervalsRemaining = 0;
@@ -31,19 +31,20 @@ class SidukoSolver {
     solveCells(aCellsToSolve) {
         let stepProducedProgress = false;
         let continueLooping = false;
+        const oPuzzleData = this.#oPuzzle.data;
         do {
             continueLooping = false;
 
             for (let possibleValue = 1; possibleValue < 10; possibleValue++) {
                 let iOccurenceCount = 0;
                 aCellsToSolve.forEach(oCell => {
-                    if ((SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,oCell).indexOf(possibleValue) > -1)) {
+                    if ((SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1)) {
                         iOccurenceCount++;
                     }
                 });
 
                 if (iOccurenceCount === 1) {
-                    const oCellToAdjust = aCellsToSolve.find(oCell => SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,oCell).indexOf(possibleValue) > -1);
+                    const oCellToAdjust = aCellsToSolve.find(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1);
                     if (oCellToAdjust && oCellToAdjust.value < 1) {
                         this.solvedSometing = true;
                         stepProducedProgress = true;
