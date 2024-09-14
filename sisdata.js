@@ -21,9 +21,9 @@ class SidukoPuzzleData {
 
         // Optimisation. Build a collection of the cells in each column, row and inner table
         for (let i = 0; i < 9; i++) {
-            this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i);
-            this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i);
-            this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i);
+            this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i && oCell.fixed === false);
+            this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i && oCell.fixed === false);
+            this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i && oCell.fixed === false);
         }
     }
 
@@ -139,7 +139,7 @@ class SidukoCell {
         this.#element = element;
     }
 
-    reset(bFast) {
+    reset() {
         this.#value = 0;
         this.#valueState = undefined;
         if (!this.bFast) {

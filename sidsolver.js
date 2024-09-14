@@ -3,9 +3,9 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = true;
+    #fast = false;
     #fnComplete;
-    #fastinterval = 1000000;    
+    #fastinterval = 8000;    
     #intervalsRemaining = 0;
 
     constructor(oPuzzle, fnComplete) {
@@ -147,27 +147,30 @@ class SidukoSolver {
         this.#passIndex = 1;
         let iExecutionCount = 0;
         const startTime = new Date().getTime();
+        let oCells = this.#oPuzzle.data.cells;
         if (this.#fast) {
             do {
                  this.doExecute();
                 iExecutionCount++;
-            } while (this.#oPuzzle.data.cells.filter(oCell => oCell.value === 0).length > 0);
+            } while (oCells.filter(oCell => oCell.value === 0).length > 0);
 
-            this.#oPuzzle.data.cells.forEach(oCell => {
+            
+            oCells.forEach(oCell => {
                 if (!oCell.fixed) {
-                    oCell.element.innerHTML = oCell.value;
-                    oCell.element.classList.remove('bob');
-                    oCell.element.classList.add('solved');                    
+                    const oElem = oCell.element;
+                    oElem.innerHTML = oCell.value;
+                    oElem.classList.remove('bob');
+                    oElem.classList.add('solved');                    
                 }
             });
-        } else {
+                    } else {
             do {
 
                     await this.doExecuteAsync().then(() => {                        
                         iExecutionCount++;
                     });
 
-            } while (await this.#oPuzzle.data.cells.filter(cell => cell.value === 0).length > 0);
+            } while (await oCells.filter(cell => cell.value === 0).length > 0);
         }
         const duration = new Date().getTime() - startTime;
         document.querySelector('#everywhere table').classList.add('solved');
@@ -186,10 +189,11 @@ class SidukoSolver {
         })
         oLastUpdatedCell.choiceIndex++;
         oLastUpdatedCell.reset(this.#fast);
-        if (!SidukoCellQueries.canSetACellValue(this.#oPuzzle.data,oLastUpdatedCell)) {
+        const oPuzzleData = this.#oPuzzle.data;
+        if (!SidukoCellQueries.canSetACellValue(oPuzzleData,oLastUpdatedCell)) {
             oLastUpdatedCell.choiceIndex = 0;
             const oPrevCell = this.#stack[this.#stack.length - 1];
-            this.#oPuzzle.data.cells.forEach(o => {
+            oPuzzleData.cells.forEach(o => {
                 if (o.passIndex === oPrevCell.passIndex) {
                     o.reset(this.#fast);
                 }
@@ -200,18 +204,21 @@ class SidukoSolver {
     }
 
     processNextCell() {
-        this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,a).length - SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,b).length);        
-        let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(this.#oPuzzle.data, oCell).length > 0);
+        const oPuzzleData = this.#oPuzzle.data;
 
-        if (this.#sortedPossibleValuesList.map(o => SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,o)).filter(o => o.length > 0).length === 0) {
+        this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
+        let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData, oCell).length > 0);
+
+        
+        if (this.#sortedPossibleValuesList.map(o => SidukoCellQueries.getPossibleValues(oPuzzleData,o)).filter(o => o.length > 0).length === 0) {
             // some of the cells on the grid have no possible answer
             return false;
         };
 
         const oSolveCell = cellsWithMutlipleSolutions[0];
-        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,oSolveCell);
+        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(oPuzzleData,oSolveCell);
         const iLen = aPossibleCellValues.length;
-        if (oSolveCell.choiceIndex < iLen && SidukoCellQueries.canSetACellValue(this.#oPuzzle.data,oSolveCell)) {
+        if (oSolveCell.choiceIndex < iLen && SidukoCellQueries.canSetACellValue(oPuzzleData,oSolveCell)) {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
@@ -228,10 +235,11 @@ class SidukoSolver {
     }
 
     applyCellsWithOnePossibleValue() {
-        const oSingleValueCells = this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,oCell).length === 1);
+        const oPuzzleData = this.#oPuzzle.data;
+        const oSingleValueCells = this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).length === 1);
         oSingleValueCells.forEach(oCell => {
-            const iValue = SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,oCell)[0];
-            if (iValue && SidukoCellQueries.canSetValue(this.#oPuzzle.data,oCell, iValue)) {
+            const iValue = SidukoCellQueries.getPossibleValues(oPuzzleData,oCell)[0];
+            if (iValue && SidukoCellQueries.canSetValue(oPuzzleData,oCell, iValue)) {
                 oCell.value = iValue;
                 if (!this.#fast) {
                     oCell.element.innerText = iValue;

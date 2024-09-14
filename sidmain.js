@@ -82,7 +82,7 @@ function doPuzzleSolved(info) {
 
             }
         });
-        document.getElementById("solveButton").hidden = false;
+        document.getElementById("solvebutton").hidden = false;
     },200);
     
 }
