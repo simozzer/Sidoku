@@ -28,10 +28,11 @@ class SidukoCellQueries {
         let iChoiceIndex = oCell.choiceIndex;
         const iLen = aPossibleCellValues.length;
         if (iChoiceIndex < iLen) {
-            while ((iChoiceIndex < iLen - 1) && (!SidukoCellQueries.canSetValue(oSudukoData, oCell, aPossibleCellValues[iChoiceIndex]))) {
+            let choice = aPossibleCellValues[iChoiceIndex];
+            while ((iChoiceIndex < iLen - 1) && (!SidukoCellQueries.canSetValue(oSudukoData, oCell, choice))) {
                 iChoiceIndex++;
             }
-            if (this.canSetValue(oSudukoData,oCell, aPossibleCellValues[iChoiceIndex])) {
+            if (this.canSetValue(oSudukoData,oCell, choice)) {
                 oCell.choiceIndex = iChoiceIndex;
                 return true;
             }

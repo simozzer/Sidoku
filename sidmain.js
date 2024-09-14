@@ -72,19 +72,24 @@ doMenuChanged = (oEv) => {
 
 function doPuzzleSolved(info) {
     setInfoText(info);
-    document.getElementById("menu").disabled = false;
-    let a = document.getElementsByClassName("suggested");
-    [].forEach.call(a,(el) => {
-        try {
-            el.classList.remove("suggested");
-        } catch {
+    window.setTimeout(() => {
+        document.getElementById("menu").disabled = false;
+        let a = document.getElementsByClassName("suggested");
+        [].forEach.call(a,(el) => {
+            try {
+                el.classList.remove("suggested");
+            } catch {
 
-        }
-    })
+            }
+        });
+        document.getElementById("solveButton").hidden = false;
+    },200);
+    
 }
 
 const shinningStarData = [0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 7, 0, 0, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 3, 8, 0, 0, 9, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 6, 0, 8, 0, 2, 0, 0, 0, 4, 0, 6, 0, 0, 0, 0, 7, 2, 0, 0, 0, 0, 9, 0, 6, 0];
 const evilPuzzleData = [9, 0, 0, 0, 4, 3, 1, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 9, 0, 8, 0, 0, 0, 1, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 7, 0, 6, 4, 0, 0, 3, 4, 0, 0, 2, 0, 0, 0, 0, 0];
+
 
 
 

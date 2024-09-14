@@ -3,16 +3,17 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = false;
+    #fast = true;
     #fnComplete;
-
-    
+    #fastinterval = 1000000;    
+    #intervalsRemaining = 0;
 
     constructor(oPuzzle, fnComplete) {
         this.#oPuzzle = oPuzzle;
         this.cells = this.#oPuzzle.data.cells;        
         this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,a).length - SidukoCellQueries.getPossibleValues(this.#oPuzzle.data,b).length);
         this.#fnComplete = fnComplete;
+        this.#intervalsRemaining = this.#fastinterval;
     }
 
     solveSomething() {
@@ -49,9 +50,15 @@ class SidukoSolver {
                         continueLooping = true;
                         oCellToAdjust.value = possibleValue;
                         if (!this.#fast) {
-                            oCellToAdjust.element.innerText = possibleValue;
-                            oCellToAdjust.element.title = '';
-                            oCellToAdjust.element.classList.add('solved');
+                            this.#intervalsRemaining --;
+                            if (this.#intervalsRemaining >= 0) {
+                                this.#intervalsRemaining --;
+                            } else {
+                                this.#intervalsRemaining = this.#fastinterval;
+                                oCellToAdjust.element.innerText = possibleValue;
+                                oCellToAdjust.element.title = '';
+                                oCellToAdjust.element.classList.add('solved');
+                            }
                         }
                         oCellToAdjust.setSolved();
                         oCellToAdjust.passIndex = this.#passIndex;
@@ -109,15 +116,16 @@ class SidukoSolver {
     }
 
     async doExecuteAsync() {
-        return new Promise((resolve, reject) => {
-            var that = this;
+        return new Promise((resolve) => {
             window.setTimeout(function (that) {
                 if (that.processNextCell()) {
-                    that.#passIndex++
+                    that.#passIndex++;
+                    resolve(true);
                 } else {
                     that.rewind();
+                    resolve(false);
                 }
-                resolve(true);
+                
             }, 0, this);
         });
     }
@@ -141,21 +149,25 @@ class SidukoSolver {
         const startTime = new Date().getTime();
         if (this.#fast) {
             do {
-                this.doExecute();
+                 this.doExecute();
                 iExecutionCount++;
             } while (this.#oPuzzle.data.cells.filter(oCell => oCell.value === 0).length > 0);
 
             this.#oPuzzle.data.cells.forEach(oCell => {
                 if (!oCell.fixed) {
                     oCell.element.innerHTML = oCell.value;
-                    oCell.element.classList.add('solved');
+                    oCell.element.classList.remove('bob');
+                    oCell.element.classList.add('solved');                    
                 }
             });
         } else {
             do {
-                await this.doExecuteAsync();
-                iExecutionCount++;
-            } while (this.#oPuzzle.data.cells.filter(cell => cell.value === 0).length > 0);
+
+                    await this.doExecuteAsync().then(() => {                        
+                        iExecutionCount++;
+                    });
+
+            } while (await this.#oPuzzle.data.cells.filter(cell => cell.value === 0).length > 0);
         }
         const duration = new Date().getTime() - startTime;
         document.querySelector('#everywhere table').classList.add('solved');
