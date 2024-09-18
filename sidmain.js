@@ -29,6 +29,7 @@ function setupPuzzle(puzzleData) {
         const solver = new SidukoSolver(oPuzzle, doPuzzleSolved);
         solver.execute();
     } else {
+        // change the ownership, and don't leak
         const eventHandler = new SidukoEventsHandler(oPuzzle, tableDOM);
     }
     document.getElementById("solvebutton").addEventListener('click',doSolvePressed.bind(oPuzzle));

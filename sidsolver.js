@@ -23,8 +23,10 @@ class SidukoSolver {
             if (this.applyCellsWithOnePossibleValue()) {
                 this.solvedSomething = true;
                 stepProducedProgress = true;
+                return true;
             }
         } while (stepProducedProgress)
+            return false;
     }
 
     // Within a set of 9 cells find and cells which can be the only cell containing a specific value and set them
@@ -74,7 +76,7 @@ class SidukoSolver {
         let stepProducedProgress;
         do {
             stepProducedProgress = false;
-            for (let i = 0; i < 9; i++) {
+            for (let i = 0; ((i < 9) && stepProducedProgress); i++) {
                 stepProducedProgress = this.solveCells(this.#oPuzzle.data.cellsInInnerTable(i));
             }
         } while (stepProducedProgress);
@@ -84,7 +86,7 @@ class SidukoSolver {
         let stepProducedProgress;
         do {
             stepProducedProgress = false;
-            for (let i = 0; i < 9; i++) {
+            for (let i = 0; ((i < 9) && stepProducedProgress); i++) {
                 stepProducedProgress = this.solveCells(this.#oPuzzle.data.cellsInRow(i));
             }
         } while (stepProducedProgress);
@@ -94,7 +96,7 @@ class SidukoSolver {
         let stepProducedProgress;
         do {
             stepProducedProgress = false;
-            for (let i = 0; i < 9; i++) {
+            for (let i = 0;((i < 9) && stepProducedProgress); i++) {
                 stepProducedProgress = this.solveCells(this.#oPuzzle.data.cellsInColumn(i));
             }
         } while (stepProducedProgress);
@@ -109,6 +111,7 @@ class SidukoSolver {
                 this.solveInnerTables();
                 this.solveRows();
                 this.solveColumns();
+                
                 this.solveSomething();
             }
         } catch (err) {
@@ -209,6 +212,7 @@ class SidukoSolver {
     processNextCell() {
         const oPuzzleData = this.#oPuzzle.data;
 
+        // Get a list of the cells which have no .value and sort the list so that the highest number of possible values comes first
         this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
         let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData, oCell).length > 0);
 
@@ -250,7 +254,7 @@ class SidukoSolver {
                     oCell.element.classList.add('solved');
                 }
                 oCell.setSolved();
-                oCell.passIndex = this.#passIndex;
+                oCell.passIndex = this.#passIndex;            
                 return true;
             }
         });
