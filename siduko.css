@@ -5,6 +5,7 @@
 
 .sidukoTable .cell {
     border: 1px solid black;
+    border-radius: 3px;
     padding: 4px;
 }
 
@@ -50,10 +51,19 @@
 @keyframes puzzlesolved {
     from {
         transform: rotate(0deg);
+        height: 600px;
+        width: 600px;
+        border: 10px solid black;
+        border-radius: 300px;        
     }
 
     to {
         transform: rotate(720deg);
+        height: 30px;
+        width: 30px;
+        border: 1px solid red;
+        border-radius: 3px;
+
     }
 }
 
