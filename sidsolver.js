@@ -7,29 +7,33 @@ class SidukoSolver {
     #fnComplete;
     #fastinterval = 20000;    
     #intervalsRemaining = 0;
+    _bail_early = true; // quit each request once 1 value is found in a zone (faster)
+    //_bail_early = false; // request values for each zone 
 
     constructor(oPuzzle, fnComplete) {
         this.#oPuzzle = oPuzzle;
-        let oPuzzleData = this.#oPuzzle.data;       
+        this.oPuzzleData = this.#oPuzzle.data;       
         this.cells = this.#oPuzzle.data.cells;
         
         let emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);
 
         // Reverse sort seems a little faster!! :)
         //this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);
-        this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);
+        this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
         this.#intervalsRemaining = this.#fastinterval;
     }
 
-    solveSomething() {
+    solveSomething(bailEarly) {
         let stepProducedProgress;
         do {
             stepProducedProgress = false;
             if (this.applyCellsWithOnePossibleValue()) {
                 this.solvedSomething = true;
                 stepProducedProgress = true;
-                return true;
+                if (bailEarly) {
+                    return true;
+                }
             }
         } while (stepProducedProgress)
         return stepProducedProgress;
@@ -79,10 +83,10 @@ class SidukoSolver {
     }
 
     solveInnerTables() {
-        let stepProducedProgress;
+        let stepProducedProgress = false;
         do {
             stepProducedProgress = false;
-            for (let i = 0; ((i < 9) && this.solveCells(this.#oPuzzle.data.cellsInInnerTable(i))); i++) {
+            for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInInnerTable(i))); i++) {
                 stepProducedProgress = true;
             }
         } while (stepProducedProgress);
@@ -90,10 +94,10 @@ class SidukoSolver {
     }
 
     solveRows() {
-        let stepProducedProgress;
+        let stepProducedProgress = false;
         do {
             stepProducedProgress = false;
-            for (let i = 0; ((i < 9) && this.solveCells(this.#oPuzzle.data.cellsInRow(i))); i++) {
+            for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInRow(i))); i++) {
                 stepProducedProgress = true;
             }
         } while (stepProducedProgress);
@@ -101,10 +105,10 @@ class SidukoSolver {
     }
 
     solveColumns() {
-        let stepProducedProgress;
+        let stepProducedProgress = false;
         do {
             stepProducedProgress = false;
-            for (let i = 0;((i < 9) && this.solveCells(this.#oPuzzle.data.cellsInColumn(i))); i++) {
+            for (let i = 0;((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
                 stepProducedProgress = true;
             }
         } while (stepProducedProgress);
@@ -112,22 +116,28 @@ class SidukoSolver {
     }
 
     // Try to solve based on current data, by process of illimination
-    doSimpleSolve() {
+    doSimpleSolve(bailEarly) {
         try {
-            this.solvedSometing = true;
-            while (this.solvedSometing) {
-                this.solvedSomething = this.solveInnerTables();
-                if (!this.solvedSometing) {
-                    this.solvedSomething = this.solveRows();
+            let solvedSomething = true;
+            while (solvedSomething) {  
+                
+                if (bailEarly) {
+                    this.solvedSomething = this.solveRows() 
+                                        || this.solveColumns() 
+                                        || this.solveInnerTables() 
+                                        || this.solveSomething(bailEarly);
+                    return this.solvedSomething;                    
+                } else {
+  
+                    this.solvedSomething = this.solveRows() 
+                                        && this.solveColumns() 
+                                        && this.solveInnerTables() 
+                                        && this.solvedSomething(bailEarly);                                             
+
+                    return this.solvedSomething;                      
                 }
-                if (!this.solvedSeomthing) {
-                    this.solvedSomething = this.solveColumns();
-                }
-               
-                if (!this.solvedSeomthing) {
-                    this.solvedSomething = this.solveSomething();
-                }
-                return this.solvedSomething;
+                
+
             }
         } catch (err) {
             window.alert(err);
@@ -161,7 +171,7 @@ class SidukoSolver {
     async execute() {
         this.#passIndex++;
 
-        this.doSimpleSolve();
+        this.doSimpleSolve(this._bail_early);
 
         this.#passIndex = 1;
         let iExecutionCount = 0;
@@ -225,25 +235,24 @@ class SidukoSolver {
     }
 
     processNextCell() {
-        const oPuzzleData = this.#oPuzzle.data;
-        const oCells = oPuzzleData.cells;
+        const oCells = this.oPuzzleData.cells;
 
         // Get a list of the cells which have no .value and sort the list so that the highest number of possible values comes first
         let emptyCells = oCells.filter(oCell => oCell.value < 1);
-        this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
+        this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);        
 
-        let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData, oCell).length > 0);
+        let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(this.oPuzzleData, oCell).length > 0);
 
         
-        if (this.#sortedPossibleValuesList.map(o => SidukoCellQueries.getPossibleValues(oPuzzleData,o)).filter(o => o.length > 0).length === 0) {
+        if (this.#sortedPossibleValuesList.map(o => SidukoCellQueries.getPossibleValues(this.oPuzzleData,o)).filter(o => o.length > 0).length === 0) {
             // some of the cells on the grid have no possible answer
             return false;
         };
 
         const oSolveCell = cellsWithMutlipleSolutions[0];
-        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(oPuzzleData,oSolveCell);
+        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(this.oPuzzleData,oSolveCell);
         const iLen = aPossibleCellValues.length;
-        if (oSolveCell.choiceIndex < iLen && SidukoCellQueries.canSetACellValue(oPuzzleData,oSolveCell)) {
+        if (oSolveCell.choiceIndex < iLen && SidukoCellQueries.canSetACellValue(this.oPuzzleData,oSolveCell)) {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
@@ -253,7 +262,7 @@ class SidukoSolver {
                 oSolveCell.element.classList.add('suggested');
             }
             this.#stack.push(oSolveCell);
-            this.doSimpleSolve();
+            this.doSimpleSolve(this._bail_early);
             return true;
         } else {
             return false;
