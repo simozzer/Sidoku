@@ -10,10 +10,14 @@ class SidukoSolver {
 
     constructor(oPuzzle, fnComplete) {
         this.#oPuzzle = oPuzzle;
-        let oPuzzleData = this.#oPuzzle.data;
+        let oPuzzleData = this.#oPuzzle.data;       
+        this.cells = this.#oPuzzle.data.cells;
         
-        this.cells = this.#oPuzzle.data.cells;        
-        this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);
+        let emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);
+
+        // Reverse sort seems a little faster!! :)
+        //this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);
+        this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
         this.#intervalsRemaining = this.#fastinterval;
     }
@@ -222,10 +226,11 @@ class SidukoSolver {
 
     processNextCell() {
         const oPuzzleData = this.#oPuzzle.data;
+        const oCells = oPuzzleData.cells;
 
         // Get a list of the cells which have no .value and sort the list so that the highest number of possible values comes first
-        this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1)
-            .sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
+        let emptyCells = oCells.filter(oCell => oCell.value < 1);
+        this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
 
         let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData, oCell).length > 0);
 
@@ -243,6 +248,7 @@ class SidukoSolver {
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
             if (!this.#fast) {
+                debugger
                 oSolveCell.element.innerHTML = oSolveCell.value;
                 oSolveCell.element.classList.add('suggested');
             }
