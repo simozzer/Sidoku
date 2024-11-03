@@ -139,10 +139,10 @@ class SidukoCell {
         this.#element = element;
     }
 
-    reset() {
+    reset(bFast) {
         this.#value = 0;
         this.#valueState = undefined;
-        if (!this.bFast) {
+        if (!bFast) {
             this.element.innerHTML = '';
             this.element.classList.remove('suggested');
             this.element.classList.remove('solved');

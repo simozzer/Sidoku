@@ -11,13 +11,10 @@ class SidukoCellQueries {
                 && (!oSudukoData.cellsInInnerTable(iTableIndex).find(oInnerTableCell => oInnerTableCell.value === iPossibleValue))) {
                 aPossibleValues.push(iPossibleValue);
             }
-
-
         }
         return aPossibleValues;
     }
 
-    //TODO: speed up places: 24075, 23454 ms to run horrible puzzle on ununtu vm
     static canSetValue(oSudukoData,oCell, value) {
         const iRow = oCell.row;
         const iCol = oCell.column;

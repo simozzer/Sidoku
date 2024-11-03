@@ -224,7 +224,9 @@ class SidukoSolver {
         const oPuzzleData = this.#oPuzzle.data;
 
         // Get a list of the cells which have no .value and sort the list so that the highest number of possible values comes first
-        this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1).sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
+        this.#sortedPossibleValuesList = this.cells.filter(oCell => oCell.value < 1)
+            .sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);        
+
         let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData, oCell).length > 0);
 
         
