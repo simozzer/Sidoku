@@ -24,14 +24,18 @@ function setupPuzzle(puzzleData) {
     const puzzleElementHolder = document.getElementById("everywhere");
     puzzleElementHolder.textContent = "";
     puzzleElementHolder.appendChild(tableDOM);
-    
+
     if (puzzleData) {
-        const solver = new SidukoSolver(oPuzzle, doPuzzleSolved);
-        solver.execute();
+        // usse set timeout here, to allow time for the DOM to be updated with the starting position
+        setTimeout(()=> {
+            const solver = new SidukoSolver(oPuzzle, doPuzzleSolved);
+            solver.execute();
+        },0,oPuzzle);
     } else {
         // change the ownership, and don't leak
         const eventHandler = new SidukoEventsHandler(oPuzzle, tableDOM);
     }
+
     document.getElementById("solvebutton").addEventListener('click',doSolvePressed.bind(oPuzzle));
 }
 
@@ -117,6 +121,8 @@ class SidukoPuzzle {
                 oCell.value = iValue;
                 oCell.setFixed();
             }
-        })
+        });
+
+
     }
 }
