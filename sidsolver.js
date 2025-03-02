@@ -3,9 +3,9 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = true;
+    #fast = false;
     #fnComplete;
-    #fastinterval = 20000;    
+    #fastinterval = 500000;    
     #intervalsRemaining = 0;
     _bail_early = true; // quit each request once 1 value is found in a zone (faster)
     //_bail_early = false; // request values for each zone 
@@ -180,8 +180,6 @@ class SidukoSolver {
                 iExecutionCount++;
             } while (oCells.filter(oCell => oCell.value === 0).length > 0);
 
-            
-            
             oCells.forEach(oCell => {
                 if (!oCell.fixed) {
                     const oElem = oCell.element;
@@ -193,10 +191,9 @@ class SidukoSolver {
 
             } else {
             do {
-
-                    await this.doExecuteAsync().then(() => {                        
-                        iExecutionCount++;
-                    });
+                await this.doExecuteAsync().then(() => {                        
+                  iExecutionCount++;
+                });
 
             } while (await oCells.filter(cell => cell.value === 0).length > 0);
         }
@@ -246,8 +243,7 @@ class SidukoSolver {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
-            if (!this.#fast) {
-                debugger
+            if (!this.#fast) {                
                 oSolveCell.element.innerHTML = oSolveCell.value;
                 oSolveCell.element.classList.add('suggested');
             }

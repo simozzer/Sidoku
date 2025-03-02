@@ -5,12 +5,10 @@ class SidukoCellQueries {
         const { row, column, innerTableIndex } = oCell;
 
         for (let value = 1; value < 10; value++) {
-            const isValueInRow = oSudukoData.cellsInRow(row).some(cell => cell.value === value);
-            const isValueInColumn = oSudukoData.cellsInColumn(column).some(cell => cell.value === value);
-            const isValueInInnerTable = oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value);
-
-            if (!isValueInRow && !isValueInColumn && !isValueInInnerTable) {
-                possibleValues.push(value);
+            if ((!oSudukoData.cellsInRow(row).some(cell => cell.value === value)) &&
+                (!oSudukoData.cellsInColumn(column).some(cell => cell.value === value)) && 
+                (!oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value))) {
+                    possibleValues.push(value);
             }
         }
         return possibleValues;
