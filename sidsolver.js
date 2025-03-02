@@ -7,8 +7,7 @@ class SidukoSolver {
     #fnComplete;
     #fastinterval = 500000;    
     #intervalsRemaining = 0;
-    _bail_early = true; // quit each request once 1 value is found in a zone (faster)
-    //_bail_early = false; // request values for each zone 
+
 
     constructor(oPuzzle, fnComplete) {
         this.#oPuzzle = oPuzzle;
@@ -24,16 +23,14 @@ class SidukoSolver {
         this.#intervalsRemaining = this.#fastinterval;
     }
 
-    solveSomething(bailEarly) {
+    solveSomething() {
         let stepProducedProgress;
         do {
             stepProducedProgress = false;
             if (this.applyCellsWithOnePossibleValue()) {
                 this.solvedSomething = true;
                 stepProducedProgress = true;
-                if (bailEarly) {
-                    return true;
-                }
+                return true;                
             }
         } while (stepProducedProgress)
         return stepProducedProgress;
@@ -65,9 +62,10 @@ class SidukoSolver {
                                 this.#intervalsRemaining --;
                             } else {
                                 this.#intervalsRemaining = this.#fastinterval;
-                                oCellToAdjust.element.innerText = possibleValue;
-                                oCellToAdjust.element.title = '';
-                                oCellToAdjust.element.classList.add('solved');
+                                const oElem = oCellToAdjust.element;
+                                oElem.innerText = possibleValue;
+                                oElem.title = '';
+                                oElem.classList.add('solved');
                             }
                         }
                         oCellToAdjust.setSolved();
@@ -113,7 +111,7 @@ class SidukoSolver {
     }
 
     // Try to solve based on current data, by process of elimination
-    doSimpleSolve(bailEarly) {
+    doSimpleSolve() {
         try {
             let solvedSomething = true;
             while (solvedSomething) {  
@@ -121,7 +119,7 @@ class SidukoSolver {
                 this.solvedSomething = this.solveRows() 
                                     || this.solveColumns() 
                                     || this.solveInnerTables() 
-                                    || this.solveSomething(bailEarly);
+                                    || this.solveSomething();
                 return this.solvedSomething;                    
            
             }
@@ -157,7 +155,7 @@ class SidukoSolver {
     async execute() {
         this.#passIndex++;
 
-        this.doSimpleSolve(this._bail_early);
+        this.doSimpleSolve();
 
         this.#passIndex = 1;
         let iExecutionCount = 0;
@@ -232,12 +230,13 @@ class SidukoSolver {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
-            if (!this.#fast) {                
-                oSolveCell.element.innerHTML = oSolveCell.value;
-                oSolveCell.element.classList.add('suggested');
+            if (!this.#fast) {       
+                const oElem = oSolveCell.element;         
+                oElem.innerHTML = oSolveCell.value;
+                oElem.classList.add('suggested');
             }
             this.#stack.push(oSolveCell);
-            this.doSimpleSolve(this._bail_early);
+            this.doSimpleSolve();
             return true;
         } else {
             return false;
@@ -252,9 +251,10 @@ class SidukoSolver {
             if (iValue && SidukoCellQueries.canSetValue(oPuzzleData,oCell, iValue)) {
                 oCell.value = iValue;
                 if (!this.#fast) {
-                    oCell.element.innerText = iValue;
-                    oCell.element.title = '';
-                    oCell.element.classList.add('solved');
+                    const oElem = oCell.element;
+                    oElem.innerText = iValue;
+                    oElem.title = '';
+                    oElem.classList.add('solved');
                 }
                 oCell.setSolved();
                 oCell.passIndex = this.#passIndex;            

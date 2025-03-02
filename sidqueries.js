@@ -24,8 +24,8 @@ class SidukoCellQueries {
     static canSetACellValue(oSudukoData, oCell) {
         const possibleCellValues = this.getPossibleValues(oSudukoData, oCell);
         let choiceIndex = oCell.choiceIndex;
-
-        while (choiceIndex < possibleCellValues.length) {
+        const len  = possibleCellValues.length;
+        while (choiceIndex < len) {
             const choice = possibleCellValues[choiceIndex];
             if (this.canSetValue(oSudukoData, oCell, choice)) {
                 oCell.choiceIndex = choiceIndex;

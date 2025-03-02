@@ -32,7 +32,7 @@ class SidukoPuzzleData {
     }
 
     cell(iColIndex, iRowIndex) {
-        return this.#rowCells[iRowIndex].find(oCell => oCell.column === iColIndex);
+        return this.#rowCells[iRowIndex][iColIndex]; //.find(oCell => oCell.column === iColIndex);
     }
 
     cellsInRow(iRowIndex) {
