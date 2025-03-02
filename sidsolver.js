@@ -3,7 +3,7 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = false;
+    #fast = true;
     #fnComplete;
     #fastinterval = 500000;    
     #intervalsRemaining = 0;
