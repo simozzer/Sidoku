@@ -1,45 +1,39 @@
 class SidukoCellQueries {
 
     static getPossibleValues(oSudukoData, oCell) {
-        const aPossibleValues = [];
-        const iRow = oCell.row;
-        const iCol = oCell.column;
-        const iTableIndex = oCell.innerTableIndex;
-        for (let iPossibleValue = 1; iPossibleValue < 10; iPossibleValue++) {
-            if ((!oSudukoData.cellsInRow(iRow).find(oRowCell => oRowCell.value === iPossibleValue))
-                && (!oSudukoData.cellsInColumn(iCol).find(oColumnCell => oColumnCell.value === iPossibleValue))
-                && (!oSudukoData.cellsInInnerTable(iTableIndex).find(oInnerTableCell => oInnerTableCell.value === iPossibleValue))) {
-                aPossibleValues.push(iPossibleValue);
+        const possibleValues = [];
+        const { row, column, innerTableIndex } = oCell;
+
+        for (let value = 1; value < 10; value++) {
+            const isValueInRow = oSudukoData.cellsInRow(row).some(cell => cell.value === value);
+            const isValueInColumn = oSudukoData.cellsInColumn(column).some(cell => cell.value === value);
+            const isValueInInnerTable = oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value);
+
+            if (!isValueInRow && !isValueInColumn && !isValueInInnerTable) {
+                possibleValues.push(value);
             }
         }
-        return aPossibleValues;
+        return possibleValues;
     }
 
-    static canSetValue(oSudukoData,oCell, value) {
-        const iRow = oCell.row;
-        const iCol = oCell.column;
-        const iTableIndex = oCell.innerTableIndex;
-        if ((!oSudukoData.cellsInRow(iRow).find(oRowCell => oRowCell.value === value))
-            && (!oSudukoData.cellsInColumn(iCol).find(oColumnCell => oColumnCell.value === value))
-            && (!oSudukoData.cellsInInnerTable(iTableIndex).find(oInnerTableCell => oInnerTableCell.value === value))) {
-            return true
-        }
-        return false;
+    static canSetValue(oSudukoData, oCell, value) {
+        const { row, column, innerTableIndex } = oCell;
+        return !oSudukoData.cellsInRow(row).some(cell => cell.value === value) &&
+               !oSudukoData.cellsInColumn(column).some(cell => cell.value === value) &&
+               !oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value);
     }
 
-    static canSetACellValue(oSudukoData,oCell) {
-        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(oSudukoData,oCell);
-        let iChoiceIndex = oCell.choiceIndex;
-        const iLen = aPossibleCellValues.length;
-        if (iChoiceIndex < iLen) {
-            let choice = aPossibleCellValues[iChoiceIndex];
-            while ((iChoiceIndex < iLen - 1) && (!SidukoCellQueries.canSetValue(oSudukoData, oCell, choice))) {
-                iChoiceIndex++;
-            }
-            if (this.canSetValue(oSudukoData,oCell, choice)) {
-                oCell.choiceIndex = iChoiceIndex;
+    static canSetACellValue(oSudukoData, oCell) {
+        const possibleCellValues = this.getPossibleValues(oSudukoData, oCell);
+        let choiceIndex = oCell.choiceIndex;
+
+        while (choiceIndex < possibleCellValues.length) {
+            const choice = possibleCellValues[choiceIndex];
+            if (this.canSetValue(oSudukoData, oCell, choice)) {
+                oCell.choiceIndex = choiceIndex;
                 return true;
             }
+            choiceIndex++;
         }
         return false;
     }

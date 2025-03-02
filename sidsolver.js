@@ -44,16 +44,13 @@ class SidukoSolver {
         let stepProducedProgress = false;
         let continueLooping = false;
         const oPuzzleData = this.#oPuzzle.data;
+        const getPossibleValues = SidukoCellQueries.getPossibleValues;
         do {
             continueLooping = false;
 
             for (let possibleValue = 1; possibleValue < 10; possibleValue++) {
-                let iOccurenceCount = 0;
-                aCellsToSolve.forEach(oCell => {
-                    if ((SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1)) {
-                        iOccurenceCount++;
-                    }
-                });
+                let iOccurenceCount = aCellsToSolve.reduce((count, oCell) => 
+                    count + (getPossibleValues(oPuzzleData, oCell).includes(possibleValue) ? 1 : 0), 0);
 
                 if (iOccurenceCount === 1) {
                     const oCellToAdjust = aCellsToSolve.find(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1);
@@ -235,24 +232,17 @@ class SidukoSolver {
     }
 
     processNextCell() {
-        const oCells = this.oPuzzleData.cells;
+        const emptyCells = this.oPuzzleData.cells.filter(oCell => oCell.value < 1);
+        if (emptyCells.length === 0) return true;
 
-        // Get a list of the cells which have no .value and sort the list so that the highest number of possible values comes first
-        let emptyCells = oCells.filter(oCell => oCell.value < 1);
-        this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);        
+        const oSolveCell = emptyCells.reduce((min, cell) => 
+            SidukoCellQueries.getPossibleValues(this.oPuzzleData, cell).length < 
+            SidukoCellQueries.getPossibleValues(this.oPuzzleData, min).length ? cell : min
+        );
 
-        let cellsWithMutlipleSolutions = this.#sortedPossibleValuesList.filter(oCell => SidukoCellQueries.getPossibleValues(this.oPuzzleData, oCell).length > 0);
-
-        
-        if (this.#sortedPossibleValuesList.map(o => SidukoCellQueries.getPossibleValues(this.oPuzzleData,o)).filter(o => o.length > 0).length === 0) {
-            // some of the cells on the grid have no possible answer
-            return false;
-        };
-
-        const oSolveCell = cellsWithMutlipleSolutions[0];
-        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(this.oPuzzleData,oSolveCell);
-        const iLen = aPossibleCellValues.length;
-        if (oSolveCell.choiceIndex < iLen && SidukoCellQueries.canSetACellValue(this.oPuzzleData,oSolveCell)) {
+        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(this.oPuzzleData, oSolveCell);
+        if (oSolveCell.choiceIndex < aPossibleCellValues.length && 
+            SidukoCellQueries.canSetACellValue(this.oPuzzleData, oSolveCell)) {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
