@@ -41,8 +41,17 @@ function setupPuzzle(puzzleData) {
 
 
 doSolvePressed = (oEv) => {
+    const worker = new Worker("/src/sidoku_worker.js");
+    worker.onmessage = (oEv) => {
+      console.log("worker.onmessage: ", oEv.data);     
+      worker.postMessage("close");
+    };
+    worker.postMessage({ puzzle: oPuzzle.data });
+
+
     const startValues = oPuzzle.data.cells.map(o => o.value);
     setupPuzzle(startValues);
+    oEv.stopPropagation();
 }
 
 

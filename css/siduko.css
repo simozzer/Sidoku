@@ -1,0 +1,77 @@
+@import "tailwindcss";
+body {
+    background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+#everywhere {
+    background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.sidukoTable .cell {
+    @apply border-2;
+    @apply align-middle;
+}
+
+.sidukoTable table td {
+    width: 40px;
+    height: 40px;
+    @apply bg-slate-500;
+    @apply text-center;
+    @apply text-slate-800;
+    @apply text-2xl;
+}
+
+.sidukoTable table td:hover {
+    @apply bg-sky-300;
+}
+
+.sidukoTable table td:focus {
+    @apply bg-yellow-200;
+}
+
+.sidukoTable table td.solved {
+    @apply font-bold;
+    @apply bg-sky-200;
+}
+
+.sidukoTable table td.entered {
+    @apply font-light;
+    @apply bg-indigo-800;
+    @apply text-white;
+}
+
+.sidukoTable table td.fixedval {
+    @apply font-bold;
+    @apply text-red-700;
+    @apply bg-red-300;
+}
+
+.sidukoTable table td.suggested {
+    @apply font-light;
+    @apply text-blue-950;
+    @apply bg-green-200;
+}
+
+@keyframes puzzlesolved {
+    from {
+        transform: rotate(0deg);
+        height: 600px;
+        width: 600px;
+        border: 10px solid black;
+        border-radius: 300px;        
+    }
+
+    to {
+        transform: rotate(720deg);
+        height: 40px;
+        width: 40px;
+        border: 1px solid red;
+        border-radius: 3px;
+
+    }
+}
+
+.sidukoTable.solved table td {
+    animation-name: puzzlesolved;
+    animation-duration: 4s;
+}
+

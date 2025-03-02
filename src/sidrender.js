@@ -8,7 +8,7 @@ class SidukoHtmlGenerator {
 
     getPuzzleDOM() {
         const oTable = document.createElement("table");
-        oTable.className = "sidukoTable"
+        oTable.className = "sidukoTable mx-auto border-separate [border-spacing:1.25rem] border-4 bg-slate-200 rounded-2x1";
         for (let iCellY = 0; iCellY < 3; iCellY++) {
             const oTableRow = document.createElement('tr');
             for (let iCellX = 0; iCellX < 3; iCellX++) {
@@ -23,7 +23,7 @@ class SidukoHtmlGenerator {
     getInnerTableDOM(iTableX, iTableY) {
         const oInnerTableHolder = document.createElement('td');
         const oInnerTable = document.createElement('table');
-        oInnerTable.className = "cell";
+        oInnerTable.className = "cell border-separate [border-spacing:0.75rem] bg-slate-400 rounded-2x1";
 
         for (let iInnerY = 0; iInnerY < 3; iInnerY++) {
             const oInnerRow = document.createElement('tr');
@@ -48,7 +48,7 @@ class SidukoHtmlGenerator {
         if (iCellValue > 0) {
             oInnerCell.innerText = iCellValue;
             if (oCellData.fixed) {
-                oInnerCell.classList.add('fixed');
+                oInnerCell.classList.add('fixedval');
             }
         } else {
             oInnerCell.title = SidukoCellQueries.getPossibleValues(this.#sidokuPuzzle.data,oCellData).toString();
@@ -59,8 +59,7 @@ class SidukoHtmlGenerator {
         oInnerCell.dataset.column = iColumn;
         oInnerCell.dataset.row = iRow;
 
-        oCellData.element = oInnerCell;
-
+        oCellData.element = oInnerCell;        
         return oInnerCell;
     }
 }

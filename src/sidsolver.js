@@ -3,37 +3,30 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = true;
+    #fast = false;
     #fnComplete;
-    #fastinterval = 500000;    
+    #fastinterval = 800000;    
     #intervalsRemaining = 0;
 
 
     constructor(oPuzzle, fnComplete) {
+        this.#fast = document.getElementById("chk_fast").checked;
         this.#oPuzzle = oPuzzle;
         this.oPuzzleData = this.#oPuzzle.data;       
         this.cells = this.#oPuzzle.data.cells;
         
         let emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);
-
-        // Reverse sort seems a little faster!! :)
-        //this.#sortedPossibleValuesList = emptyCells.sort((a, b) => SidukoCellQueries.getPossibleValues(oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(oPuzzleData,b).length);
+        
         this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
         this.#intervalsRemaining = this.#fastinterval;
     }
 
-    solveSomething() {
-        let stepProducedProgress;
-        do {
-            stepProducedProgress = false;
-            if (this.applyCellsWithOnePossibleValue()) {
-                this.solvedSomething = true;
-                stepProducedProgress = true;
-                return true;                
-            }
-        } while (stepProducedProgress)
-        return stepProducedProgress;
+    solveSomething() {        
+        if (this.applyCellsWithOnePossibleValue()) {                                
+            return true;                
+        }
+
     }
 
     // Within a set of 9 cells find and cells which can be the only cell containing a specific value and set them
@@ -41,18 +34,17 @@ class SidukoSolver {
         let stepProducedProgress = false;
         let continueLooping = false;
         const oPuzzleData = this.#oPuzzle.data;
-        const getPossibleValues = SidukoCellQueries.getPossibleValues;
+        const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
         do {
             continueLooping = false;
 
             for (let possibleValue = 1; possibleValue < 10; possibleValue++) {
                 let iOccurenceCount = aCellsToSolve.reduce((count, oCell) => 
-                    count + (getPossibleValues(oPuzzleData, oCell).includes(possibleValue) ? 1 : 0), 0);
+                    count + (fnGetPossibleValues(oPuzzleData, oCell).includes(possibleValue) ? 1 : 0), 0);
 
                 if (iOccurenceCount === 1) {
-                    const oCellToAdjust = aCellsToSolve.find(oCell => SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1);
-                    if (oCellToAdjust && oCellToAdjust.value < 1) {
-                        this.solvedSometing = true;
+                    const oCellToAdjust = aCellsToSolve.find(oCell => fnGetPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1);
+                    if (oCellToAdjust && oCellToAdjust.value < 1) {                        
                         stepProducedProgress = true;
                         continueLooping = true;
                         oCellToAdjust.value = possibleValue;
@@ -113,16 +105,10 @@ class SidukoSolver {
     // Try to solve based on current data, by process of elimination
     doSimpleSolve() {
         try {
-            let solvedSomething = true;
-            while (solvedSomething) {  
-                
-                this.solvedSomething = this.solveRows() 
+                return this.solveRows() 
                                     || this.solveColumns() 
                                     || this.solveInnerTables() 
-                                    || this.solveSomething();
-                return this.solvedSomething;                    
-           
-            }
+                                    || this.solveSomething();                                 
         } catch (err) {
             window.alert(err);
         }
@@ -164,14 +150,13 @@ class SidukoSolver {
         if (this.#fast) {
             do {
                  this.doExecute();
-                iExecutionCount++;
+                 iExecutionCount++;
             } while (oCells.filter(oCell => oCell.value === 0).length > 0);
 
             oCells.forEach(oCell => {
                 if (!oCell.fixed) {
                     const oElem = oCell.element;
-                    oElem.innerHTML = oCell.value;
-                    oElem.classList.remove('bob');
+                    oElem.innerHTML = oCell.value;                    
                     oElem.classList.add('solved');                    
                 }
             });
