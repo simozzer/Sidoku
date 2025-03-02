@@ -3,7 +3,7 @@ class SidukoSolver {
     #sortedPossibleValuesList;
     #passIndex = 0;
     #stack = [];
-    #fast = false;
+    #fast = true;
     #fnComplete;
     #fastinterval = 500000;    
     #intervalsRemaining = 0;
@@ -112,29 +112,18 @@ class SidukoSolver {
         return stepProducedProgress;
     }
 
-    // Try to solve based on current data, by process of illimination
+    // Try to solve based on current data, by process of elimination
     doSimpleSolve(bailEarly) {
         try {
             let solvedSomething = true;
             while (solvedSomething) {  
                 
-                if (bailEarly) {
-                    this.solvedSomething = this.solveRows() 
-                                        || this.solveColumns() 
-                                        || this.solveInnerTables() 
-                                        || this.solveSomething(bailEarly);
-                    return this.solvedSomething;                    
-                } else {
-  
-                    this.solvedSomething = this.solveRows() 
-                                        && this.solveColumns() 
-                                        && this.solveInnerTables() 
-                                        && this.solvedSomething(bailEarly);                                             
-
-                    return this.solvedSomething;                      
-                }
-                
-
+                this.solvedSomething = this.solveRows() 
+                                    || this.solveColumns() 
+                                    || this.solveInnerTables() 
+                                    || this.solveSomething(bailEarly);
+                return this.solvedSomething;                    
+           
             }
         } catch (err) {
             window.alert(err);
@@ -195,7 +184,7 @@ class SidukoSolver {
                   iExecutionCount++;
                 });
 
-            } while (await oCells.filter(cell => cell.value === 0).length > 0);
+            } while (oCells.filter(cell => cell.value === 0).length > 0);
         }
         const duration = new Date().getTime() - startTime;
         document.querySelector('#everywhere table').classList.add('solved');
