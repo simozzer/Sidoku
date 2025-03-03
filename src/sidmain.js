@@ -1,10 +1,6 @@
 
 doLoaded = () => {
-
-
     document.getElementById("menu").addEventListener('change',doMenuChanged.bind(this));
-    
-
 }
 
 function setInfoText(text) {

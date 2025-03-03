@@ -5,21 +5,16 @@ class SidukoSolver {
     #stack = [];
     #fast = false;
     #fnComplete;
-    #fastinterval = 800000;    
-    #intervalsRemaining = 0;
 
 
     constructor(oPuzzle, fnComplete) {
         this.#fast = document.getElementById("chk_fast").checked;
         this.#oPuzzle = oPuzzle;
         this.oPuzzleData = this.#oPuzzle.data;       
-        this.cells = this.#oPuzzle.data.cells;
-        
-        const emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);
-        
+        this.cells = this.#oPuzzle.data.cells;        
+        const emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);        
         this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
-        this.#intervalsRemaining = this.#fastinterval;
     }
 
     // Within a set of 9 cells find and cells which can be the only cell containing a specific value and set them
@@ -30,28 +25,21 @@ class SidukoSolver {
         const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
         do {
             continueLooping = false;
-
-            for (let possibleValue = 1; possibleValue < 10; possibleValue++) {
+            for (let possibleValue = 9; possibleValue > 0; possibleValue--) {
                 let iOccurenceCount = aCellsToSolve.reduce((count, oCell) => 
                     count + (fnGetPossibleValues(oPuzzleData, oCell).includes(possibleValue) ? 1 : 0), 0);
 
                 if (iOccurenceCount === 1) {
-                    const oCellToAdjust = aCellsToSolve.find(oCell => fnGetPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) > -1);
+                    const oCellToAdjust = aCellsToSolve.find(oCell => fnGetPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) >= 0);
                     if (oCellToAdjust && oCellToAdjust.value < 1) {                        
                         stepProducedProgress = true;
                         continueLooping = true;
                         oCellToAdjust.value = possibleValue;
                         if (!this.#fast) {
-                            this.#intervalsRemaining --;
-                            if (this.#intervalsRemaining >= 0) {
-                                this.#intervalsRemaining --;
-                            } else {
-                                this.#intervalsRemaining = this.#fastinterval;
-                                const oElem = oCellToAdjust.element;
-                                oElem.innerText = possibleValue;
-                                oElem.title = '';
-                                oElem.classList.add('solved');
-                            }
+                            const oElem = oCellToAdjust.element;
+                            oElem.innerText = possibleValue;
+                            oElem.title = '';
+                            oElem.classList.add('solved');
                         }
                         oCellToAdjust.setSolved();
                         oCellToAdjust.passIndex = this.#passIndex;
@@ -81,7 +69,7 @@ class SidukoSolver {
 
     solveColumns() {
         let stepProducedProgress = false;
-        for (let i = 0;((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
+        for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
             stepProducedProgress = true;
         }
         return stepProducedProgress;
@@ -130,8 +118,8 @@ class SidukoSolver {
         const oCells = this.#oPuzzle.data.cells;
         if (this.#fast) {
             do {
-                 this.doExecute();
-                 iExecutionCount++;
+                this.doExecute();
+                iExecutionCount++;
             } while (oCells.filter(oCell => oCell.value === 0).length > 0);
         } else {
             do {
@@ -202,9 +190,8 @@ class SidukoSolver {
             this.#stack.push(oSolveCell);
             this.doSimpleSolve();
             return true;
-        } else {
-            return false;
-        }
+        } 
+        return false;        
     }
 
     applyCellsWithOnePossibleValue() {
