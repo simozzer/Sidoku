@@ -9,7 +9,7 @@ Can solve even extremely difficult problems e.g 'Shining Mirror'
 *Real time animation currently ENABLED - which slows things down a lot, to change this please set #fast to false, or click the checkbox
 
 
-It's all about the SPEED: A 24000% speed improvement over my 1st attempt at solving "Shining Mirror".
+It's all about the SPEED: Solving "Shining Mirror" used to take 2 minutes, now it takes 160ms
 
 The hardest example used to take over 2 minutes on my local machine. I've now got that down to less than 0.5 seconds.
 
