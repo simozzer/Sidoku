@@ -15,7 +15,7 @@ class SidukoSolver {
         this.oPuzzleData = this.#oPuzzle.data;       
         this.cells = this.#oPuzzle.data.cells;
         
-        let emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);
+        const emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);
         
         this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
@@ -58,40 +58,32 @@ class SidukoSolver {
                     }
                 }
             }
+
         } while (continueLooping);
         return stepProducedProgress;
     }
 
     solveInnerTables() {
         let stepProducedProgress = false;
-        do {
-            stepProducedProgress = false;
-            for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInInnerTable(i))); i++) {
-                stepProducedProgress = true;
-            }
-        } while (stepProducedProgress);
+        for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInInnerTable(i))); i++) {
+            stepProducedProgress = true;
+        }
         return stepProducedProgress;
     }
 
     solveRows() {
         let stepProducedProgress = false;
-        do {
-            stepProducedProgress = false;
-            for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInRow(i))); i++) {
-                stepProducedProgress = true;
-            }
-        } while (stepProducedProgress);
+        for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInRow(i))); i++) {
+            stepProducedProgress = true;
+        }
         return stepProducedProgress;
     }
 
     solveColumns() {
         let stepProducedProgress = false;
-        do {
-            stepProducedProgress = false;
-            for (let i = 0;((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
-                stepProducedProgress = true;
-            }
-        } while (stepProducedProgress);
+        for (let i = 0;((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
+            stepProducedProgress = true;
+        }
         return stepProducedProgress;
     }
 
