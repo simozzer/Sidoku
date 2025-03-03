@@ -103,15 +103,11 @@ class SidukoSolver {
     }
 
     // Try to solve based on current data, by process of elimination
-    doSimpleSolve() {
-        try {
-                return this.solveRows() 
-                                    || this.solveColumns() 
-                                    || this.solveInnerTables() 
-                                    || this.solveSomething();                                 
-        } catch (err) {
-            window.alert(err);
-        }
+    doSimpleSolve() {        
+        return this.solveRows() 
+            || this.solveColumns() 
+            || this.solveInnerTables() 
+            || this.solveSomething();                                         
     }
 
     async doExecuteAsync() {

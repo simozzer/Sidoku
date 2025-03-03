@@ -26,7 +26,7 @@ function setupPuzzle(puzzleData) {
     puzzleElementHolder.appendChild(tableDOM);
 
     if (puzzleData) {
-        // usse set timeout here, to allow time for the DOM to be updated with the starting position
+        // use set timeout here, to allow time for the DOM to be updated with the starting position
         setTimeout(()=> {
             const solver = new SidukoSolver(oPuzzle, doPuzzleSolved);
             solver.execute();
@@ -41,12 +41,15 @@ function setupPuzzle(puzzleData) {
 
 
 doSolvePressed = (oEv) => {
+    // The next step is to use web workers to try and solve this a bit faster
+    /*
     const worker = new Worker("/src/sidoku_worker.js");
     worker.onmessage = (oEv) => {
       console.log("worker.onmessage: ", oEv.data);     
       worker.postMessage("close");
     };
     worker.postMessage({ puzzle: oPuzzle.data });
+    */
 
 
     const startValues = oPuzzle.data.cells.map(o => o.value);
@@ -64,7 +67,14 @@ doMenuChanged = (oEv) => {
     
             oEv.target.disabled = true;
             setupPuzzle(shinningStarData);
-            break;            
+            break;    
+        case "Hard":
+            btn.hidden = true;
+            btn.disabled = true;
+    
+            oEv.target.disabled = true;
+            setupPuzzle(hardPuzzleData);
+            break;                     
         case "Easier":
             btn.hidden = true;
             btn.disabled = true;
@@ -103,7 +113,7 @@ function doPuzzleSolved(info) {
 
 const shinningStarData = [0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 7, 0, 0, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 3, 8, 0, 0, 9, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 6, 0, 8, 0, 2, 0, 0, 0, 4, 0, 6, 0, 0, 0, 0, 7, 2, 0, 0, 0, 0, 9, 0, 6, 0];
 const evilPuzzleData = [9, 0, 0, 0, 4, 3, 1, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 9, 0, 8, 0, 0, 0, 1, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 7, 0, 6, 4, 0, 0, 3, 4, 0, 0, 2, 0, 0, 0, 0, 0];
-
+const hardPuzzleData = [1,0,0,6,0,5,0,0,9,0,0,0,0,0,0,0,0,0,0,5,3,0,1,0,8,4,0,0,0,0,9,5,1,0,0,0,0,0,0,0,6,0,0,0,0,0,0,2,0,8,0,6,0,0,6,0,7,0,0,0,9,0,5,3,0,0,8,0,7,0,0,2,0,0,9,0,0,0,1,0,0];
 
 
 
