@@ -133,26 +133,24 @@ class SidukoSolver {
                  this.doExecute();
                  iExecutionCount++;
             } while (oCells.filter(oCell => oCell.value === 0).length > 0);
-
-            oCells.forEach(oCell => {
-                if (!oCell.fixed) {
-                    const oElem = oCell.element;
-                    oElem.innerHTML = oCell.value;                    
-                    oElem.classList.add('solved');                    
-                }
-            });
-
-            } else {
+        } else {
             do {
                 await this.doExecuteAsync().then(() => {                        
-                  iExecutionCount++;
+                    iExecutionCount++;
                 });
 
             } while (oCells.filter(cell => cell.value === 0).length > 0);
         }
         const duration = new Date().getTime() - startTime;
+        oCells.forEach(oCell => {
+            if (!oCell.fixedValue) {
+                const oElem = oCell.element;
+                oElem.innerHTML = oCell.value;                    
+                oElem.classList.add('solved');                    
+            }
+        });
         document.querySelector('#everywhere table').classList.add('solved');
-        if (typeof(this.#fnComplete) === "function") {
+        if (typeof(this.#fnComplete) === "function") {            
             this.#fnComplete(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
         }
         

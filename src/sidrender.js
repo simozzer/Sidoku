@@ -47,7 +47,7 @@ class SidukoHtmlGenerator {
 
         if (iCellValue > 0) {
             oInnerCell.innerText = iCellValue;
-            if (oCellData.fixed) {
+            if (oCellData.fixedValue) {
                 oInnerCell.classList.add('fixedval');
             }
         } else {

@@ -21,14 +21,17 @@ class SidukoPuzzleData {
 
         // Optimisation. Build a collection of the cells in each column, row and inner table
         for (let i = 0; i < 9; i++) {
-            this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i && oCell.fixed === false);
-            this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i && oCell.fixed === false);
-            this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i && oCell.fixed === false);
+            this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i && oCell.fixedValue === false);
+            this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i && oCell.fixedValue === false);
+            this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i && oCell.fixedValue === false);
         }
     }
 
     get cells() {
         return this.#cells;
+    }
+    set cells(value) {
+        this.#cells = value;
     }
 
     cell(iColIndex, iRowIndex) {
@@ -95,11 +98,11 @@ class SidukoCell {
         this.#passIndex = iPassIndex;
     }
 
-    setFixed() {
+    setFixedValue() {
         this.#valueState = cellValueStates.FIXED;
     }
 
-    get fixed() {
+    get fixedValue() {
         return this.#valueState === cellValueStates.FIXED;
     }
 
@@ -120,7 +123,7 @@ class SidukoCell {
     }
 
     setSolved() {
-        this.#valueState = cellValueStates.SOLVED;
+        this.#valueState = cellValueStates.SOLVED;        
     }
 
     get suggested() {

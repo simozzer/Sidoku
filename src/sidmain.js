@@ -103,19 +103,16 @@ doMenuChanged = (oEv) => {
 }
 
 function doPuzzleSolved(info) {
-    setInfoText(info);
+    setInfoText(info);    
     window.setTimeout(() => {
         document.getElementById("menu").disabled = false;
         let a = document.getElementsByClassName("suggested");
         [].forEach.call(a,(el) => {
-            try {
-                el.classList.remove("suggested");
-            } catch {
-
-            }
+            el.classList.remove("suggested");
+            el.classList.add("solved");
         });
         document.getElementById("solvebutton").hidden = false;
-    },200);
+    },400);
     
 }
 
@@ -146,7 +143,7 @@ class SidukoPuzzle {
             const oCell = this.data.cells[iIndex];
             if (iValue > 0) {
                 oCell.value = iValue;
-                oCell.setFixed();
+                oCell.setFixedValue();
             }
         });
 
