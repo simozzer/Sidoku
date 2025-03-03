@@ -19,3 +19,6 @@ Just added 'Escargot AI' as a puzzle, which some on the internet claim is the wo
 Run with: 
 
 npx @tailwindcss/cli -i ./css/siduko.css -o ./css/output.css --watch
+
+Puzzle Data Taken From: https://github.com/grantm/sudoku-exchange-puzzle-bank/
+

@@ -105,7 +105,7 @@ function doPuzzleSolved(info) {
         let a = document.getElementsByClassName("suggested");
         [].forEach.call(a,(el) => {
             el.classList.remove("suggested");
-            el.classList.add("solved");
+            //el.classList.add("solved");
         });
         document.getElementById("solvebutton").hidden = false;
     },400);

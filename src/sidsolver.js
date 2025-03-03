@@ -51,6 +51,12 @@ class SidukoSolver {
         return stepProducedProgress;
     }
 
+    /**
+     * Attempts to solve the Sudoku puzzle by processing each 3x3 inner table.
+     * It checks each inner table for cells that can be definitively solved based on current possibilities.
+     *
+     * @returns {boolean} - Returns true if any progress was made in solving the puzzle, otherwise false.
+     */
     solveInnerTables() {
         let stepProducedProgress = false;
         for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInInnerTable(i))); i++) {
@@ -59,6 +65,13 @@ class SidukoSolver {
         return stepProducedProgress;
     }
 
+
+    /**
+     * Attempts to solve the Sudoku puzzle by processing each row.
+     * It checks each row for cells that can be definitively solved based on current possibilities.
+     *
+     * @returns {boolean} - Returns true if any progress was made in solving the puzzle, otherwise false.
+     */
     solveRows() {
         let stepProducedProgress = false;
         for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInRow(i))); i++) {
@@ -67,6 +80,13 @@ class SidukoSolver {
         return stepProducedProgress;
     }
 
+
+    /**
+     * Attempts to solve the Sudoku puzzle by processing each column.
+     * It checks each column for cells that can be definitively solved based on current possibilities.
+     *
+     * @returns {boolean} - Returns true if any progress was made in solving the puzzle, otherwise false.
+     */
     solveColumns() {
         let stepProducedProgress = false;
         for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
@@ -74,6 +94,7 @@ class SidukoSolver {
         }
         return stepProducedProgress;
     }
+
 
     // Try to solve based on current data, by process of elimination
     doSimpleSolve() {        
