@@ -22,13 +22,6 @@ class SidukoSolver {
         this.#intervalsRemaining = this.#fastinterval;
     }
 
-    solveSomething() {        
-        if (this.applyCellsWithOnePossibleValue()) {                                
-            return true;                
-        }
-
-    }
-
     // Within a set of 9 cells find and cells which can be the only cell containing a specific value and set them
     solveCells(aCellsToSolve) {
         let stepProducedProgress = false;
@@ -107,7 +100,7 @@ class SidukoSolver {
         return this.solveRows() 
             || this.solveColumns() 
             || this.solveInnerTables() 
-            || this.solveSomething();                                         
+            || this.applyCellsWithOnePossibleValue();                                         
     }
 
     async doExecuteAsync() {
