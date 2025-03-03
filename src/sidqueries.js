@@ -4,7 +4,8 @@ class SidukoCellQueries {
         const possibleValues = [];
         const { row, column, innerTableIndex } = oCell;
 
-        for (let value = 1; value < 10; value++) {
+        // count backwards (for most processors a comparision to zero is much faster)
+        for (let value = 9; value > 0; value--) {
             if ((!oSudukoData.cellsInRow(row).some(cell => cell.value === value)) &&
                 (!oSudukoData.cellsInColumn(column).some(cell => cell.value === value)) && 
                 (!oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value))) {

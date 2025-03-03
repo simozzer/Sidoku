@@ -127,7 +127,7 @@ class SidukoSolver {
         this.#passIndex = 1;
         let iExecutionCount = 0;
         const startTime = new Date().getTime();
-        let oCells = this.#oPuzzle.data.cells;
+        const oCells = this.#oPuzzle.data.cells;
         if (this.#fast) {
             do {
                  this.doExecute();
