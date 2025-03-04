@@ -11,37 +11,47 @@ class SidukoSolver {
         this.#fast = document.getElementById("chk_fast").checked;
         this.#oPuzzle = oPuzzle;
         this.oPuzzleData = this.#oPuzzle.data;       
-        this.cells = this.#oPuzzle.data.cells;        
+        this.cells = [...this.#oPuzzle.data.cells];        
         const emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);        
         this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
     }
 
-    // Within a set of 9 cells find and cells which can be the only cell containing a specific value and set them
+
+    /**
+     * Solves a group of cells in the Sudoku puzzle.
+     * This function iterates through the given cells and attempts to find cells with a unique possible value.
+     * If a cell is found with a unique possible value, it sets the cell's value, updates the puzzle state, and returns true.
+     * If no cell is found with a unique possible value, it returns false.
+     *
+     * @param {Array<SidukoCell>} aCellsToSolve - An array of SidukoCell objects to be solved.
+     * @returns {boolean} - Returns true if a cell was solved, false otherwise.
+     */
     solveCells(aCellsToSolve) {
-        
+
         let stepProducedProgress;
         const oPuzzleData = this.#oPuzzle.data;
         const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
-        do {            
+        do {
             stepProducedProgress = false;
             for (let possibleValue = 9; possibleValue > 0; possibleValue--) {
-                let iOccurenceCount = aCellsToSolve.reduce((count, oCell) => 
+                const iOccurenceCount = aCellsToSolve.reduce((count, oCell) =>
                     count + (fnGetPossibleValues(oPuzzleData, oCell).includes(possibleValue) ? 1 : 0), 0);
 
                 if (iOccurenceCount === 1) {
                     const oCellToAdjust = aCellsToSolve.find(oCell => fnGetPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) >= 0);
-                    if (oCellToAdjust && oCellToAdjust.value < 1) {                        
-                        stepProducedProgress = true;                        
+                    if (oCellToAdjust?.value === 0) {                        
+                        stepProducedProgress = true;
                         oCellToAdjust.value = possibleValue;
-                        if (!this.#fast) {
-                            const oElem = oCellToAdjust.element;
-                            oElem.innerText = possibleValue;
-                            oElem.title = '';
-                            oElem.classList.add('solved');
-                        }
                         oCellToAdjust.setSolved();
                         oCellToAdjust.passIndex = this.#passIndex;
+                        if (this.#fast) {
+                            return true;
+                        }
+                        const oElem = oCellToAdjust.element;
+                        oElem.innerText = possibleValue;
+                        oElem.title = '';
+                        oElem.classList.add('solved');
                     }
                 }
             }
@@ -49,6 +59,8 @@ class SidukoSolver {
         } while (stepProducedProgress);
         return stepProducedProgress;
     }
+
+
 
     /**
      * Attempts to solve the Sudoku puzzle by processing each 3x3 inner table.
@@ -101,14 +113,30 @@ class SidukoSolver {
     }
 
 
-    // Try to solve based on current data, by process of elimination
+    /**
+     * Attempts to solve the Sudoku puzzle by processing each 3x3 inner table, each row, each column, and finally applying values to cells that have only one possible value.
+     * This function returns true if any progress was made in solving the puzzle, otherwise false.
+     *
+     * @returns {boolean} - Returns true if any progress was made in solving the puzzle, otherwise false.
+     */
     doSimpleSolve() {        
         return this.solveRows() 
             || this.solveColumns() 
-            || this.solveInnerTables() 
+            || this.solveInnerTables()
             || this.applyCellsWithOnePossibleValue();                                         
     }
 
+
+    /**
+     * Asynchronously executes the next step in the Sudoku solving process.
+     * This function attempts to process the next cell in the puzzle and updates the pass index if successful.
+     * If processing fails, it triggers a rewind of the solving process.
+     *
+     * @async
+     * @returns {Promise<boolean>} A promise that resolves to:
+     *   - true if a cell was successfully processed and the pass index was incremented
+     *   - false if processing failed and a rewind was triggered
+     */
     async doExecuteAsync() {
         return new Promise((resolve) => {
             window.setTimeout(function (that) {
@@ -119,20 +147,36 @@ class SidukoSolver {
                     that.rewind();
                     resolve(false);
                 }
-                
+
             }, 0, this);
         });
     }
 
 
+    /**
+     * Executes the next step in the Sudoku solving process.
+     * This function attempts to process the next cell in the puzzle and updates the pass index if successful.
+     * If processing fails, it triggers a rewind of the solving process.
+     *
+     * @returns {boolean} Returns true if a cell was successfully processed and the pass index was incremented, false if processing failed and a rewind was triggered
+     */
     doExecute() {
         if (this.processNextCell()) {
             this.#passIndex++
         } else {
-            this.rewind();
+            this.rewind()
         }
     }
 
+
+    /**
+     * Executes the solver to try and complete the sudoko puzzle
+     *
+     * @async
+     * @returns {Promise<boolean>} A promise that resolves to:
+     *   - true if a cell was successfully processed and the pass index was incremented
+     *   - false if processing failed and a rewind was triggered
+     */
     async execute() {
         this.#passIndex++;
 
@@ -142,6 +186,7 @@ class SidukoSolver {
         let iExecutionCount = 0;
         const startTime = new Date().getTime();
         const oCells = this.#oPuzzle.data.cells;
+
         if (this.#fast) {
             do {
                 this.doExecute();
@@ -149,31 +194,40 @@ class SidukoSolver {
             } while (oCells.filter(oCell => oCell.value === 0).length > 0);
         } else {
             do {
-                await this.doExecuteAsync().then(() => {                        
+                await this.doExecuteAsync().then(() => {
                     iExecutionCount++;
                 });
-
             } while (oCells.filter(cell => cell.value === 0).length > 0);
         }
+
         const duration = new Date().getTime() - startTime;
         oCells.forEach(oCell => {
             if (!oCell.fixedValue) {
                 const oElem = oCell.element;
-                oElem.innerHTML = oCell.value;                    
-                oElem.classList.add('solved');                    
+                oElem.innerHTML = oCell.value;
+                oElem.classList.add('solved');
             }
         });
+
         document.querySelector('#everywhere table').classList.add('solved');
-        if (typeof(this.#fnComplete) === "function") {            
+        if (typeof(this.#fnComplete) === "function") {
             this.#fnComplete(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
         }
-        
     }
 
+
+    /**
+     * Rewinds the solving process by undoing the last cell update and resetting affected cells.
+     * If the last updated cell cannot be set to a new value, it continues rewinding to the previous cell.
+     * This method is used in backtracking to explore different possibilities when the current path doesn't lead to a solution.
+     * 
+     * @returns {void} This method doesn't return a value.
+     */
     rewind() {
         const oLastUpdatedCell = this.#stack.pop();
+        const iLastUpdatedCellIndex = oLastUpdatedCell.passIndex;
         this.cells.forEach(o => {
-            if (o.passIndex === oLastUpdatedCell.passIndex) {
+            if (o.passIndex === iLastUpdatedCellIndex) {
                 o.reset(this.#fast);
             }
         })
@@ -183,8 +237,9 @@ class SidukoSolver {
         if (!SidukoCellQueries.canSetACellValue(oPuzzleData,oLastUpdatedCell)) {
             oLastUpdatedCell.choiceIndex = 0;
             const oPrevCell = this.#stack[this.#stack.length - 1];
+            const iPrevCellPassIndex = oPrevCell.passIndex;
             oPuzzleData.cells.forEach(o => {
-                if (o.passIndex === oPrevCell.passIndex) {
+                if (o.passIndex === iPrevCellPassIndex) {
                     o.reset(this.#fast);
                 }
             });
@@ -193,52 +248,80 @@ class SidukoSolver {
         }
     }
 
+
+    /**
+     * Processes the next empty cell in the Sudoku puzzle.
+     * This function identifies the empty cell with the least possible values,
+     * attempts to fill it with a valid value, and updates the puzzle state accordingly.
+     * 
+     * @returns {boolean} Returns true if a cell was successfully processed and filled,
+     *                    or if the puzzle is complete. Returns false if no valid value
+     *                    could be assigned to the selected cell.
+     */
     processNextCell() {
-        const emptyCells = this.oPuzzleData.cells.filter(oCell => oCell.value < 1);
+        const oPuzzleData = this.oPuzzleData;
+        const emptyCells = oPuzzleData.cells.filter(oCell => oCell.value < 1);
         if (emptyCells.length === 0) return true;
 
+        const fnGetPossibleValues = SidukoCellQueries.getPossibleValues; 
+
         const oSolveCell = emptyCells.reduce((min, cell) => 
-            SidukoCellQueries.getPossibleValues(this.oPuzzleData, cell).length < 
-            SidukoCellQueries.getPossibleValues(this.oPuzzleData, min).length ? cell : min
+            fnGetPossibleValues(oPuzzleData, cell).length < 
+            fnGetPossibleValues(oPuzzleData, min).length ? cell : min
         );
 
-        const aPossibleCellValues = SidukoCellQueries.getPossibleValues(this.oPuzzleData, oSolveCell);
+        const aPossibleCellValues = fnGetPossibleValues(oPuzzleData, oSolveCell);
         if (oSolveCell.choiceIndex < aPossibleCellValues.length && 
-            SidukoCellQueries.canSetACellValue(this.oPuzzleData, oSolveCell)) {
+            SidukoCellQueries.canSetACellValue(oPuzzleData, oSolveCell)) {
             oSolveCell.value = aPossibleCellValues[oSolveCell.choiceIndex];
             oSolveCell.suggested = true;
             oSolveCell.passIndex = this.#passIndex;
-            if (!this.#fast) {       
-                const oElem = oSolveCell.element;         
-                oElem.innerHTML = oSolveCell.value;
-                oElem.classList.add('suggested');
-            }
             this.#stack.push(oSolveCell);
             this.doSimpleSolve();
+            if (this.#fast) return true;  
+            const oElem = oSolveCell.element;         
+            oElem.innerHTML = oSolveCell.value;
+            oElem.classList.add('suggested');
             return true;
         } 
         return false;        
     }
 
+
+    /**
+     * Applies values to cells that have only one possible value.
+     * This function identifies cells with only one possible value and sets that value,
+     * updating the puzzle state accordingly.
+     *
+     * @returns {boolean} Returns true if at least one cell was updated with a new value,
+     *                    false if no cells were updated or if there are no cells with only one possible value.
+     */
     applyCellsWithOnePossibleValue() {
         const oPuzzleData = this.#oPuzzle.data;
         const oSingleValueCells = this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).length === 1);
+        const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
+        const fnCanSetValue = SidukoCellQueries.canSetValue;
+        if (oSingleValueCells.length === 0) {
+            return false;
+        }
         oSingleValueCells.forEach(oCell => {
-            const iValue = SidukoCellQueries.getPossibleValues(oPuzzleData,oCell)[0];
-            if (iValue && SidukoCellQueries.canSetValue(oPuzzleData,oCell, iValue)) {
+            const iValue = fnGetPossibleValues(oPuzzleData,oCell)[0];
+            if (iValue && fnCanSetValue(oPuzzleData,oCell, iValue)) {
                 oCell.value = iValue;
-                if (!this.#fast) {
-                    const oElem = oCell.element;
-                    oElem.innerText = iValue;
-                    oElem.title = '';
-                    oElem.classList.add('solved');
-                }
                 oCell.setSolved();
                 oCell.passIndex = this.#passIndex;            
+                if (this.#fast) {
+                    return true;
+                }
+                const oElem = oCell.element;
+                oElem.innerText = iValue;
+                oElem.title = '';
+                oElem.classList.add('solved');
                 return true;
             }
         });
         return false;
     }
+
 
 }

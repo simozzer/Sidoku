@@ -22,5 +22,8 @@ Run with:
 npx @tailwindcss/cli -i ./css/siduko.css -o ./css/output.css --watch
 
 
-Puzzle Data Taken From: https://github.com/grantm/sudoku-exchange-puzzle-bank/
+Puzzle Data Taken From: https://github.com/grantm/sudoku-exchange-puzzle-bank/ (Public Domain)
+
+
+TODO:: use diffent classes for FAST version, to remove conditionals
 
