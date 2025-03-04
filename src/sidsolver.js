@@ -59,7 +59,9 @@ class SidukoSolver {
      */
     solveInnerTables() {
         let stepProducedProgress = false;
-        for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInInnerTable(i))); i++) {
+        const oPuzzleData = this.oPuzzleData;
+        const fnSolve = this.solveCells.bind(this);;
+        for (let i = 0; ((i < 9) && fnSolve(oPuzzleData.cellsInInnerTable(i))); i++) {
             stepProducedProgress = true;
         }
         return stepProducedProgress;
@@ -74,7 +76,9 @@ class SidukoSolver {
      */
     solveRows() {
         let stepProducedProgress = false;
-        for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInRow(i))); i++) {
+        const oPuzzleData = this.oPuzzleData;
+        const fnSolve = this.solveCells.bind(this);;
+        for (let i = 0; ((i < 9) && fnSolve(oPuzzleData.cellsInRow(i))); i++) {
             stepProducedProgress = true;
         }
         return stepProducedProgress;
@@ -89,7 +93,9 @@ class SidukoSolver {
      */
     solveColumns() {
         let stepProducedProgress = false;
-        for (let i = 0; ((i < 9) && this.solveCells(this.oPuzzleData.cellsInColumn(i))); i++) {
+        const oPuzzleData = this.oPuzzleData;
+        const fnSolve = this.solveCells.bind(this);;
+        for (let i = 0; ((i < 9) && fnSolve(oPuzzleData.cellsInColumn(i))); i++) {
             stepProducedProgress = true;
         }
         return stepProducedProgress;
