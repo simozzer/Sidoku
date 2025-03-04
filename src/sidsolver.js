@@ -19,12 +19,12 @@ class SidukoSolver {
 
     // Within a set of 9 cells find and cells which can be the only cell containing a specific value and set them
     solveCells(aCellsToSolve) {
-        let stepProducedProgress = false;
-        let continueLooping = false;
+        
+        let stepProducedProgress;
         const oPuzzleData = this.#oPuzzle.data;
         const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
-        do {
-            continueLooping = false;
+        do {            
+            stepProducedProgress = false;
             for (let possibleValue = 9; possibleValue > 0; possibleValue--) {
                 let iOccurenceCount = aCellsToSolve.reduce((count, oCell) => 
                     count + (fnGetPossibleValues(oPuzzleData, oCell).includes(possibleValue) ? 1 : 0), 0);
@@ -32,8 +32,7 @@ class SidukoSolver {
                 if (iOccurenceCount === 1) {
                     const oCellToAdjust = aCellsToSolve.find(oCell => fnGetPossibleValues(oPuzzleData,oCell).indexOf(possibleValue) >= 0);
                     if (oCellToAdjust && oCellToAdjust.value < 1) {                        
-                        stepProducedProgress = true;
-                        continueLooping = true;
+                        stepProducedProgress = true;                        
                         oCellToAdjust.value = possibleValue;
                         if (!this.#fast) {
                             const oElem = oCellToAdjust.element;
@@ -47,7 +46,7 @@ class SidukoSolver {
                 }
             }
 
-        } while (continueLooping);
+        } while (stepProducedProgress);
         return stepProducedProgress;
     }
 
