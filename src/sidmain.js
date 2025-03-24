@@ -1,5 +1,5 @@
 
-doLoaded = () => {
+doSolverLoaded = () => {
     document.getElementById("menu").addEventListener('change',doMenuChanged.bind(this));
 }
 
@@ -142,7 +142,5 @@ class SidukoPuzzle {
                 oCell.setFixedValue();
             }
         });
-
-
     }
 }

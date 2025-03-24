@@ -13,9 +13,9 @@ class SidukoCellQueries {
 
         // count backwards (for most processors the comparison to zero at the end of the loop will be faster)
         for (let value = 9; value > 0; value--) {
-            if ((!oSudukoData.cellsInRow(row).some(cell => cell.value === value)) &&
-                (!oSudukoData.cellsInColumn(column).some(cell => cell.value === value)) && 
-                (!oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value))) {
+            if ((!oSudukoData.cellsInRow(row).some(cell => cell.value == value)) &&
+                (!oSudukoData.cellsInColumn(column).some(cell => cell.value == value)) && 
+                (!oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value == value))) {
                     possibleValues.push(value);
             }
         }
@@ -33,9 +33,9 @@ class SidukoCellQueries {
      */
     static canSetValue(oSudukoData, oCell, value) {
         const { row, column, innerTableIndex } = oCell;
-        return !oSudukoData.cellsInRow(row).some(cell => cell.value === value) &&
-               !oSudukoData.cellsInColumn(column).some(cell => cell.value === value) &&
-               !oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value === value);
+        return !oSudukoData.cellsInRow(row).some(cell => cell.value == value) &&
+               !oSudukoData.cellsInColumn(column).some(cell => cell.value == value) &&
+               !oSudukoData.cellsInInnerTable(innerTableIndex).some(cell => cell.value == value);
     }
 
 

@@ -46,10 +46,13 @@ class SidukoEventsHandler {
                     this.#tableDomElement.querySelector(`td[data-column="${column}"][data-row="${row + 1}"]`).focus();
                 }
                 break;
-            case 'Backspace', 'Space', 'Delete', 'Digit0':
+            case 'Backspace': 
+            case 'Space': 
+            case 'Delete':
+            case 'Digit0':
                 const oElem = this.#tableDomElement.querySelector(`td[data-column="${column}"][data-row="${row}"]`);
                 if (oElem.classList.contains('entered')) {
-                    const oCellData = this.#puzzle.cell(column, row);
+                    const oCellData = this.#puzzle.data.cell(column, row);
                     oCellData.entered = false;
                     oElem.innerText = '';
                     oElem.classList.remove('entered');
