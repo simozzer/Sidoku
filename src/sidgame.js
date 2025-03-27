@@ -58,6 +58,16 @@ setGameStartData = (aStartData) =>{
 oGame = null;
 
 function setupGame(puzzleData) {
+
+    const aPuzzleDataSlices = [];
+    for (let i=0; i < puzzleData.length; i+=3) {
+        aPuzzleDataSlices.push(puzzleData.slice(i, i+3));
+    }
+    let sRejiggedPuzzleData = "";
+    for (let r=0; r<9;r++) {
+        sRejiggedPuzzleData += aPuzzleDataSlices[r] + aPuzzleDataSlices[r+3] + aPuzzleDataSlices[r+6]; //
+        console.log(`${r},${r+3},${r+6}`);
+    }
     
     //setInfoText("Please wait: the puzzle is being solved...");
     oGame = new SidukoPuzzle();
@@ -70,8 +80,11 @@ function setupGame(puzzleData) {
     puzzleElementHolder.textContent = "";
     puzzleElementHolder.appendChild(tableDOM);
 
-    
-    const eventHandler = new SidukoEventsHandler(oGame, tableDOM);
-    
+    /*
+    // check that the puzzle is valid
+    const solver = new SidukoSolver(oGame, doPuzzleSolved);
+        solver.execute();    
+    */
+    const eventHandler = new SidukoEventsHandler(Array.from(puzzleData).slice(0, puzzleData.length), tableDOM);
     
 }

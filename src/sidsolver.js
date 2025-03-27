@@ -8,7 +8,7 @@ class SidukoSolver {
 
 
     constructor(oPuzzle, fnComplete) {
-        this.#fast = document.getElementById("chk_fast").checked;
+        this.#fast = document.getElementById("chk_fast")?.checked;        
         this.#oPuzzle = oPuzzle;
         this.oPuzzleData = this.#oPuzzle.data;       
         this.cells = [...this.#oPuzzle.data.cells];        
