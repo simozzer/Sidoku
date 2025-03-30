@@ -44,7 +44,7 @@ class SidokuBonuses {
             
     }
 
-    // Picks a random columns and reveals the solution to all the items.
+    // Picks a random column and reveals the solution to all the items.
     static revealCellsWithRandomColumn(oPuzzle, puzzleSolution) {
         const emptyCells = oPuzzle.getData().cells.filter(c => c.value === 0);
         if (emptyCells.length === 0) {             
@@ -64,9 +64,30 @@ class SidokuBonuses {
             } else if (targetCell.value > 0) {
                 console.warn(`Could not reveal random column value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
             }
+        }                            
+    }
 
-        }                    
-        
+    
+    // Picks a random column and reveals the solution to all the items.
+    static revealCellsWithRandomInnerTable(oPuzzle, puzzleSolution) {
+        const randomInnerTableId = Math.floor(Math.random() * 9);
+        const emptyCells = oPuzzle.getData().cells.filter(c => (c.value === 0) && (c.innerTableIndex == randomInnerTableId));
+        if (emptyCells.length === 0) {             
+            return;
+        }
+        emptyCells.forEach(targetCell => {
+            const sourceCell = puzzleSolution.getData().cell(targetCell.column, targetCell.row);
+            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, sourceCell.value)) {                
+                targetCell.value = sourceCell.value;                
+                targetCell.element.innerHTML = sourceCell.value;
+                targetCell.setSolved();
+                targetCell.element.classList.add('aided');
+                targetCell.entered = true;
+                SidukoHtmlGenerator.updateCellHints(oPuzzle);
+            } else if (targetCell.value > 0) {
+                console.warn(`Could not reveal random inner table value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
+            }
+        });                          
     }
 
     // Picks a random digit and then looks for all the matching cells from the solution and solves them
@@ -111,7 +132,7 @@ class SidokuBonuses {
                     oTargetCell.setSolved();
                     oTargetCell.element.classList.add('aided');
                     oTargetCell.entered = true;
-                } else if (targetCell.value > 0) {
+                } else if (oTargetCell.value > 0) {
                     console.warn(`Could not reveal item which has only 1 target due to existing data. (${targetCell.column},${targetCell.row}) cannot be set to ${oSourceCell.value}`);
                 }               
             }

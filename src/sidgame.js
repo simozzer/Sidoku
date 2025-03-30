@@ -82,7 +82,8 @@ function setupGame(puzzleData) {
            // SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
            //SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
            //SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
-           SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
+           //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
+           SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
         }    
          
     })
