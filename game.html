@@ -15,13 +15,15 @@
         </script>        
         <script src="./src/sidgame.js">
         </script>          
+        <script src="./src/SidokuBonuses.js">
+        </script> 
         <link rel="stylesheet" href="./css/output.css">
     </head>
     
     <body onLoad="doGameLoaded()" class="bg-orange-200 flex flex-col min-h-svh">
-        <div class="mx-auto text-center block bg-sky-500 p-10 min-w-full">
-            <div class="text-center text-4xl">🧩Sidoku</div>
-            <div class="fg-blue-100 txt-xl py-4" >A game based on Sudoku</div>
+        <div class="mx-auto text-center block bg-sky-500 p-2 min-w-full">
+            <div class="text-center text-3xl">🧩Sidoku</div>
+            <div class="fg-blue-100 text-sm" >A game based on Sudoku</div>
         </div>
         
         <div class="h-full grow">
@@ -40,7 +42,7 @@
                 </ul>
             </div>
             
-            <div id="menucontainer" class="p-11 mx-auto text-center bg-indigo-300">
+            <div id="menucontainer" class="p-4 mx-auto text-center bg-indigo-300">
             <label for="menu" class="3xl">Choose a level:</label>
             <select name="menu" id="menu" class="bg-white border-blue-800 border-separate">  
                 <option value="None"></option>            
@@ -51,15 +53,15 @@
             </select>
             </div>
 
-            <div id="everywhere" class="p-12 flex"></div>
+            <div id="everywhere" class="p-8 flex"></div>
        
-            </div>
             <h2 id="infotext" class="mx-auto py-10 text-2xl text-center"></h2>
             <div class="conatiner flex flex-col items-center">
                 <button id="bonusButton" class="btn btn-blue mx-6">
                     Click here to reveal a bonus
                 </button>
             </div>
+       
         </div>
 
         <footer class="flex mx-auto align-bottom 3xl bg-slate-600 min-w-full content-center">            

@@ -77,29 +77,8 @@ function setupGame(puzzleData) {
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
     const solver = new SidukoSolver(oSolution,(data) => {
-        document.getElementById("bonusButton").onclick = () => {            
-            const emptyCells = oGame.getData().cells.filter(c => c.value === 0);
-            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            const sourceCell = oSolution.getData().cell(randomCell.column,randomCell.row);
-            randomCell.value = sourceCell.value;
-            randomCell.element.innerHTML = sourceCell.value;
-            randomCell.setSolved();
-            randomCell.element.classList.add('aided');
-            randomCell.entered = true;
-
-            // Update tooltip hints
-            for (let row = 0; row< 9; row++) {
-                for (let col = 0; col < 9; col++) {
-                    const oCell = oGame.getData().cell(col, row);
-                    if (!(oCell.fixedValue || oCell.entered)) {
-                        const aPossibleValues = SidukoCellQueries.getPossibleValues(oGame.getData(), oCell);
-                        oCell.element.title = aPossibleValues.toString();                                
-                    } else {
-                        oCell.element.title = "";
-                    }
-                }
-                
-            }
+        document.getElementById("bonusButton").onclick = () => { 
+            SidokuBonuses.revealRandomValue(oGame, oSolution);
         }    
          
     })
