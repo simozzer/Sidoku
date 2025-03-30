@@ -8,14 +8,15 @@ function setInfoText(text) {
 }
 
 oPuzzleData = null;
+oPuzzle = null;
 
 function setupPuzzle(puzzleData) {
     setInfoText("Please wait: the puzzle is being solved...");
-    oPuzzleData = new SidukoPuzzleData();
+    oPuzzle = new SidukoPuzzle();
 
-    if (typeof(puzzleData) === "object" && puzzleData.length >0) {
-        oPuzzleData.setPuzzleStartData(puzzleData);
-    }
+    
+    oPuzzle.setPuzzleStartData(puzzleData);
+    
     const generator = new SidukoHtmlGenerator(oPuzzle);
     const tableDOM = generator.getPuzzleDOM();
     const puzzleElementHolder = document.getElementById("everywhere");
@@ -138,7 +139,7 @@ class SidukoPuzzle {
 
     setPuzzleStartData(aStartData) {
         aStartData.forEach((iValue, iIndex) => {
-            const oCell = this.data.cells[iIndex];
+            const oCell = this.getData().cells[iIndex];
             if (iValue > 0) {
                 oCell.value = iValue;
                 oCell.setFixedValue();

@@ -90,8 +90,7 @@ class SidukoEventsHandler {
                             const oCell = this.#puzzle.getData().cell(col, row);
                             if (!(oCell.fixedValue || oCell.entered)) {
                                 const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), oCell);
-                                oCell.element.title = aPossibleValues.toString();
-                                
+                                oCell.element.title = aPossibleValues.toString();                                
                             } else {
                                 oCell.element.title = "";
                             }

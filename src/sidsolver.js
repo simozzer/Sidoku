@@ -17,6 +17,8 @@ class SidukoSolver {
         this.#fnComplete = fnComplete;
     }
 
+    // TODO:: look for values with 1 possible cell.
+
 
     /**
      * Solves a group of cells in the Sudoku puzzle.
