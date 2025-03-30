@@ -306,22 +306,47 @@ class SidukoSolver {
         if (oSingleValueCells.length === 0) {
             return false;
         }
-        oSingleValueCells.forEach(oCell => {
-            const iValue = fnGetPossibleValues(oPuzzleData,oCell)[0];
-            if (iValue && fnCanSetValue(oPuzzleData,oCell, iValue)) {
-                oCell.value = iValue;
-                oCell.setSolved();
-                oCell.passIndex = this.#passIndex;            
-                if (this.#fast) {
-                    return true;
-                }
-                const oElem = oCell.element;
-                oElem.innerText = iValue;
-                oElem.title = '';
-                oElem.classList.add('solved');
+
+        let bEditedValue = oSingleValueCells.length > 0;
+      //  while (bEditedValue) {
+            bEditedValue = false;
+            oSingleValueCells.forEach(oCell => {
+                const iValue = fnGetPossibleValues(oPuzzleData,oCell)[0];
+                if (iValue && fnCanSetValue(oPuzzleData,oCell, iValue)) {
+                    bEditedValue = true;
+                    oCell.value = iValue;
+                    oCell.setSolved();
+                    oCell.passIndex = this.#passIndex;            
+                    if (this.#fast) {
+                        return true;
+                    }
+                    const oElem = oCell.element;
+                    oElem.innerText = iValue;
+                    oElem.title = '';
+                    oElem.classList.add('solved');
+                };
+            });
+      //  }
+       
+        
+        if (!bEditedValue) {
+            let fnGetCell = oPuzzleData.cellsInColumn.bind(oPuzzleData);
+            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
                 return true;
             }
-        });
+            /*
+            fnGetCell = oPuzzleData.cellsInRow.bind(oPuzzleData);
+            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
+                return true;
+            }
+            fnGetCell = oPuzzleData.cellsInInnerTable.bind(oPuzzleData);
+            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
+                return true;
+            }
+                */
+        }
+        //const aAllValueCells = this.#sortedPossibleValuesList;
+
         return false;
     }
 
