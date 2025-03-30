@@ -15,6 +15,8 @@
     --color-sky-200: oklch(0.901 0.058 230.902);
     --color-sky-300: oklch(0.828 0.111 230.318);
     --color-sky-500: oklch(0.685 0.169 237.323);
+    --color-blue-500: oklch(0.623 0.214 259.815);
+    --color-blue-700: oklch(0.488 0.243 264.376);
     --color-blue-800: oklch(0.424 0.199 265.638);
     --color-blue-950: oklch(0.282 0.091 267.935);
     --color-indigo-300: oklch(0.785 0.115 274.713);
@@ -23,6 +25,8 @@
     --color-slate-400: oklch(0.704 0.04 256.788);
     --color-slate-600: oklch(0.446 0.043 257.281);
     --color-slate-800: oklch(0.279 0.041 260.031);
+    --color-gray-300: oklch(0.872 0.01 258.338);
+    --color-gray-800: oklch(0.278 0.033 256.848);
     --color-white: #fff;
     --spacing: 0.25rem;
     --text-2xl: 1.5rem;
@@ -380,6 +384,12 @@ body {
   color: var(--color-blue-950);
   background-color: var(--color-green-200);
 }
+.sidukoTable table td.aided {
+  --tw-font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-light);
+  color: var(--color-gray-800);
+  background-color: var(--color-gray-300);
+}
 @keyframes puzzlesolvedCells {
   from {
     transform: rotate(0deg);
@@ -407,6 +417,20 @@ body {
 .sidukoTable.solved table td {
   animation-name: puzzlesolvedCells;
   animation-duration: 4s;
+}
+.btn {
+  border-radius: 0.25rem;
+  padding-inline: calc(var(--spacing) * 4);
+  padding-block: calc(var(--spacing) * 2);
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+.btn-blue {
+  background-color: var(--color-blue-500);
+  color: var(--color-white);
+}
+.btn-blue:hover {
+  background-color: var(--color-blue-700);
 }
 @property --tw-border-style {
   syntax: "*";

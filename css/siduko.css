@@ -57,6 +57,12 @@ body {
     @apply bg-green-200;
 }
 
+.sidukoTable table td.aided {
+    @apply font-light;
+    @apply  text-gray-800;
+    @apply bg-gray-300;
+}
+
 @keyframes puzzlesolvedCells {
     from {
         transform: rotate(0deg);
@@ -92,3 +98,13 @@ body {
     animation-duration: 4s;
 }
 
+
+.btn {
+    @apply font-bold py-2 px-4 rounded;
+}
+.btn-blue {
+    @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+    @apply bg-blue-700;
+}

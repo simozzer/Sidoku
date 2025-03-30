@@ -77,7 +77,17 @@ function setupGame(puzzleData) {
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
     const solver = new SidukoSolver(oSolution,(data) => {
-        debugger
+        document.getElementById("bonusButton").onclick = () => {            
+            const emptyCells = oGame.getData().cells.filter(c => c.value === 0);
+            const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            const sourceCell = oSolution.getData().cell(randomCell.column,randomCell.row);
+            randomCell.value = sourceCell.value;
+            randomCell.element.innerHTML = sourceCell.value;
+            randomCell.setSolved();
+            randomCell.element.classList.add('aided');
+
+        }
+         
     })
     solver.execute();
     
