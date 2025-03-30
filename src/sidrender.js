@@ -62,4 +62,22 @@ class SidukoHtmlGenerator {
         oCellData.element = oInnerCell;        
         return oInnerCell;
     }
+
+    static updateCellHints(oPuzzle) {
+        const oTable = document.querySelector('.sidukoTable');
+        const oCells = Array.from(oTable.querySelectorAll('td'));
+        // Update tooltip hints
+        for (let row = 0; row< 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                const oCell = oPuzzle.getData().cell(col, row);
+                if (!(oCell.fixedValue || oCell.entered)) {
+                    const aPossibleValues = SidukoCellQueries.getPossibleValues(oPuzzle.getData(), oCell);
+                    oCell.element.title = aPossibleValues.toString();                                
+                } else {
+                    oCell.element.title = "";
+                }
+            }
+            
+        }
+    }
 }

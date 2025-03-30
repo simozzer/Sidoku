@@ -78,7 +78,11 @@ function setupGame(puzzleData) {
     setGameStartData(oSolution, puzzleData);
     const solver = new SidukoSolver(oSolution,(data) => {
         document.getElementById("bonusButton").onclick = () => { 
-            SidokuBonuses.revealRandomValue(oGame, oSolution);
+           // SidokuBonuses.revealRandomValue(oGame, oSolution);
+           // SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
+           //SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
+           //SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
+           SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
         }    
          
     })

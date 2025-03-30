@@ -59,8 +59,7 @@ class SidukoEventsHandler {
                     oCellData.value = null;
                     oCellData.element.innerText = '';                    
                     oCellData.element.classList.remove('entered');
-                    const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), oCellData);
-                    oCellData.element.title = aPossibleValues.toString();
+                    SidukoHtmlGenerator.updateCellHints(this.#puzzle);
                 }
                 break;
         }
@@ -84,19 +83,7 @@ class SidukoEventsHandler {
                     oEventTarget.classList.add('entered');                       
                     oEventTarget.title = "";                    
 
-                    // Update tooltip hints
-                    for (let row = 0; row< 9; row++) {
-                        for (let col = 0; col < 9; col++) {
-                            const oCell = this.#puzzle.getData().cell(col, row);
-                            if (!(oCell.fixedValue || oCell.entered)) {
-                                const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), oCell);
-                                oCell.element.title = aPossibleValues.toString();                                
-                            } else {
-                                oCell.element.title = "";
-                            }
-                          
-                        }
-                    }
+                    SidukoHtmlGenerator.updateCellHints(this.#puzzle);                    
                            
                 }
             }
