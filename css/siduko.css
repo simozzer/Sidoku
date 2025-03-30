@@ -157,6 +157,9 @@
 		opacity: 1;
 	}
 }
+.hidden {
+    display: none
+}
 /*End Animations*/
 /*
 -- Start BackGround Animation 

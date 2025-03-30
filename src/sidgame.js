@@ -77,22 +77,52 @@ function setupGame(puzzleData) {
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
     const solver = new SidukoSolver(oSolution,(data) => {
-        document.getElementById("bonusButton").onclick = () => { 
-           // SidokuBonuses.revealRandomValue(oGame, oSolution);
-           // SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
-           //SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
-           //SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
-           //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
-           SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
-        }    
-         
-    })
+        const btn = document.getElementById("bonusButton")
+        btn.style.display = "inline";
+        btn.onclick = () => { 
+            let iRand = Math.floor(Math.random() * 5);
+            if (iRand === 3) {
+                console.log(`Bonus button clicked: ${iRand}`);
+                iRand = Math.floor(Math.random() * 6);
+                switch (iRand) {
+                    case 0:
+                        window.alert("Revealing a random cells");
+                        SidokuBonuses.revealRandomValue(oGame, oSolution);
+                        break;
+                    case 1:
+                        window.alert("Revealing cells from a random row");
+                        SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
+                        break;
+                    case 2:
+                        window.alert("Revealing cells from a random column");
+                        SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution);
+                        break;
+                    case 3:
+                        window.alert("Revealing cells from a random inner table");
+                        SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
+                        break;
+                    case 4:
+                        window.alert("Revealing cells which only have 1 possible value");
+                        SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
+                        break;
+                    case 5:
+                        window.alert("Revealing cells with a oommon random value");
+                        SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
+                        break;
+                    default:
+                        console.log("Invalid bonus button click");
+                        break;
+                }
+            } else {
+                window.alert("No bonus this time!");
+            }
+        };   
+    });
     solver.execute();
     
     // check that the puzzle is valid
    // const solver = new SidukoSolver(oGame, doPuzzleSolved);
    //     solver.execute();    
     
-    const eventHandler = new SidukoEventsHandler(oGame, tableDOM);
-    
+    const eventHandler = new SidukoEventsHandler(oGame, tableDOM);   
 }

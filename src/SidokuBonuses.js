@@ -30,7 +30,7 @@ class SidokuBonuses {
         for (let iIndex = 0; iIndex < 9; iIndex++) {
             const sourceCell = puzzleSolution.getData().cell(iIndex,randomRow);
             const targetCell = oPuzzle.getData().cell(iIndex, randomRow);
-            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), oTargetCell, sourceCell.value)) {
+            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, sourceCell.value)) {
                 targetCell.value = sourceCell.value;                
                 targetCell.element.innerHTML = sourceCell.value;
                 targetCell.setSolved();
@@ -54,7 +54,7 @@ class SidokuBonuses {
         for (let iIndex = 0; iIndex < 9; iIndex++) {
             const sourceCell = puzzleSolution.getData().cell(randomColumnn,iIndex);
             const targetCell = oPuzzle.getData().cell(randomColumnn, iIndex);
-            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), oTargetCell, sourceCell.value)) {
+            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, sourceCell.value)) {
                 targetCell.value = sourceCell.value;                
                 targetCell.element.innerHTML = sourceCell.value;
                 targetCell.setSolved();
@@ -101,7 +101,7 @@ class SidokuBonuses {
 
         aSourceCells.forEach(oSourceCell => {
             const targetCell = oPuzzle.getData().cell(oSourceCell.column, oSourceCell.row);
-            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), oTargetCell, randomValue)){
+            if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, randomValue)){
                 targetCell.value = oSourceCell.value;                
                 targetCell.element.innerHTML = oSourceCell.value;
                 targetCell.setSolved();

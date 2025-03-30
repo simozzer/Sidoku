@@ -82,18 +82,9 @@ class SidukoCellQueries {
                         oCell.value = digit;
                         oCell.setSolved();                        
                         oCell.passIndex = passIndex;
-                        cellStack.push(oCell);
-                    
-                        
-                        /*
-                        const oElem = oCell.element;         
-                        oElem.innerHTML = oCell.value;
-                        oElem.classList.add('suggested');
-                        */
-                        
-                                            
+                        cellStack.push(oCell);                                                            
                     }
-                },this);
+                });
             }
             if (bUpdated) {
                 break;                                
