@@ -57,7 +57,7 @@ setGameStartData = (oGame, aStartData) =>{
 
 oGame = null;
 puzzleData = null;
-
+oSolution = null;
 function setupGame(puzzleData) {
 
     //setInfoText("Please wait: the puzzle is being solved...");
@@ -73,6 +73,13 @@ function setupGame(puzzleData) {
     const puzzleElementHolder = document.getElementById("everywhere");    
     puzzleElementHolder.textContent = "";
     puzzleElementHolder.appendChild(tableDOM);
+
+    oSolution = new SidukoPuzzle();
+    setGameStartData(oSolution, puzzleData);
+    const solver = new SidukoSolver(oSolution,(data) => {
+        debugger
+    })
+    solver.execute();
     
     // check that the puzzle is valid
    // const solver = new SidukoSolver(oGame, doPuzzleSolved);

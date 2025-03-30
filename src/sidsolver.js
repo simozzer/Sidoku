@@ -50,14 +50,17 @@ class SidukoSolver {
                         if (this.#fast) {
                             return true;
                         }
+                        /*
                         const oElem = oCellToAdjust.element;
                         oElem.innerText = possibleValue;
                         oElem.title = '';
                         oElem.classList.add('solved');
+
+                        */
+                       return true;
                     }
                 }
             }
-
         } while (stepProducedProgress);
         return stepProducedProgress;
     }
@@ -203,6 +206,7 @@ class SidukoSolver {
         }
 
         const duration = new Date().getTime() - startTime;
+        /*
         oCells.forEach(oCell => {
             if (!oCell.fixedValue) {
                 const oElem = oCell.element;
@@ -210,7 +214,7 @@ class SidukoSolver {
                 oElem.classList.add('solved');
             }
         });
-
+        */
         document.querySelector('#everywhere table').classList.add('solved');
         if (typeof(this.#fnComplete) === "function") {
             this.#fnComplete(`Done: 'doExecute' was called ${iExecutionCount} times and took ${duration} ms.`);
@@ -281,11 +285,33 @@ class SidukoSolver {
             this.#stack.push(oSolveCell);
             this.doSimpleSolve();
             if (this.#fast) return true;  
+            /*
             const oElem = oSolveCell.element;         
             oElem.innerHTML = oSolveCell.value;
             oElem.classList.add('suggested');
+            */
             return true;
-        } 
+        } else {
+           // debugger;
+//
+         //   let fnGetCell = oPuzzleData.cellsInColumn.bind(oPuzzleData);
+        //    if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
+        //        return true;
+        //    }
+                    
+   
+            /*
+            fnGetCell = oPuzzleData.cellsInRow.bind(oPuzzleData);
+            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
+                return true;
+            }
+            fnGetCell = oPuzzleData.cellsInInnerTable.bind(oPuzzleData);
+            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
+                return true;
+            }
+                */
+     
+        }
         return false;        
     }
 
@@ -308,7 +334,7 @@ class SidukoSolver {
         }
 
         let bEditedValue = oSingleValueCells.length > 0;
-      //  while (bEditedValue) {
+        while (bEditedValue) {
             bEditedValue = false;
             oSingleValueCells.forEach(oCell => {
                 const iValue = fnGetPossibleValues(oPuzzleData,oCell)[0];
@@ -320,34 +346,19 @@ class SidukoSolver {
                     if (this.#fast) {
                         return true;
                     }
+                    /*
                     const oElem = oCell.element;
                     oElem.innerText = iValue;
                     oElem.title = '';
                     oElem.classList.add('solved');
+                    */
                 };
             });
-      //  }
-       
-        
-        if (!bEditedValue) {
-            let fnGetCell = oPuzzleData.cellsInColumn.bind(oPuzzleData);
-            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
-                return true;
-            }
-            /*
-            fnGetCell = oPuzzleData.cellsInRow.bind(oPuzzleData);
-            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
-                return true;
-            }
-            fnGetCell = oPuzzleData.cellsInInnerTable.bind(oPuzzleData);
-            if (SidukoCellQueries.getValuesWhichOccurInASingleCell(oPuzzleData, fnGetCell, this.#passIndex, this.#stack)) {
-                return true;
-            }
-                */
         }
-        //const aAllValueCells = this.#sortedPossibleValuesList;
+       
+    
 
-        return false;
+        return bEditedValue;
     }
 
 

@@ -68,46 +68,38 @@ class SidukoCellQueries {
         let bUpdated = false;
         
         for (let iColIndex = 0; iColIndex < 9; iColIndex++  ) {
-                   
-            bUpdated = false;
+            if (bUpdated) break;                   
             const cellsToCheck = fnGetCellItem(iColIndex);
-
             const filteredCells = cellsToCheck.filter(cell => cell.value <= 0);
             
-            for (let digit = 1; digit <10; digit++) {                    
-              
-                filteredCells.forEach(oCell => {
-                    if (bUpdated) {
-                        return true;
-                    }
-                    const aPossibleCellValues = this.getPossibleValues(oSudkoData, oCell).filter(i => i === digit);
-                    if (aPossibleCellValues && aPossibleCellValues.length === 1) {        
-                        
-                        oCell.choiceIndex = 9;
-                        oCell.value = digit
-                        oCell.suggested = true;
-                        oCell.setSolved();
+            for (let digit = 1; digit <10; digit++) {                                  
+                filteredCells.forEach(oCell => {            
+                    const aPossibleCellValues = this.getPossibleValues(oSudkoData, oCell)
+                    const singleChanceCells = aPossibleCellValues.filter(i => i === digit);
+                    if (singleChanceCells && singleChanceCells.length === 1) {        
+                        bUpdated = true; 
+                        oCell.choiceIndex = aPossibleCellValues.indexOf(digit);
+                        oCell.value = digit;
+                        oCell.setSolved();                        
                         oCell.passIndex = passIndex;
                         cellStack.push(oCell);
-                       
+                    
+                        
                         /*
                         const oElem = oCell.element;         
                         oElem.innerHTML = oCell.value;
                         oElem.classList.add('suggested');
                         */
-                       digit = 10;
-                       iColIndex = 10;
-                       bUpdated = true;
-                        return true;                        
+                        
+                                            
                     }
-                    
-                }, this);                   
-                if (!bUpdated) {
-                    return false
-                }
-            }                        
-        }
-        return bUpdated;
+                },this);
+            }
+            if (bUpdated) {
+                break;                                
+            }
+        }           
+        return bUpdated;                                    
     }
-
 }
+

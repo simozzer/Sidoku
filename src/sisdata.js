@@ -146,9 +146,11 @@ class SidukoCell {
         this.#value = 0;
         this.#valueState = undefined;
         if (!bFast) {
+            /*
             this.element.innerHTML = '';
             this.element.classList.remove('suggested');
             this.element.classList.remove('solved');
+            */
         }
     }
 }
