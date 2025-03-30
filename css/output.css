@@ -1,4 +1,4 @@
-/*! tailwindcss v4.0.15 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.17 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
@@ -380,7 +380,7 @@ body {
   color: var(--color-blue-950);
   background-color: var(--color-green-200);
 }
-@keyframes puzzlesolved {
+@keyframes puzzlesolvedCells {
   from {
     transform: rotate(0deg);
     height: 600px;
@@ -396,8 +396,16 @@ body {
     border-radius: 3px;
   }
 }
+@keyframes puzzlesolvedTable {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-720deg);
+  }
+}
 .sidukoTable.solved table td {
-  animation-name: puzzlesolved;
+  animation-name: puzzlesolvedCells;
   animation-duration: 4s;
 }
 @property --tw-border-style {

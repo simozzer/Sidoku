@@ -54,11 +54,13 @@ class SidukoEventsHandler {
             case 'Digit0':
                 const oElem = this.#tableDomElement.querySelector(`td[data-column="${column}"][data-row="${row}"]`);
                 if (oElem.classList.contains('entered')) {
-                    const oCellData = this.#puzzle.data.cell(column, row);
+                    const oCellData = this.#puzzle.getData().cell(column, row);
                     oCellData.entered = false;
                     oCellData.value = null;
-                    oElem.innerText = '';
-                    oElem.classList.remove('entered');
+                    oCellData.element.innerText = '';                    
+                    oCellData.element.classList.remove('entered');
+                    const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), oCellData);
+                    oCellData.element.title = aPossibleValues.toString();
                 }
                 break;
         }
@@ -68,17 +70,35 @@ class SidukoEventsHandler {
     _onKeyPress(oEvent) {
         const oEventTarget = oEvent.target;
         const iValue = parseInt(oEvent.key, 10);
+
         if ((oEventTarget.nodeName === "TD") && ([1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(iValue) >= 0)) {
             if (!oEventTarget.classList.contains('fixedval')) {
                 const column = 0 | oEventTarget.dataset.column;
-                const row = 0 | oEventTarget.dataset.row;
-                console.log(`KeyPress: col: ${column}, row: ${row}`);
-                const oCellData = this.#puzzle.data.cell(column, row);
-                if (SidukoCellQueries.getPossibleValues(this.#puzzle.data,oCellData).indexOf(iValue) >= 0) {
-                    oCellData.value = iValue;
-                    oCellData.entered = true;
+                const row = 0 | oEventTarget.dataset.row;                               
+                const oCellData = this.#puzzle.getData().cell(column,row);
+                    
+                if (SidukoCellQueries.getPossibleValues(this.#puzzle.getData(),oCellData).indexOf(iValue) >= 0) {
+                    oCellData.value = iValue || 0;
+                    oCellData.entered = true;                    
                     oEventTarget.innerText = oEvent.key;
-                    oEventTarget.classList.add('entered');
+                    oEventTarget.classList.add('entered');                       
+                    oEventTarget.title = "";                    
+
+                    // Update tooltip hints
+                    for (let row = 0; row< 9; row++) {
+                        for (let col = 0; col < 9; col++) {
+                            const oCell = this.#puzzle.getData().cell(col, row);
+                            if (!(oCell.fixedValue || oCell.entered)) {
+                                const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), oCell);
+                                oCell.element.title = aPossibleValues.toString();
+                                
+                            } else {
+                                oCell.element.title = "";
+                            }
+                          
+                        }
+                    }
+                           
                 }
             }
         }

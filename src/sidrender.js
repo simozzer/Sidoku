@@ -41,7 +41,7 @@ class SidukoHtmlGenerator {
     }
 
     getCellDOM(iColumn, iRow) {
-        const oCellData = this.#sidokuPuzzle.data.cell(iColumn, iRow);
+        const oCellData = this.#sidokuPuzzle.getData().cell(iColumn, iRow);
         const iCellValue = oCellData.value;
         const oInnerCell = document.createElement('td');
 
@@ -51,7 +51,7 @@ class SidukoHtmlGenerator {
                 oInnerCell.classList.add('fixedval');
             }
         } else {
-            oInnerCell.title = SidukoCellQueries.getPossibleValues(this.#sidokuPuzzle.data,oCellData).toString();
+            oInnerCell.title = SidukoCellQueries.getPossibleValues(this.#sidokuPuzzle.getData(),oCellData).toString();
         }
         oInnerCell.tabIndex = 0;
 

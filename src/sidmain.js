@@ -7,13 +7,14 @@ function setInfoText(text) {
     document.getElementById("infotext").textContent = text;
 }
 
-oPuzzle = null;
+oPuzzleData = null;
 
 function setupPuzzle(puzzleData) {
     setInfoText("Please wait: the puzzle is being solved...");
-    oPuzzle = new SidukoPuzzle();
+    oPuzzleData = new SidukoPuzzleData();
+
     if (typeof(puzzleData) === "object" && puzzleData.length >0) {
-        oPuzzle.setPuzzleStartData(puzzleData);
+        oPuzzleData.setPuzzleStartData(puzzleData);
     }
     const generator = new SidukoHtmlGenerator(oPuzzle);
     const tableDOM = generator.getPuzzleDOM();
@@ -44,11 +45,11 @@ doSolvePressed = (oEv) => {
       console.log("worker.onmessage: ", oEv.data);     
       worker.postMessage("close");
     };
-    worker.postMessage({ puzzle: oPuzzle.data });
+    worker.postMessage({ puzzle: oPuzzle.getData() });
     */
 
 
-    const startValues = oPuzzle.data.cells.map(o => o.value);
+    const startValues = oPuzzle.getData().cells.map(o => o.value);
     setupPuzzle(startValues);
     oEv.stopPropagation();
 }
@@ -122,14 +123,15 @@ class SidukoPuzzle {
     #rowCells = [];
     #columnCells = [];
     #innerTableCells = [];
+    #data = new SidukoPuzzleData();
     constructor() {
-        this.data = new SidukoPuzzleData();
+        this.#data = new SidukoPuzzleData();
 
         // Optimisation. Build a collection of the cells in each column, row and inner table
         for (let i = 0; i < 9; i++) {
-            this.#rowCells[i] = this.data.cells.filter(oCell => oCell.row === i);
-            this.#columnCells[i] = this.data.cells.filter(oCell => oCell.column === i);
-            this.#innerTableCells[i] = this.data.cells.filter(oCell => oCell.innerTableIndex === i);
+            this.#rowCells[i] = this.#data.cells.filter(oCell => oCell.row === i);
+            this.#columnCells[i] = this.#data.cells.filter(oCell => oCell.column === i);
+            this.#innerTableCells[i] = this.#data.cells.filter(oCell => oCell.innerTableIndex === i);
         }
     }
 
@@ -142,5 +144,9 @@ class SidukoPuzzle {
                 oCell.setFixedValue();
             }
         });
+    }
+
+    getData() {
+        return this.#data
     }
 }

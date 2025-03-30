@@ -57,7 +57,7 @@ body {
     @apply bg-green-200;
 }
 
-@keyframes puzzlesolved {
+@keyframes puzzlesolvedCells {
     from {
         transform: rotate(0deg);
         height: 600px;
@@ -76,9 +76,19 @@ body {
     }
 }
 
+@keyframes puzzlesolvedTable {
+    from {
+        transform: rotate(0deg);    
+    }
+
+    to {
+        transform: rotate(-720deg);
+    }
+}
+
 
 .sidukoTable.solved table td {
-    animation-name: puzzlesolved;
+    animation-name: puzzlesolvedCells;
     animation-duration: 4s;
 }
 

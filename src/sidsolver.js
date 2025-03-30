@@ -10,9 +10,9 @@ class SidukoSolver {
     constructor(oPuzzle, fnComplete) {
         this.#fast = document.getElementById("chk_fast")?.checked;        
         this.#oPuzzle = oPuzzle;
-        this.oPuzzleData = this.#oPuzzle.data;       
-        this.cells = [...this.#oPuzzle.data.cells];        
-        const emptyCells = this.#oPuzzle.data.cells.filter(oCell => oCell.value < 1);        
+        this.oPuzzleData = this.#oPuzzle.getData();       
+        this.cells = [...this.#oPuzzle.getData().cells];        
+        const emptyCells = this.#oPuzzle.getData().cells.filter(oCell => oCell.value < 1);        
         this.#sortedPossibleValuesList = emptyCells.sort((b, a) => SidukoCellQueries.getPossibleValues(this.oPuzzleData,a).length - SidukoCellQueries.getPossibleValues(this.oPuzzleData,b).length);
         this.#fnComplete = fnComplete;
     }
@@ -30,7 +30,7 @@ class SidukoSolver {
     solveCells(aCellsToSolve) {
 
         let stepProducedProgress;
-        const oPuzzleData = this.#oPuzzle.data;
+        const oPuzzleData = this.#oPuzzle.getData();
         const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
         do {
             stepProducedProgress = false;
@@ -185,7 +185,7 @@ class SidukoSolver {
         this.#passIndex = 1;
         let iExecutionCount = 0;
         const startTime = new Date().getTime();
-        const oCells = this.#oPuzzle.data.cells;
+        const oCells = this.#oPuzzle.getData().cells;
 
         if (this.#fast) {
             do {
@@ -233,7 +233,7 @@ class SidukoSolver {
         })
         oLastUpdatedCell.choiceIndex++;
         oLastUpdatedCell.reset(this.#fast);
-        const oPuzzleData = this.#oPuzzle.data;
+        const oPuzzleData = this.#oPuzzle.getData();
         if (!SidukoCellQueries.canSetACellValue(oPuzzleData,oLastUpdatedCell)) {
             oLastUpdatedCell.choiceIndex = 0;
             const oPrevCell = this.#stack[this.#stack.length - 1];
@@ -297,7 +297,7 @@ class SidukoSolver {
      *                    false if no cells were updated or if there are no cells with only one possible value.
      */
     applyCellsWithOnePossibleValue() {
-        const oPuzzleData = this.#oPuzzle.data;
+        const oPuzzleData = this.#oPuzzle.getData();
         const oSingleValueCells = this.#sortedPossibleValuesList.filter(oCell => oCell.value < 1 && SidukoCellQueries.getPossibleValues(oPuzzleData,oCell).length === 1);
         const fnGetPossibleValues = SidukoCellQueries.getPossibleValues;
         const fnCanSetValue = SidukoCellQueries.canSetValue;

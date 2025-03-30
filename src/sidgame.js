@@ -43,11 +43,11 @@ doMenuChanged = (oEv) => {
     }
 }
 
-setGameStartData = (aStartData) =>{
+setGameStartData = (oGame, aStartData) =>{
 
     for (let i = 0; i < aStartData.length; i++) {
         let iValue = parseInt(aStartData[i],10);
-        const oCell = this.data.cells[i];
+        const oCell = oGame.getData().cells[i];
         if (iValue > 0) {
             oCell.value = iValue;
             oCell.setFixedValue();
@@ -56,35 +56,28 @@ setGameStartData = (aStartData) =>{
 }
 
 oGame = null;
+puzzleData = null;
 
 function setupGame(puzzleData) {
 
-    const aPuzzleDataSlices = [];
-    for (let i=0; i < puzzleData.length; i+=3) {
-        aPuzzleDataSlices.push(puzzleData.slice(i, i+3));
-    }
-    let sRejiggedPuzzleData = "";
-    for (let r=0; r<9;r++) {
-        sRejiggedPuzzleData += aPuzzleDataSlices[r] + aPuzzleDataSlices[r+3] + aPuzzleDataSlices[r+6]; //
-        console.log(`${r},${r+3},${r+6}`);
-    }
-    
     //setInfoText("Please wait: the puzzle is being solved...");
     oGame = new SidukoPuzzle();
     //if (typeof(puzzleData) === "object" && puzzleData.length >0) {
-        oGame.setPuzzleStartData(Array.from(puzzleData).slice(0, puzzleData.length));
+        //oGame.setPuzzleStartData(Array.from(puzzleData).slice(0, puzzleData.length));
+        setGameStartData(oGame, puzzleData);
     //}
+
+    // Todo:: update hints
     const generator = new SidukoHtmlGenerator(oGame);
     const tableDOM = generator.getPuzzleDOM();
-    const puzzleElementHolder = document.getElementById("everywhere");
+    const puzzleElementHolder = document.getElementById("everywhere");    
     puzzleElementHolder.textContent = "";
     puzzleElementHolder.appendChild(tableDOM);
-
-    /*
+    
     // check that the puzzle is valid
-    const solver = new SidukoSolver(oGame, doPuzzleSolved);
-        solver.execute();    
-    */
-    const eventHandler = new SidukoEventsHandler(Array.from(puzzleData).slice(0, puzzleData.length), tableDOM);
+   // const solver = new SidukoSolver(oGame, doPuzzleSolved);
+   //     solver.execute();    
+    
+    const eventHandler = new SidukoEventsHandler(oGame, tableDOM);
     
 }
