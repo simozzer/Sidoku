@@ -7,11 +7,17 @@
     background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
     */
+#everywhere {
+    opacity: 84%;
+}
 
 .sidukoTable table {
     @apply border-white;
     @apply border-10;
     @apply bg-slate-800;
+	min-width: 400px;
+	min-height: 400px;
+	
 }
 
 .sidukoTable .cell {
@@ -66,6 +72,7 @@
 
 #rightPanel {
     width: 400px;
+    height: 600px;
     background-color: black;
     padding: 30px;
     margin: 18px;
@@ -73,23 +80,53 @@
     opacity: 0.6;
     border: 6px lightblue solid;
     border-radius: 20px;
+    overflow-y: scroll;
 }
 
+#leftPanel {
+    width: 400px;
+    height: 600px;
+    background-color: rgb(104, 50, 50);
+    padding: 4px;
+    margin: 18px;
+    color: rgb(26, 28, 26);
+    opacity: 0.6;
+    border: 6px rgb(154, 175, 183) solid;
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+.fillVert {
+    height : 100%;
+    margin: 4px;
+    border: 2px solid black;
+    padding: 4px;
+    border-radius: 3px;
+}
 
 @keyframes fadeLogMessage   {
     from {
-        color: lightgreen;        
-        background-color: cadetblue;
+        color: lightgreen;                
     }
     to {
-        color: black;
-        background-color: black;
+        color: black;        
     }
     
 }
-#rightpanel ul .rightPanelLogMessage {
+.rightPanelLogMessage {
     animation-name: fadeLogMessage;
     animation-duration: 5s;
+}
+
+.redError {
+    color: red;
+    font-style: italic;
+    font-weight: 600;
+}
+
+#bonusButton:disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }
 
 @keyframes puzzlesolvedCells {
@@ -123,7 +160,7 @@
 
 .sidukoTable.solved table td {
     animation-name: puzzlesolvedCells;
-    animation-duration: 4s;
+    animation-duration: 2s;
 }
 
 @keyframes puzzleGrantedCells {

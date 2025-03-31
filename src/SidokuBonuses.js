@@ -106,15 +106,15 @@ class SidokuBonuses {
         aSourceCells.forEach(oSourceCell => {
             const targetCell = oPuzzle.getData().cell(oSourceCell.column, oSourceCell.row);
             if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, randomValue)){
-                targetCell.value = oSourceCell.value;                
-                targetCell.element.innerHTML = oSourceCell.value;
+                targetCell.value = randomValue;                
+                targetCell.element.innerHTML = randomValue;
                 targetCell.setSolved();
                 targetCell.element.classList.add('aided');
                 targetCell.element.classList.add('granted');
                 targetCell.entered = true;
                 
             } else if (targetCell.value > 0) {
-                console.warn(`Could not reveal item with random value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${oSourceCell.value}`);
+                console.warn(`Could not reveal item with random value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${randomValue}`);
             }
         });  
         SidukoHtmlGenerator.updateCellHints(oPuzzle);        

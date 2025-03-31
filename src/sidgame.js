@@ -55,17 +55,41 @@ setGameStartData = (oGame, aStartData) =>{
     }
 }
 
-function logMessage(message) {
-    const el = document.createElement("li");
-    el.textContent = message;
-    document.getElementById("rightPanel").childNodes[0].appendChild(el);
-    el.className = "rightPanelLogMessage";
-    window.setTimeout(() => el.parentNode.removeChild(el), 10000);
+oMessageTimeout = null;
+function logMessage(message, className = "") {
+    if (!message) {
+        return;
+    }
+    const li = document.createElement("li");
+    li.textContent = message;
+    const ul = document.getElementById("rightPanel").childNodes[0];
+    ul.appendChild(li);
+    if (className) {
+        li.className = className;
+    }
+    ul.classList.add("rightPanelLogMessage");
+   
+
+    //if (oMessageTimeout) {
+        //clearTimeout(oMessageTimeout);
+        //oMessageTimeout = null;        
+    //};
+    if (!oMessageTimeout) {
+        oMessageTimeout = window.setInterval(() => {
+            let liIndex = ul.childNodes.length - 1;
+            while(liIndex > 15) {
+                ul.removeChild(ul.childNodes[0]);
+                liIndex--;
+            }
+            ul.classList.remove("rightPanelLogMessage");
+        },150,{li,ul});
+    }
 }
 
 oGame = null;
 puzzleData = null;
 oSolution = null;
+oButtonPressTimeout = null;
 function setupGame(puzzleData) {
 
     //setInfoText("Please wait: the puzzle is being solved...");
@@ -82,51 +106,72 @@ function setupGame(puzzleData) {
     puzzleElementHolder.textContent = "";
     puzzleElementHolder.appendChild(tableDOM);
 
+   
+
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
     const solver = new SidukoSolver(oSolution,(data) => {
-        const btn = document.getElementById("bonusButton")
+        const btn = document.getElementById("bonusButton");
+
         btn.style.display = "inline";
         btn.onclick = () => { 
-            let iRand = Math.floor(Math.random() * 5);
-            if (iRand >= 3) {
-                console.log(`Bonus button clicked: ${iRand}`);
-                iRand = Math.floor(Math.random() * 6);
-                switch (iRand) {
-                    case 0:
-                        logMessage("Revealing a random cells");
-                        SidokuBonuses.revealRandomValue(oGame, oSolution);
-                        break;
-                    case 1:
-                        logMessage("Revealing cells from a random row");
-                        SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
-                        break;
-                    case 2:
-                        logMessage("Revealing cells from a random column");
-                        SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution);
-                        break;
-                    case 3:
-                        logMessage("Revealing cells from a random inner table");
-                        SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
-                        break;
-                    case 4:
-                        logMessage("Revealing cells which only have 1 possible value");
-                        SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
-                        break;
-                    case 5:
-                        logMessage("Revealing cells with a oommon random value");
-                        SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
-                        break;
-                    default:
-                        logMessage("Invalid bonus button click");
-                        break;
+            btn.disabled = true;
+            try {
+        
+                let iRand = Math.floor(Math.random() * 5);
+                if (iRand >= 3) {
+                    console.log(`Bonus button clicked: ${iRand}`);
+                    iRand = Math.floor(Math.random() * 6);
+                    switch (iRand) {
+                        case 0:
+                            logMessage("😍 Revealing a random cell");
+                            SidokuBonuses.revealRandomValue(oGame, oSolution);
+                            break;
+                        case 1:
+                            logMessage("😀 Revealing cells from a random row");
+                            SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
+                            break;
+                        case 2:
+                            logMessage("🙌 Revealing cells from a random column");
+                            SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution);
+                            break;
+                        case 3:
+                            logMessage("💃 Revealing cells from a random inner table");
+                            SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
+                            break;
+                        case 4:
+                            logMessage("🤗 Revealing cells which only have 1 possible value");
+                            SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
+                            break;
+                        case 5:
+                            logMessage("🤟 Revealing cells with a oommon random value");
+                            SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
+                            break;
+                        default:
+                            logMessage("Invalid bonus button click");
+                            break;
+                    }
+                } else {
+                    logMessage("!!No bonus this time!!", "redError");
                 }
-            } else {
-                logMessage("!!No bonus this time!!");
+            } finally {
+                if (oButtonPressTimeout) {
+                    clearTimeout(oButtonPressTimeout);
+                    oButtonPressTimeout = null;
+                }
+                oButtonPressTimeout = setTimeout(() => {
+                    btn.disabled = false;
+                    clearTimeout(oButtonPressTimeout);
+                    oButtonPressTimeout = null;
+                }, 250,btn);
+                
             }
-        };   
+        };
     });
-    solver.execute();
+    
+    solver.execute().then(() => {
+        document.getElementById("bonusButton").disabled = false;
+    }, this);
     
     // check that the puzzle is valid
    // const solver = new SidukoSolver(oGame, doPuzzleSolved);
