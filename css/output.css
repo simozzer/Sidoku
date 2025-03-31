@@ -233,14 +233,8 @@
   .min-w-full {
     min-width: 100%;
   }
-  .flex-grow {
-    flex-grow: 1;
-  }
   .grow {
     flex-grow: 1;
-  }
-  .border-collapse {
-    border-collapse: collapse;
   }
   .border-separate {
     border-collapse: separate;
@@ -251,12 +245,6 @@
   .\[border-spacing\:1\.25rem\] {
     border-spacing: 1.25rem;
   }
-  .transform {
-    transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
-  }
-  .resize {
-    resize: both;
-  }
   .flex-col {
     flex-direction: column;
   }
@@ -265,10 +253,6 @@
   }
   .items-center {
     align-items: center;
-  }
-  .border {
-    border-style: var(--tw-border-style);
-    border-width: 1px;
   }
   .border-4 {
     border-style: var(--tw-border-style);
@@ -366,13 +350,6 @@
   .text-cyan-300 {
     color: var(--color-cyan-300);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
 }
 .sidukoTable table {
   border-color: var(--color-white);
@@ -428,6 +405,30 @@
   color: var(--color-gray-800);
   background-color: var(--color-gray-100);
 }
+#rightPanel {
+  width: 400px;
+  background-color: black;
+  padding: 30px;
+  margin: 18px;
+  color: green;
+  opacity: 0.6;
+  border: 6px lightblue solid;
+  border-radius: 20px;
+}
+@keyframes fadeLogMessage {
+  from {
+    color: lightgreen;
+    background-color: cadetblue;
+  }
+  to {
+    color: black;
+    background-color: black;
+  }
+}
+#rightpanel ul .rightPanelLogMessage {
+  animation-name: fadeLogMessage;
+  animation-duration: 5s;
+}
 @keyframes puzzlesolvedCells {
   from {
     transform: rotate(0deg);
@@ -454,6 +455,20 @@
 }
 .sidukoTable.solved table td {
   animation-name: puzzlesolvedCells;
+  animation-duration: 4s;
+}
+@keyframes puzzleGrantedCells {
+  from {
+    border: 8px solid red;
+    background-color: chartreuse;
+  }
+  to {
+    border: 1px solid white;
+    background-color: cornsilk;
+  }
+}
+.sidukoTable table td.aided.granted {
+  animation-name: puzzleGrantedCells;
   animation-duration: 4s;
 }
 .btn {
@@ -616,37 +631,7 @@
     border-radius: 50%;
   }
 }
-@property --tw-rotate-x {
-  syntax: "*";
-  inherits: false;
-  initial-value: rotateX(0);
-}
-@property --tw-rotate-y {
-  syntax: "*";
-  inherits: false;
-  initial-value: rotateY(0);
-}
-@property --tw-rotate-z {
-  syntax: "*";
-  inherits: false;
-  initial-value: rotateZ(0);
-}
-@property --tw-skew-x {
-  syntax: "*";
-  inherits: false;
-  initial-value: skewX(0);
-}
-@property --tw-skew-y {
-  syntax: "*";
-  inherits: false;
-  initial-value: skewY(0);
-}
 @property --tw-border-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
-@property --tw-outline-style {
   syntax: "*";
   inherits: false;
   initial-value: solid;

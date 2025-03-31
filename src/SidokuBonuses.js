@@ -12,6 +12,7 @@ class SidokuBonuses {
             randomCell.element.innerHTML = sourceCell.value;
             randomCell.setSolved();
             randomCell.element.classList.add('aided');
+            randomCell.element.classList.add('granted');
             randomCell.entered = true;
             SidukoHtmlGenerator.updateCellHints(oPuzzle);            
         } else if (randomCell.value > 0) {
@@ -35,6 +36,7 @@ class SidokuBonuses {
                 targetCell.element.innerHTML = sourceCell.value;
                 targetCell.setSolved();
                 targetCell.element.classList.add('aided');
+                targetCell.element.classList.add('granted');
                 targetCell.entered = true;
                 SidukoHtmlGenerator.updateCellHints(oPuzzle);    
             } else if (targetCell.value > 0) {
@@ -59,6 +61,7 @@ class SidokuBonuses {
                 targetCell.element.innerHTML = sourceCell.value;
                 targetCell.setSolved();
                 targetCell.element.classList.add('aided');
+                targetCell.element.classList.add('granted');
                 targetCell.entered = true;
                 SidukoHtmlGenerator.updateCellHints(oPuzzle);
             } else if (targetCell.value > 0) {
@@ -82,6 +85,7 @@ class SidokuBonuses {
                 targetCell.element.innerHTML = sourceCell.value;
                 targetCell.setSolved();
                 targetCell.element.classList.add('aided');
+                targetCell.element.classList.add('granted');
                 targetCell.entered = true;
                 SidukoHtmlGenerator.updateCellHints(oPuzzle);
             } else if (targetCell.value > 0) {
@@ -106,13 +110,14 @@ class SidokuBonuses {
                 targetCell.element.innerHTML = oSourceCell.value;
                 targetCell.setSolved();
                 targetCell.element.classList.add('aided');
+                targetCell.element.classList.add('granted');
                 targetCell.entered = true;
-                SidukoHtmlGenerator.updateCellHints(oPuzzle);
+                
             } else if (targetCell.value > 0) {
                 console.warn(`Could not reveal item with random value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${oSourceCell.value}`);
             }
-
-        });          
+        });  
+        SidukoHtmlGenerator.updateCellHints(oPuzzle);        
         
     }
 
@@ -131,6 +136,7 @@ class SidokuBonuses {
                     oTargetCell.element.innerHTML = oSourceCell.value;
                     oTargetCell.setSolved();
                     oTargetCell.element.classList.add('aided');
+                    oTargetCell.element.classList.add('granted');
                     oTargetCell.entered = true;
                 } else if (oTargetCell.value > 0) {
                     console.warn(`Could not reveal item which has only 1 target due to existing data. (${targetCell.column},${targetCell.row}) cannot be set to ${oSourceCell.value}`);

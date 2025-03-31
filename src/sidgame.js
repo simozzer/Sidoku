@@ -55,6 +55,14 @@ setGameStartData = (oGame, aStartData) =>{
     }
 }
 
+function logMessage(message) {
+    const el = document.createElement("li");
+    el.textContent = message;
+    document.getElementById("rightPanel").childNodes[0].appendChild(el);
+    el.className = "rightPanelLogMessage";
+    window.setTimeout(() => el.parentNode.removeChild(el), 10000);
+}
+
 oGame = null;
 puzzleData = null;
 oSolution = null;
@@ -81,40 +89,40 @@ function setupGame(puzzleData) {
         btn.style.display = "inline";
         btn.onclick = () => { 
             let iRand = Math.floor(Math.random() * 5);
-            if (iRand === 3) {
+            if (iRand >= 3) {
                 console.log(`Bonus button clicked: ${iRand}`);
                 iRand = Math.floor(Math.random() * 6);
                 switch (iRand) {
                     case 0:
-                        window.alert("Revealing a random cells");
+                        logMessage("Revealing a random cells");
                         SidokuBonuses.revealRandomValue(oGame, oSolution);
                         break;
                     case 1:
-                        window.alert("Revealing cells from a random row");
+                        logMessage("Revealing cells from a random row");
                         SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
                         break;
                     case 2:
-                        window.alert("Revealing cells from a random column");
+                        logMessage("Revealing cells from a random column");
                         SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution);
                         break;
                     case 3:
-                        window.alert("Revealing cells from a random inner table");
+                        logMessage("Revealing cells from a random inner table");
                         SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
                         break;
                     case 4:
-                        window.alert("Revealing cells which only have 1 possible value");
+                        logMessage("Revealing cells which only have 1 possible value");
                         SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
                         break;
                     case 5:
-                        window.alert("Revealing cells with a oommon random value");
+                        logMessage("Revealing cells with a oommon random value");
                         SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
                         break;
                     default:
-                        console.log("Invalid bonus button click");
+                        logMessage("Invalid bonus button click");
                         break;
                 }
             } else {
-                window.alert("No bonus this time!");
+                logMessage("!!No bonus this time!!");
             }
         };   
     });

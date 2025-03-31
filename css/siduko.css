@@ -64,6 +64,34 @@
     @apply bg-gray-100;
 }
 
+#rightPanel {
+    width: 400px;
+    background-color: black;
+    padding: 30px;
+    margin: 18px;
+    color: green;
+    opacity: 0.6;
+    border: 6px lightblue solid;
+    border-radius: 20px;
+}
+
+
+@keyframes fadeLogMessage   {
+    from {
+        color: lightgreen;        
+        background-color: cadetblue;
+    }
+    to {
+        color: black;
+        background-color: black;
+    }
+    
+}
+#rightpanel ul .rightPanelLogMessage {
+    animation-name: fadeLogMessage;
+    animation-duration: 5s;
+}
+
 @keyframes puzzlesolvedCells {
     from {
         transform: rotate(0deg);
@@ -79,7 +107,6 @@
         width: 40px;
         border: 1px solid red;
         border-radius: 3px;
-
     }
 }
 
@@ -99,6 +126,21 @@
     animation-duration: 4s;
 }
 
+@keyframes puzzleGrantedCells {
+    from {
+        border: 8px solid red;      
+        background-color: chartreuse;  
+    }
+    to {
+        border: 1px solid white;
+        background-color: cornsilk;
+    }
+}
+
+.sidukoTable table td.aided.granted {
+    animation-name: puzzleGrantedCells;
+    animation-duration: 4s;
+}
 
 .btn {
     @apply font-bold py-2 px-4 rounded;
