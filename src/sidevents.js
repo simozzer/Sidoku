@@ -15,8 +15,24 @@ class SidukoEventsHandler {
 
     detatchEvents() {
         this.#tableDomElement.removeEventListener('keydown', this._onKeyDown.bind(this));
-        this.#tableDomElement.addEventListener('keypress', this._onKeyPress.bind(this));
+        this.#tableDomElement.addEventListener('keypress', this._onKeyPress.bind(this));        
+    }
 
+    gameplayChangedHandler(state) {
+        if (state) {
+            if (state.column) {
+                logMessage(`***Column Filled***`);
+            }
+            if (state.row) {
+                logMessage(`***Row Filled***`);
+            }
+            if (state.innerTable) {
+                logMessage(`***Inner Table Filled***`);
+            }
+            if (state.board) {
+                window.alert('Well Done!');
+            }
+        }
     }
 
     _onKeyDown(oEvent) {
@@ -77,6 +93,8 @@ class SidukoEventsHandler {
                 const oCellData = this.#puzzle.getData().cell(column,row);
                     
                 if (SidukoCellQueries.getPossibleValues(this.#puzzle.getData(),oCellData).indexOf(iValue) >= 0) {
+                    const oStartFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);        
+
                     oCellData.value = iValue || 0;
                     oCellData.entered = true;                    
                     oEventTarget.innerText = oEvent.key;
@@ -84,7 +102,22 @@ class SidukoEventsHandler {
                     oEventTarget.title = "";                    
 
                     SidukoHtmlGenerator.updateCellHints(this.#puzzle);                    
-                           
+
+                    const oEndFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);    
+                    const oFullnessStateChanges = {};
+                    if (oStartFullnessState.column !== oEndFullnessState.column) {
+                        oFullnessStateChanges['column'] = true;
+                    } 
+                    if (oStartFullnessState.row !== oEndFullnessState.row) {
+                        oFullnessStateChanges['row'] = true;
+                    }
+                    if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
+                        oFullnessStateChanges['innerTable'] = true;
+                    }
+                    if (oStartFullnessState.board !== oEndFullnessState.board) {
+                        oFullnessStateChanges['board'] = true;
+                    }
+                    this.gameplayChangedHandler(oFullnessStateChanges);                             
                 }
             }
         }

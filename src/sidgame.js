@@ -86,6 +86,8 @@ function logMessage(message, className = "") {
     }
 }
 
+
+
 oGame = null;
 puzzleData = null;
 oSolution = null;
@@ -106,7 +108,27 @@ function setupGame(puzzleData) {
     puzzleElementHolder.textContent = "";
     puzzleElementHolder.appendChild(tableDOM);
 
-   
+    
+
+    const gameplayChangedHandler = function(state) {
+        if (state) {
+            if (state.column) {
+                logMessage(`***Column Filled***`);
+            }
+            if (state.row) {
+                logMessage(`***Row Filled***`);
+            }
+            if (state.innerTable) {
+                logMessage(`***Inner Table Filled***`);
+            }
+            if (state.board) {
+                logMessage(`***Board Filled***`);
+            }
+        }
+    };
+
+    const fnHandleGamplayChaned = gameplayChangedHandler.bind(oGame);
+    
 
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
@@ -121,31 +143,34 @@ function setupGame(puzzleData) {
                 let iRand = Math.floor(Math.random() * 5);
                 if (iRand >= 3) {
                     console.log(`Bonus button clicked: ${iRand}`);
+
+                    
+                    // Choose a random bonus
                     iRand = Math.floor(Math.random() * 6);
                     switch (iRand) {
                         case 0:
                             logMessage("😍 Revealing a random cell");
-                            SidokuBonuses.revealRandomValue(oGame, oSolution);
+                            SidokuBonuses.revealRandomValue(oGame, oSolution,fnHandleGamplayChaned);
                             break;
                         case 1:
                             logMessage("😀 Revealing cells from a random row");
-                            SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution);
+                            SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution, fnHandleGamplayChaned);
                             break;
                         case 2:
                             logMessage("🙌 Revealing cells from a random column");
-                            SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution);
+                            SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution, fnHandleGamplayChaned);
                             break;
                         case 3:
                             logMessage("💃 Revealing cells from a random inner table");
-                            SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution);
+                            SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution, fnHandleGamplayChaned);
                             break;
                         case 4:
                             logMessage("🤗 Revealing cells which only have 1 possible value");
-                            SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution);
+                            SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution, fnHandleGamplayChaned);
                             break;
                         case 5:
-                            logMessage("🤟 Revealing cells with a oommon random value");
-                            SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution);
+                            logMessage("🤟 Revealing cells with a common random value");
+                            SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution, fnHandleGamplayChaned);
                             break;
                         default:
                             logMessage("Invalid bonus button click");

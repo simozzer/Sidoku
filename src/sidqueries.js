@@ -92,5 +92,23 @@ class SidukoCellQueries {
         }           
         return bUpdated;                                    
     }
+
+    static getIsRowFull(oSidukoData, row) {
+        return oSidukoData.cellsInRow(row).every(cell => cell.value > 0);
+    }
+
+    static getColumnIsFull(oSidukoData, column) {
+        return oSidukoData.cellsInColumn(column).every(cell => cell.value > 0);
+    }
+
+    static getInnerTableIsFull(oSidukoData, innerTableIndex) {
+        return oSidukoData.cellsInInnerTable(innerTableIndex).every(cell => cell.value > 0);
+    }
+
+    static getFullnessState(oSidukoData, oCell) {    
+        return {row: this.getIsRowFull(oSidukoData, oCell.row), column:this.getColumnIsFull(oSidukoData, oCell.column), innerTableIndex:this.getInnerTableIsFull(oSidukoData, oCell.innerTableIndex), board:oSidukoData.cells.every(cell => cell.value > 0)};
+    }
+
+
 }
 
