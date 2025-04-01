@@ -32,7 +32,6 @@ class SidukoEventsHandler {
             }
             if (state.board) {
                 logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
-                window.alert('Well Done!');
             }
         }
     }

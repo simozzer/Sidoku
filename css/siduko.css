@@ -9,10 +9,12 @@
     */
 #everywhere {
     opacity: 70%;
+	@apply px-2;
 }
 table.sidukoTable {
-	max-width: 450px;
-	max-height: 450px;
+	max-width: 480px;
+	max-height: 480px;
+	margin-top: 30px;
 }
 
 .sidukoTable table {
@@ -27,6 +29,13 @@ table.sidukoTable {
 .sidukoTable .cell {
     @apply border-2;
     @apply align-middle;
+	animation: color_change 2s infinite alternate;
+}
+
+
+@keyframes color_change {
+	from { background-color: rgb(68, 68, 106); }
+	to { background-color: rgb(111, 142, 210); }
 }
 
 .sidukoTable table td {
@@ -78,8 +87,8 @@ table.sidukoTable {
     width: 400px;
     height: 620px;
     background-color: black;
-    padding: 30px;
-    margin: 18px;
+    margin-top:24px;
+	margin-left:2px;
     color: green;
     opacity: 0.6;
     border: 6px lightblue solid;
@@ -87,16 +96,48 @@ table.sidukoTable {
     overflow-y: scroll;
 }
 
+#messageList {
+	width: 100%;
+	height: 84%;
+	text-align: center;
+}
+
+#playerStatus {
+    border-radius: 30px;
+    height: 14%;
+    background-color: white;
+    border: 5px solid #238f28;
+    margin-left: 16px;
+	margin-right: 16px;
+    text-align: center;
+}
+
+#playerStatus h4 {
+	color: darkslategrey;
+	font-weight: 500;
+	clear: left;
+	display: inline;	
+}
+
+#playerStatus div {
+	clear: right;
+	display: inline;	
+	color:darkblue;
+	font-weight: 600;
+}
+
+
 #leftPanel {
     width: 400px;
     height: 620px;	
     background-color: rgb(77, 10, 10);
-    padding: 4px;
-    margin: 18px;
+    margin-top: 24px;
+	margin-right: 2px;
     color: rgb(221, 232, 232);
     opacity: 0.6;
     border: 6px rgb(154, 175, 183) solid;
-    border-radius: 20px;
+    border-radius: 20px;	
+	user-select: none;
 }
 
 .fillVert {
@@ -152,10 +193,18 @@ table.sidukoTable {
 }
 
 #rightPanel ul li.board_filled {
-	font-size: 1.8em;
+	font-size: 1.1em;
 	font-family: Impact;
 	color: white;
 	font-weight: 800;
+}
+
+#rightPanel ul li.randomChoiceStatus {
+	font-size: 1em;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	color: white;
+	font-weight: 500;
+	text-align: center;
 }
 
 #bonusButton:disabled {

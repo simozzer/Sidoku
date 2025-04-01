@@ -10,6 +10,7 @@ class SidokuBonuses {
         }
         const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         const sourceCell = puzzleSolution.getData().cell(randomCell.column,randomCell.row);     
+        logMessage(`Random Cell: ${randomCell.column}, ${randomCell.row}`, "randomChoiceStatus");
         if ((randomCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), randomCell, sourceCell.value)) {  
             const oStartFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), randomCell);                  
 
@@ -52,6 +53,7 @@ class SidokuBonuses {
             return;
         }
         const randomRow = Math.floor(Math.random() * 9);
+        logMessage(`Random Row: ${randomRow}`, "randomChoiceStatus");
         for (let iIndex = 0; iIndex < 9; iIndex++) {
             const sourceCell = puzzleSolution.getData().cell(iIndex,randomRow);
             const targetCell = oPuzzle.getData().cell(iIndex, randomRow);
@@ -97,6 +99,7 @@ class SidokuBonuses {
             return;
         }
         const randomColumnn = Math.floor(Math.random() * 9);
+        logMessage(`Random Column: ${randomColumnn}`, "randomChoiceStatus");
         for (let iIndex = 0; iIndex < 9; iIndex++) {
             const sourceCell = puzzleSolution.getData().cell(randomColumnn,iIndex);
             const targetCell = oPuzzle.getData().cell(randomColumnn, iIndex);
@@ -138,6 +141,7 @@ class SidokuBonuses {
             throw new Error('Invalid callback function');
         }      
         const randomInnerTableId = Math.floor(Math.random() * 9);
+        logMessage(`Random Square: ${randomInnerTableId}`, "randomChoiceStatus");
         const emptyCells = oPuzzle.getData().cells.filter(c => (c.value === 0) && (c.innerTableIndex == randomInnerTableId));
         if (emptyCells.length === 0) {             
             return;
@@ -185,6 +189,7 @@ class SidokuBonuses {
             return;
         }
         const randomValue = Math.floor(Math.random() * 9);
+        logMessage(`Cell Value: ${randomValue}`, "randomChoiceStatus");
         const aSourceCells = puzzleSolution.getData().cells.filter(c => c.value === randomValue);
 
         aSourceCells.forEach(oSourceCell => {

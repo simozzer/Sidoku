@@ -63,20 +63,28 @@ function logMessage(message, className = "") {
     }
     const li = document.createElement("li");
     li.textContent = message;
-    const ul = document.getElementById("rightPanel").childNodes[0];
+    const ul = document.getElementById("messageList");
     ul.appendChild(li);
+    li.scrollIntoView({behavior: "smooth", block: "end"});
     if (className !== "") {
         li.classList.add(className);
     }
 
    
-    if (!oMessageTimeout) {
+    if (oMessageTimeout) {
+        window.clearInterval(oMessageTimeout);
+        oMessageTimeout = null;
+    }
+    
+    if (ul.childNodes.length > 0) {
+        
+        
         oMessageTimeout = window.setInterval(() => {            
-            if (ul.childNodes.length > 1) {
+            if (ul.childNodes.length > 0) {
                 ul.removeChild(ul.childNodes[0]);
             }
 
-        },1000,{li,ul});
+        },2500 / ul.childNodes.length,{li,ul});
     }
 }
 
