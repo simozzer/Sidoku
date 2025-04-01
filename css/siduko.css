@@ -8,20 +8,20 @@
 }
     */
 #everywhere {
-    opacity: 84%;
+    opacity: 70%;
 }
 table.sidukoTable {
-	max-width: 500px;
-	max-height: 500px;
+	max-width: 450px;
+	max-height: 450px;
 }
 
 .sidukoTable table {
     @apply border-white;
     @apply border-10;
     @apply bg-slate-800;
-	min-width: 180px;
-	min-height: 180px;
-	
+	min-width: 120px;
+	min-height: 120px;
+	opacity: 70%;
 }
 
 .sidukoTable .cell {
@@ -89,7 +89,7 @@ table.sidukoTable {
 
 #leftPanel {
     width: 400px;
-    height: 620px;
+    height: 620px;	
     background-color: rgb(77, 10, 10);
     padding: 4px;
     margin: 18px;
@@ -97,15 +97,12 @@ table.sidukoTable {
     opacity: 0.6;
     border: 6px rgb(154, 175, 183) solid;
     border-radius: 20px;
-    overflow-y: scroll;
 }
 
 .fillVert {
     height : 100%;
     margin: 4px;
-    border: 2px solid black;
     padding: 4px;
-    border-radius: 3px;
 }
 
 @keyframes fadeLogMessage   {
