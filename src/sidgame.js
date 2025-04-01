@@ -76,15 +76,14 @@ function logMessage(message, className = "") {
         oMessageTimeout = null;
     }
     
-    if (ul.childNodes.length > 0) {
-        
-        
-        oMessageTimeout = window.setInterval(() => {            
+    if (ul.childNodes.length > 0) {            
+        oMessageTimeout = window.setInterval(() => {   
+            const ul = document.getElementById("messageList");         
             if (ul.childNodes.length > 0) {
                 ul.removeChild(ul.childNodes[0]);
             }
 
-        },2500 / ul.childNodes.length,{li,ul});
+        },3500 / ul.childNodes.length);
     }
 }
 

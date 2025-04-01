@@ -645,16 +645,18 @@ table.sidukoTable {
 @keyframes puzzleGrantedCells {
   from {
     border: 8px solid red;
+    padding: -8px;
     background-color: chartreuse;
   }
   to {
     border: 1px solid white;
+    padding: 0px;
     background-color: cornsilk;
   }
 }
 .sidukoTable table td.aided.granted {
   animation-name: puzzleGrantedCells;
-  animation-duration: 4s;
+  animation-duration: 1.3s;
 }
 .btn {
   border-radius: 0.25rem;

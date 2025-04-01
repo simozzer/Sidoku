@@ -188,7 +188,7 @@ class SidokuBonuses {
         if (emptyCells.length === 0) {             
             return;
         }
-        const randomValue = Math.floor(Math.random() * 9);
+        const randomValue = Math.floor(Math.random() * 8) + 1;
         logMessage(`Cell Value: ${randomValue}`, "randomChoiceStatus");
         const aSourceCells = puzzleSolution.getData().cells.filter(c => c.value === randomValue);
 
