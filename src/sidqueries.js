@@ -106,7 +106,12 @@ class SidukoCellQueries {
     }
 
     static getFullnessState(oSidukoData, oCell) {    
-        return {row: this.getIsRowFull(oSidukoData, oCell.row), column:this.getColumnIsFull(oSidukoData, oCell.column), innerTableIndex:this.getInnerTableIsFull(oSidukoData, oCell.innerTableIndex), board:oSidukoData.cells.every(cell => cell.value > 0)};
+        return {
+            row: this.getIsRowFull(oSidukoData, oCell.row), 
+            column: this.getColumnIsFull(oSidukoData, oCell.column), 
+            innerTableIndex:this.getInnerTableIsFull(oSidukoData, oCell.innerTableIndex), 
+            board:oSidukoData.cells.every(cell => cell.value > 0)
+        };
     }
 
 

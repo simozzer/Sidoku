@@ -63,9 +63,7 @@ class SidukoHtmlGenerator {
         return oInnerCell;
     }
 
-    static updateCellHints(oPuzzle) {
-        const oTable = document.querySelector('.sidukoTable');
-        const oCells = Array.from(oTable.querySelectorAll('td'));
+    static updateCellHints(oPuzzle) {        
         // Update tooltip hints
         for (let row = 0; row< 9; row++) {
             for (let col = 0; col < 9; col++) {

@@ -10,13 +10,17 @@
 #everywhere {
     opacity: 84%;
 }
+table.sidukoTable {
+	max-width: 500px;
+	max-height: 500px;
+}
 
 .sidukoTable table {
     @apply border-white;
     @apply border-10;
     @apply bg-slate-800;
-	min-width: 400px;
-	min-height: 400px;
+	min-width: 180px;
+	min-height: 180px;
 	
 }
 
@@ -26,8 +30,8 @@
 }
 
 .sidukoTable table td {
-    @apply w-12;
-    @apply h-12;
+    @apply w-10;
+    @apply h-10;
     @apply text-center;
     @apply text-slate-800;
     @apply text-2xl;
@@ -118,10 +122,43 @@
     animation-duration: 5s;
 }
 
-.redError {
+#rightPanel ul {
+	font-size: 1.3em;
+}
+
+#rightPanel ul li.redError {
     color: red;
     font-style: italic;
     font-weight: 600;
+	font-size:1.2em;
+}
+
+#rightPanel ul li.row_filled {
+	font-size: 1.4em;
+	color: bisque;
+	font-family: Georgia;
+	font-weight: 600;
+}
+
+#rightPanel ul li.column_filled {
+	font-size: 1.2em;
+	font-family: Times;
+	color: yellow;
+	font-weight: 600;
+}
+
+#rightPanel ul li.inner_table_filled {
+	font-size: 1em;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	color: goldenrod;
+	font-weight: 600;
+}
+
+#rightPanel ul li.board_filled {
+	font-size: 1.8em;
+	font-family: Impact;
+	color: white;
+	font-weight: 800;
 }
 
 #bonusButton:disabled {

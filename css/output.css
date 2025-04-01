@@ -7,7 +7,6 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-300: oklch(0.808 0.114 19.571);
-    --color-red-400: oklch(0.704 0.191 22.216);
     --color-red-700: oklch(0.505 0.213 27.518);
     --color-orange-200: oklch(0.901 0.076 70.697);
     --color-yellow-50: oklch(0.987 0.026 102.212);
@@ -228,9 +227,6 @@
   .table {
     display: table;
   }
-  .table-caption {
-    display: table-caption;
-  }
   .h-full {
     height: 100%;
   }
@@ -254,11 +250,11 @@
     --tw-border-spacing-y: calc(var(--spacing) * 4);
     border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
   }
+  .\[border-spacing\:0\.25rem\] {
+    border-spacing: 0.25rem;
+  }
   .\[border-spacing\:0\.75rem\] {
     border-spacing: 0.75rem;
-  }
-  .\[border-spacing\:1\.25rem\] {
-    border-spacing: 1.25rem;
   }
   .flex-col {
     flex-direction: column;
@@ -272,9 +268,9 @@
   .justify-center {
     justify-content: center;
   }
-  .border-4 {
+  .border-3 {
     border-style: var(--tw-border-style);
-    border-width: 4px;
+    border-width: 3px;
   }
   .border-black {
     border-color: var(--color-black);
@@ -374,9 +370,6 @@
   .text-cyan-300 {
     color: var(--color-cyan-300);
   }
-  .text-red-400 {
-    color: var(--color-red-400);
-  }
   .text-yellow-50 {
     color: var(--color-yellow-50);
   }
@@ -384,11 +377,17 @@
 #everywhere {
   opacity: 84%;
 }
+table.sidukoTable {
+  max-width: 500px;
+  max-height: 500px;
+}
 .sidukoTable table {
   border-color: var(--color-white);
   border-style: var(--tw-border-style);
   border-width: 10px;
   background-color: var(--color-slate-800);
+  min-width: 180px;
+  min-height: 180px;
 }
 .sidukoTable .cell {
   border-style: var(--tw-border-style);
@@ -396,8 +395,8 @@
   vertical-align: middle;
 }
 .sidukoTable table td {
-  width: calc(var(--spacing) * 12);
-  height: calc(var(--spacing) * 12);
+  width: calc(var(--spacing) * 10);
+  height: calc(var(--spacing) * 10);
   text-align: center;
   color: var(--color-slate-800);
   font-size: var(--text-2xl);
@@ -481,10 +480,38 @@
   animation-name: fadeLogMessage;
   animation-duration: 5s;
 }
-.redError {
+#rightPanel ul {
+  font-size: 1.3em;
+}
+#rightPanel ul li.redError {
   color: red;
   font-style: italic;
   font-weight: 600;
+  font-size: 1.2em;
+}
+#rightPanel ul li.row_filled {
+  font-size: 1.4em;
+  color: bisque;
+  font-family: Georgia;
+  font-weight: 600;
+}
+#rightPanel ul li.column_filled {
+  font-size: 1.2em;
+  font-family: Times;
+  color: yellow;
+  font-weight: 600;
+}
+#rightPanel ul li.inner_table_filled {
+  font-size: 1em;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: goldenrod;
+  font-weight: 600;
+}
+#rightPanel ul li.board_filled {
+  font-size: 1.8em;
+  font-family: Impact;
+  color: white;
+  font-weight: 800;
 }
 #bonusButton:disabled {
   background-color: grey;

@@ -21,15 +21,16 @@ class SidukoEventsHandler {
     gameplayChangedHandler(state) {
         if (state) {
             if (state.column) {
-                logMessage(`***Column Filled***`);
+                logMessage(`✨***Column Filled***✨`, "column_filled");
             }
             if (state.row) {
-                logMessage(`***Row Filled***`);
+                logMessage(`🎉***Row Filled***🎉`, "row_filled");
             }
             if (state.innerTable) {
-                logMessage(`***Inner Table Filled***`);
+                logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
             }
             if (state.board) {
+                logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
                 window.alert('Well Done!');
             }
         }

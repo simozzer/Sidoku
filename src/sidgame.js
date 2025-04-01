@@ -56,6 +56,7 @@ setGameStartData = (oGame, aStartData) =>{
 }
 
 oMessageTimeout = null;
+
 function logMessage(message, className = "") {
     if (!message) {
         return;
@@ -64,25 +65,18 @@ function logMessage(message, className = "") {
     li.textContent = message;
     const ul = document.getElementById("rightPanel").childNodes[0];
     ul.appendChild(li);
-    if (className) {
-        li.className = className;
+    if (className !== "") {
+        li.classList.add(className);
     }
-    ul.classList.add("rightPanelLogMessage");
-   
 
-    //if (oMessageTimeout) {
-        //clearTimeout(oMessageTimeout);
-        //oMessageTimeout = null;        
-    //};
+   
     if (!oMessageTimeout) {
-        oMessageTimeout = window.setInterval(() => {
-            let liIndex = ul.childNodes.length - 1;
-            while(liIndex > 15) {
+        oMessageTimeout = window.setInterval(() => {            
+            if (ul.childNodes.length > 1) {
                 ul.removeChild(ul.childNodes[0]);
-                liIndex--;
             }
-            ul.classList.remove("rightPanelLogMessage");
-        },150,{li,ul});
+
+        },1000,{li,ul});
     }
 }
 
@@ -113,16 +107,16 @@ function setupGame(puzzleData) {
     const gameplayChangedHandler = function(state) {
         if (state) {
             if (state.column) {
-                logMessage(`***Column Filled***`);
+                logMessage(`✨***Column Filled***✨`, "column_filled");
             }
             if (state.row) {
-                logMessage(`***Row Filled***`);
+                logMessage(`🎉***Row Filled***🎉`, "row_filled");
             }
             if (state.innerTable) {
-                logMessage(`***Inner Table Filled***`);
+                logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
             }
             if (state.board) {
-                logMessage(`***Board Filled***`);
+                logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
             }
         }
     };
@@ -188,7 +182,7 @@ function setupGame(puzzleData) {
                     btn.disabled = false;
                     clearTimeout(oButtonPressTimeout);
                     oButtonPressTimeout = null;
-                }, 250,btn);
+                }, 500,btn);
                 
             }
         };
