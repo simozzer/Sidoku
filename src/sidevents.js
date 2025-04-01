@@ -20,6 +20,7 @@ class SidukoEventsHandler {
 
     gameplayChangedHandler(state) {
         if (state) {
+            // TODO: check if the cells filled match the solution if not then NO BONUS
             if (state.column) {
                 logMessage(`✨***Column Filled***✨`, "column_filled");
             }
@@ -43,33 +44,33 @@ class SidukoEventsHandler {
         switch (oEvent.code) {
             case 'ArrowLeft':
                 if (column > 0) {
-                    this.#tableDomElement.querySelector(`.sidukoTable>tr>td>table>tr>td[data-column="${column - 1}"][data-row="${row}"]`).focus();
+                    this.#puzzle.getData().cell(column-1, row).element.focus();
                 }
                 break;
 
             case 'ArrowRight':
                 if (column < 8) {
-                    this.#tableDomElement.querySelector(`.sidukoTable>tr>td>table>tr>td[data-column="${column + 1}"][data-row="${row}"]`).focus();
+                    this.#puzzle.getData().cell(column+1, row).element.focus();
                 }
 
                 break;
 
             case 'ArrowUp':
                 if (row > 0) {
-                    this.#tableDomElement.querySelector(`.sidukoTable>tr>td>table>tr>td[data-column="${column}"][data-row="${row - 1}"]`).focus();
+                    this.#puzzle.getData().cell(column,row-1).element.focus();
                 }
                 break;
 
             case 'ArrowDown':
                 if (row < 8) {
-                    this.#tableDomElement.querySelector(`.sidukoTable>tr>td>table>tr>td[data-column="${column}"][data-row="${row + 1}"]`).focus();
+                    this.#puzzle.getData().cell(column,row+1).element.focus();
                 }
                 break;
             case 'Backspace': 
             case 'Space': 
             case 'Delete':
             case 'Digit0':
-                const oElem = this.#tableDomElement.querySelector(`td[data-column="${column}"][data-row="${row}"]`);
+                const oElem = document.querySelector(`td[data-column="${column}"][data-row="${row}"]`);
                 if (oElem.classList.contains('entered')) {
                     const oCellData = this.#puzzle.getData().cell(column, row);
                     oCellData.entered = false;

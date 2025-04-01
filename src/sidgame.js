@@ -15,8 +15,8 @@ loadPuzzle = (filename) => {
         })
         .catch((e) => console.error(e));
 }
-doMenuChanged = (oEv) => {
 
+doMenuChanged = (oEv) => {    
     switch (oEv.target.value) {
         case "Easy":
            // oEv.target.disabled = true;
@@ -105,6 +105,7 @@ function setupGame(puzzleData) {
     
 
     const gameplayChangedHandler = function(state) {
+        // TODO: grant a smaller bonus if the answer was provided to the player
         if (state) {
             if (state.column) {
                 logMessage(`✨***Column Filled***✨`, "column_filled");

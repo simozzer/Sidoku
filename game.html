@@ -55,13 +55,16 @@
                 </select>
             </div>
             <div class="flex justify-center">
-                <div id="leftPanel">
-                    <div class="flex flex-col text-yellow-50 fillVert">
-                        <table class="table">
+                <div id="leftPanel" class="bg-gradient-to-r from-violet-600 to-indigo-600 overflow-hidden">
+                    <div class="flex flex-col text-yellow-70 fillVert">
+                        <div class="text-center 2xl from-orange-300">
+                            Bonuses
+                        </div>
+                        <table class="table text-center">
                             <thead>
                                 <tr>
                                     <th>Skill</th>
-                                    <th>Level</th>
+                                    <th>Max Cells</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -173,16 +176,23 @@
                                         2
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        All digits
+                                    </td>
+                                    <td>
+                                        1
+                                    </td>
+                                </tr>
                             </tbody> 
                         </table>   
-                    </div>
-                                
-                    <div class="flex-grow border-spacing-4 border-black">02</div>
-                    <div class="flex-grow border-spacing-4 border-yellow-400">03</div>                    
+                        <div class="text-center 2xl text-green-600 mx-6 bg-slate-600 py-2 border-yellow-300 border-2 my-3">Mutiplier: 1</div>
+                        <div class="text-center 2xl text-red-300 mx-6 bg-slate-950 py-2 border-cyan-300 border-2 my-3 overflow-y-scroll">Score: 1000</div>
+                    </div>                                             
                 </div>
 
                 <div id="everywhere" class="p-8"></div>
-                <div id="rightPanel" class=""><ul></ul></div>
+                <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800"><ul></ul></div>
             
             </div>
         
