@@ -15,6 +15,8 @@
         </script>        
         <script src="./src/sidgame.js">
         </script>          
+        <script src="./src/sidplayerdata.js">
+        </script>
         <script src="./src/SidokuBonuses.js">
         </script> 
         <link rel="stylesheet" href="./css/output.css">
@@ -209,21 +211,19 @@
                 <div id="everywhere" class="p-6 py-8"></div>
                 <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800 flex-row">
 
-                        <ul id="messageList">
+                    <ul id="messageList">
 
-                        </ul>
-                        <div id="playerStatus">
-                            <h4>Guesses Left: </h4>
-                            <div>12</div>
-                            <hr/>
-                            <h4>Time Remaining: </h4>
-                            <div>267 seconds</div>
-                            <hr/>
-                            <h4>Next Bonus: </h4>
-                            <div>3 Turns</div>
-                            
-
-                        </div>
+                    </ul>
+                    <div id="playerStatus">
+                        <h4>Guesses Left: </h4>
+                        <div id="playerGuessesRemaining"></div>
+                        <hr/>
+                        <h4>Next Bonus: </h4>
+                        <div id="playerGuessesUntilBonus"></div>       
+                        <hr/>                 
+                        <h4>Funds: </h4>
+                        <div id="playerFunds"></div>
+                    </div>
         
             </div>            
             </div>                    

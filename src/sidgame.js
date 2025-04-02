@@ -83,24 +83,26 @@ function logMessage(message, className = "") {
                 ul.removeChild(ul.childNodes[0]);
             }
 
-        },3500 / ul.childNodes.length);
+        },8500 / ul.childNodes.length);
     }
 }
 
+function addLogSeperator() {
+    const hr = document.createElement("hr");
+    document.getElementById("messageList").appendChild(hr);
+}
 
 
+oPlayerData = null;
 oGame = null;
 puzzleData = null;
 oSolution = null;
 oButtonPressTimeout = null;
 function setupGame(puzzleData) {
-
-    //setInfoText("Please wait: the puzzle is being solved...");
+    
     oGame = new SidukoPuzzle();
-    //if (typeof(puzzleData) === "object" && puzzleData.length >0) {
-        //oGame.setPuzzleStartData(Array.from(puzzleData).slice(0, puzzleData.length));
-        setGameStartData(oGame, puzzleData);
-    //}
+    setGameStartData(oGame, puzzleData);
+    
 
     // Todo:: update hints
     const generator = new SidukoHtmlGenerator(oGame);
@@ -134,6 +136,7 @@ function setupGame(puzzleData) {
 
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
+    oGame.solution = oSolution;
     const solver = new SidukoSolver(oSolution,(data) => {
         const btn = document.getElementById("bonusButton");
 
@@ -145,8 +148,7 @@ function setupGame(puzzleData) {
                 let iRand = Math.floor(Math.random() * 5);
                 if (iRand >= 3) {
                     console.log(`Bonus button clicked: ${iRand}`);
-
-                    
+                        
                     // Choose a random bonus
                     iRand = Math.floor(Math.random() * 6);
                     switch (iRand) {
@@ -182,6 +184,7 @@ function setupGame(puzzleData) {
                     logMessage("!!No bonus this time!!", "redError");
                 }
             } finally {
+                addLogSeperator();
                 if (oButtonPressTimeout) {
                     clearTimeout(oButtonPressTimeout);
                     oButtonPressTimeout = null;
@@ -195,14 +198,26 @@ function setupGame(puzzleData) {
             }
         };
     });
-    
+    oPlayerData = new SidukoPlayerData();
+    oPlayerData.funds = 8;
+    oPlayerData.guessesRemaining = -1;
+    oPlayerData.guessesUntilNextBonus = 8;
     solver.execute().then(() => {
+
         document.getElementById("bonusButton").disabled = false;
+        if (oPlayerData.guessesRemaining < 0) {
+            const emptyCellCount = oGame.getData().cells.filter((cell) => cell.value === 0).length
+            oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.7);
+
+            oPlayerData.guessesUntilNextBonus = Math.round(oPlayerData.guessesRemaining / 12);
+        }
+        
+
     }, this);
     
     // check that the puzzle is valid
    // const solver = new SidukoSolver(oGame, doPuzzleSolved);
    //     solver.execute();    
-    
-    const eventHandler = new SidukoEventsHandler(oGame, tableDOM);   
+
+    const eventHandler = new SidukoEventsHandler(oGame, tableDOM, oPlayerData);   
 }

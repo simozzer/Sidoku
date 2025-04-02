@@ -32,6 +32,11 @@ table.sidukoTable {
 	animation: color_change 2s infinite alternate;
 }
 
+@keyframes message_wobble {
+	from { rotate: 2deg; }
+	to { rotate: -2deg;}
+}
+
 
 @keyframes color_change {
 	from { background-color: rgb(68, 68, 106); }
@@ -162,6 +167,7 @@ table.sidukoTable {
 
 #rightPanel ul {
 	font-size: 1.3em;
+	color: #02f702;
 }
 
 #rightPanel ul li.redError {
@@ -176,6 +182,7 @@ table.sidukoTable {
 	color: bisque;
 	font-family: Georgia;
 	font-weight: 600;
+	animation: message_wobble 1s infinite alternate;
 }
 
 #rightPanel ul li.column_filled {
@@ -183,6 +190,7 @@ table.sidukoTable {
 	font-family: Times;
 	color: yellow;
 	font-weight: 600;
+	animation: message_wobble 1s infinite alternate;
 }
 
 #rightPanel ul li.inner_table_filled {
@@ -190,6 +198,7 @@ table.sidukoTable {
 	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 	color: goldenrod;
 	font-weight: 600;
+	animation: message_wobble 1s infinite alternate;
 }
 
 #rightPanel ul li.board_filled {
@@ -197,6 +206,7 @@ table.sidukoTable {
 	font-family: Impact;
 	color: white;
 	font-weight: 800;
+	animation: message_wobble 1s infinite alternate;
 }
 
 #rightPanel ul li.randomChoiceStatus {
@@ -207,6 +217,16 @@ table.sidukoTable {
 	text-align: center;
 }
 
+#rightPanel ul li.completion_bonus {
+    color: white;
+	font-size: 1.4em;
+    background-color: black;
+}
+
+#rightPanel  hr {
+	border: 1px solid lightgreen;
+
+}
 #bonusButton:disabled {
     background-color: grey;
     cursor: not-allowed;
@@ -263,6 +283,13 @@ table.sidukoTable {
     animation-name: puzzleGrantedCells;
     animation-duration: 1.3s;
 }
+
+.sidukoTable table td.player_solved {
+    color: #4e54c8;
+    background-color: aliceblue;
+}
+
+
 
 .btn {
     @apply font-bold py-2 px-4 rounded;

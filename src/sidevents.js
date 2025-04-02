@@ -1,9 +1,11 @@
 class SidukoEventsHandler {
     #tableDomElement;
     #puzzle;
-    constructor(oPuzzle, oTableDomElement) {
+    #playerData;
+    constructor(oPuzzle, oTableDomElement, playerData) {
         this.#tableDomElement = oTableDomElement;
         this.#puzzle = oPuzzle;
+        this.#playerData = playerData;
         document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.attachEvents();
     }
@@ -23,12 +25,38 @@ class SidukoEventsHandler {
             // TODO: check if the cells filled match the solution if not then NO BONUS
             if (state.column) {
                 logMessage(`✨***Column Filled***✨`, "column_filled");
+                if (oGame.getData().cellsInColumn(state.column-1).map(o=>o.value).toString() === oSolution.getData().cellsInColumn(state.column-1).map(o=>o.value).toString()) {
+                    /*
+                    oGame.getData().cellsInColumn(state.column-1).forEach(cell => {
+                        cell.element.classList.add('player_solved');
+                        cell.setFixedValue(true);
+                    });
+                    */
+                    logMessage("☝️Matches solution. Bonus $1☝️", "completion_bonus");
+                    this.#playerData.funds++;
+                } else {
+                    logMessage("👎Does not match soution. No bonus awared👎");
+                }
+                
             }
             if (state.row) {
                 logMessage(`🎉***Row Filled***🎉`, "row_filled");
+                logMessage(`✨***Column Filled***✨`, "column_filled");
+                if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oSolution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {
+                    logMessage("😺Matches solution. Bonus $1😺", "completion_bonus");
+                    this.#playerData.funds++;
+                } else {
+                    logMessage("😩Does not match soution. No bonus awared😩");
+                }
             }
             if (state.innerTable) {
                 logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
+                if (oGame.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString() === oSolution.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString()) {
+                    logMessage("😉Matches solution. Bonus $1😉", "completion_bonus");
+                    this.#playerData.funds++;
+                } else {
+                    logMessage("😭Does not match soution. No bonus awared😭");
+                }
             }
             if (state.board) {
                 logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
@@ -102,23 +130,31 @@ class SidukoEventsHandler {
                     oEventTarget.classList.add('entered');                       
                     oEventTarget.title = "";                    
 
-                    SidukoHtmlGenerator.updateCellHints(this.#puzzle);                    
+                    SidukoHtmlGenerator.updateCellHints(this.#puzzle);  
+                    
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);    
                     const oFullnessStateChanges = {};
                     if (oStartFullnessState.column !== oEndFullnessState.column) {
-                        oFullnessStateChanges['column'] = true;
+                        oFullnessStateChanges['column'] = oCellData.column+1;
                     } 
                     if (oStartFullnessState.row !== oEndFullnessState.row) {
-                        oFullnessStateChanges['row'] = true;
+                        oFullnessStateChanges['row'] = oCellData.row+1;
                     }
                     if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                        oFullnessStateChanges['innerTable'] = true;
+                        oFullnessStateChanges['innerTable'] = oCellData.innerTableIndex+1;
                     }
                     if (oStartFullnessState.board !== oEndFullnessState.board) {
                         oFullnessStateChanges['board'] = true;
                     }
                     this.gameplayChangedHandler(oFullnessStateChanges);                             
+
+                    this.#playerData.guessesRemaining = this.#playerData.guessesRemaining - 1;
+                    this.#playerData.guessesUntilNextBonus--;
+                    if (this.#playerData.guessesUntilNextBonus === 0) {
+                        this.#puzzle.triggerBonus();
+                        this.#playerData.guessesUntilNextBonus = 5;
+                    }
                 }
             }
         }
