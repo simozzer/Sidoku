@@ -61,6 +61,7 @@ function logMessage(message, className = "") {
     if (!message) {
         return;
     }
+    showMessage(message);
     const li = document.createElement("li");
     li.textContent = message;
     const ul = document.getElementById("messageList");
@@ -85,6 +86,55 @@ function logMessage(message, className = "") {
 
         },8500 / ul.childNodes.length);
     }
+}
+
+aMessageBuffer = [];
+messageBufferTimeout = null;
+function showMessage(message) {
+    aMessageBuffer.push(message);
+    
+
+    if (messageBufferTimeout) {
+        window.clearTimeout(messageBufferTimeout);
+        messageBufferTimeout = null;
+    }
+
+    messageBufferTimeout = window.setTimeout(() => {
+
+        window.clearTimeout(messageBufferTimeout);
+        messageBufferTimeout = null;
+
+        if (messageBufferTimeout) {
+            window.clearTimeout(messageBufferTimeout);
+            messageBufferTimeout = null;
+        }
+
+        if (aMessageBuffer.length > 0) {
+            let oMessageElement = document.getElementById("messageBox");
+            if (!oMessageElement) {
+                oMessageElement = document.createElement("div");
+                oMessageElement.id = "messageBox";
+                oMessageElement.classList.add("messageBox");
+                oMessageElement.classList.add("initial");
+                document.getElementById("everywhere").appendChild(oMessageElement);
+            }
+            oMessageElement.textContent = aMessageBuffer[0];
+            aMessageBuffer = aMessageBuffer.splice(0,aMessageBuffer.length-1);
+
+            oMessageElement.classList.remove("initial");
+            oMessageElement.classList.add("initial");
+            messageBufferTimeout = window.setTimeout(() => {
+                oMessageElement.classList.remove("initial");
+                oMessageElement.style.display = "none";
+                window.setTimeout(messageBufferTimeout,3000);
+            }, 3000, messageBufferTimeout);
+        }
+
+    }, 1000, this);
+
+
+
+
 }
 
 function addLogSeperator() {
@@ -128,6 +178,9 @@ function setupGame(puzzleData) {
             if (state.board) {
                 logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
             }
+            if (state.cellUsed) {
+                this.oPlayerData.guessesRemaining = -1;
+            }
         }
     };
 
@@ -138,6 +191,8 @@ function setupGame(puzzleData) {
     setGameStartData(oSolution, puzzleData);
     oGame.solution = oSolution;
     const solver = new SidukoSolver(oSolution,(data) => {
+        /*
+   
         const btn = document.getElementById("bonusButton");
 
         btn.style.display = "inline";
@@ -197,6 +252,7 @@ function setupGame(puzzleData) {
                 
             }
         };
+        */
     });
     oPlayerData = new SidukoPlayerData();
     oPlayerData.funds = 8;
@@ -204,7 +260,7 @@ function setupGame(puzzleData) {
     oPlayerData.guessesUntilNextBonus = 8;
     solver.execute().then(() => {
 
-        document.getElementById("bonusButton").disabled = false;
+        //document.getElementById("bonusButton").disabled = false;
         if (oPlayerData.guessesRemaining < 0) {
             const emptyCellCount = oGame.getData().cells.filter((cell) => cell.value === 0).length
             oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.7);

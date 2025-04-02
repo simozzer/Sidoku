@@ -20,6 +20,9 @@ class SidokuBonuses {
             randomCell.element.classList.add('aided');
             randomCell.element.classList.add('granted');
             randomCell.entered = true;
+            fnGameEventCallback({
+                cellUsed: true
+            });
             SidukoHtmlGenerator.updateCellHints(oPuzzle);    
 
             const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), randomCell);                
@@ -65,6 +68,9 @@ class SidokuBonuses {
                 targetCell.element.classList.add('aided');
                 targetCell.element.classList.add('granted');
                 targetCell.entered = true;
+                fnGameEventCallback({
+                    cellUsed: true
+                });
                 SidukoHtmlGenerator.updateCellHints(oPuzzle);    
 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
@@ -105,6 +111,9 @@ class SidokuBonuses {
             const targetCell = oPuzzle.getData().cell(randomColumnn, iIndex);
             if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, sourceCell.value)) {
                 const oStartFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);
+                fnGameEventCallback({
+                    cellUsed: true
+                });
                 targetCell.value = sourceCell.value;                
                 targetCell.element.innerHTML = sourceCell.value;
                 targetCell.setSolved();
@@ -156,6 +165,9 @@ class SidokuBonuses {
                 targetCell.element.classList.add('aided');
                 targetCell.element.classList.add('granted');
                 targetCell.entered = true;
+                fnGameEventCallback({
+                    cellUsed: true
+                });
                 SidukoHtmlGenerator.updateCellHints(oPuzzle);
 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
@@ -203,6 +215,9 @@ class SidokuBonuses {
                 targetCell.element.classList.add('aided');
                 targetCell.element.classList.add('granted');
                 targetCell.entered = true;
+                fnGameEventCallback({
+                    cellUsed: true
+                });
                 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
                 const oFullnessStateChanges = {};
@@ -248,6 +263,9 @@ class SidokuBonuses {
                     oTargetCell.element.classList.add('aided');
                     oTargetCell.element.classList.add('granted');
                     oTargetCell.entered = true;
+                    fnGameEventCallback({
+                        cellUsed: true
+                    });
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), oTargetCell);    
                     const oFullnessStateChanges = {};

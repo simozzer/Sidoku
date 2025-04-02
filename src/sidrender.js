@@ -9,6 +9,7 @@ class SidukoHtmlGenerator {
     getPuzzleDOM() {
         const oTable = document.createElement("table");
         oTable.className = "sidukoTable mx-auto border-separate [border-spacing:0.25rem] border-3 bg-slate-200 rounded-2x1";
+        oTable.id = "sidukoTable";
         for (let iCellY = 0; iCellY < 3; iCellY++) {
             const oTableRow = document.createElement('tr');
             for (let iCellX = 0; iCellX < 3; iCellX++) {

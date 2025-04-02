@@ -697,15 +697,28 @@ table.sidukoTable {
 .btn-blue:hover {
   background-color: var(--color-blue-700);
 }
-@-webkit-keyframes animatetop {
+@keyframes fade {
   from {
-    top: -300px;
-    opacity: 0;
+    opacity: 1;
+    border-color: #02f702;
   }
   to {
-    top: 0;
-    opacity: 1;
+    opacity: 0;
+    border-color: black;
   }
+}
+.messageBox {
+  position: relative;
+  z-index: 10;
+  background-color: LAVENDER;
+  padding: 20px;
+  border: 6px double red;
+  border-radius: 8px;
+  font-size: 1.75em;
+}
+.messageBox.initial {
+  animation-name: fade;
+  animation-duration: 1.3s;
 }
 @keyframes animatetop {
   from {
@@ -714,16 +727,6 @@ table.sidukoTable {
   }
   to {
     top: 0;
-    opacity: 1;
-  }
-}
-@-webkit-keyframes zoomIn {
-  0% {
-    opacity: 0;
-    -webkit-transform: scale3d(0.3, 0.3, 0.3);
-    transform: scale3d(0.3, 0.3, 0.3);
-  }
-  50% {
     opacity: 1;
   }
 }
