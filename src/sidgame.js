@@ -197,6 +197,19 @@ function setupGame(puzzleData) {
 
 
             oPlayerData.renderBoosts();
+
+            document.getElementById("playerBoostsTableBody").addEventListener('click',(oEv) => {
+                let rowElement;
+                if (oEv.target.tagName === "TD") {
+                    rowElement = oEv.target.parentNode;
+                } else if (oEv.target.tagName === "TR") {
+                    rowElement = oEv.target;
+                } else {
+                    console.warn("Invalid click event target for Boost", oEv.target);
+                }
+                const sBoostName = rowElement.childNodes[0].innerText;
+                console.log("Boost clicked:", sBoostName);
+            });
         }
         
 

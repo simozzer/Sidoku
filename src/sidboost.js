@@ -8,7 +8,7 @@ class SidukoBoostData {
     #decrementsEachTurn
     constructor(name, description) {
         this.#name = name;
-        this.#maxCellCount = 2;
+        this.#maxCellCount = 1;
         this.#accuracy = 0.3;
         this.#turnsRemaining = null;
         this.#description = description;

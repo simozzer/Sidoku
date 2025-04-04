@@ -299,7 +299,9 @@ class SidokuBonuses {
                 const aPossibleValues = SidukoCellQueries.getPossibleValues(oPuzzle.getData(), oTargetCell);
                 if (aPossibleValues.length === 1) {
                     const oSourceCell = puzzleSolution.getData().cell(oTargetCell.column, oTargetCell.row);
-                    if ((oTargetCell.value <= 0) && SidukoCellQueries.canSetValue(oPuzzle.getData(), oTargetCell, aPossibleValues[0])) {  
+                    if ((oTargetCell.value <= 0)
+                         && SidukoCellQueries.canSetValue(oPuzzle.getData(), oTargetCell, aPossibleValues[0])
+                        && puzzleSolution.getData().cell(oTargetCell.column, oTargetCell.row).value === aPossibleValues[0]) {  
                         const oStartFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), oTargetCell);        
                         oTargetCell.value = oSourceCell.value
                         oTargetCell.element.innerHTML = oSourceCell.value;

@@ -80,6 +80,7 @@ class SidukoPlayerData {
             livesCell.innerText = boost.turnsRemaining;
             row.appendChild(livesCell);       
             row.title = boost.description;     
+            boost.domElement = row;
             tbody.appendChild(row);
         });
         return tbody;
@@ -87,7 +88,13 @@ class SidukoPlayerData {
 
     doTurnPlayed(bSolvedByPlayer) {        
         if (bSolvedByPlayer) {
-            this.#boosts.filter(b => b.decrmentsEachTurn && b.turnsRemaining > 0).forEach(b => b.turnsRemaining--);
+            this.#boosts.filter(b => b.decrmentsEachTurn && b.turnsRemaining > 0).forEach(b => {
+                b.turnsRemaining--;
+                if (b.turnsRemaining === 0) {
+                    logMessage("Boost '" + b.name + "' has run out of turns.");                  
+                }
+                
+            });
         }
 
         this.renderBoosts();

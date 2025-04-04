@@ -195,6 +195,11 @@ class SidukoEventsHandler {
                         SidokuBonuses.autoFillCellsWithOnePossibleValue(this.#puzzle,this.#puzzle.solution, this.gameplayChangedHandler.bind(this),oBoost);
                         SidukoHtmlGenerator.updateCellHints(this.#puzzle);
                         oBoost.turnsRemaining--;
+                        
+                    }
+                    if (oBoost && oBoost.turnsRemaining === 0) {
+                        oBoost.turnsRemaining = null;
+                        logMessage("Seeker bonus used up");
                     }
                 }
             }
