@@ -145,6 +145,11 @@ table.sidukoTable {
 	user-select: none;
 }
 
+#leftPanel>div {
+	flex-direction: column;
+    justify-content: space-between;
+}
+
 .fillVert {
     height : 100%;
     margin: 4px;

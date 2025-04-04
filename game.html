@@ -204,31 +204,27 @@
                                     <td>1</td>
                                 </tr>
                             </tbody> 
-                        </table>   
-                        <div class="text-center 2xl text-green-950 mx-6 bg-stone-100 py-2 border-yellow-300 border-2 my-3">Mutiplier: 1</div>
-                        <div class="text-center 2xl text-red-300 mx-6 bg-slate-950 py-2 border-cyan-300 border-2 my-3 overflow-y-scroll">Score: 1000</div>
+                        </table> 
+                        <div id="playerStatus">
+                            <h4>Guesses Left: </h4>
+                            <div id="playerGuessesRemaining"></div>
+                            <hr/>
+                            <h4>Next Bonus: </h4>
+                            <div id="playerGuessesUntilBonus"></div>       
+                            <hr/>                 
+                            <h4>Funds: </h4>
+                            <div id="playerFunds"></div>
+                        </div>                         
+                
                     </div>                                             
                 </div>
 
                 <div id="everywhere" class="p-6 py-8"></div>
-                <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800 flex-row">
-
-                    <ul id="messageList">
-
-                    </ul>
-                    <div id="playerStatus">
-                        <h4>Guesses Left: </h4>
-                        <div id="playerGuessesRemaining"></div>
-                        <hr/>
-                        <h4>Next Bonus: </h4>
-                        <div id="playerGuessesUntilBonus"></div>       
-                        <hr/>                 
-                        <h4>Funds: </h4>
-                        <div id="playerFunds"></div>
-                    </div>
-        
-            </div>            
-            </div>                    
+                    <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800 flex-row">
+                        <ul id="messageList">
+                        </ul>                 
+                    </div>            
+                </div>                    
                 <div class="conatiner flex flex-col items-center">
                     <button id="bonusButton" class="btn btn-blue mx-6 hidden">
                         Click here to reveal a bonus
