@@ -85,8 +85,11 @@ class SidukoPlayerData {
         return tbody;
     }
 
-    doTurnPlayed() {        
-        this.#boosts.filter(b => b.decrmentsEachTurn && b.turnsRemaining > 0).forEach(b => b.turnsRemaining--);
+    doTurnPlayed(bSolvedByPlayer) {        
+        if (bSolvedByPlayer) {
+            this.#boosts.filter(b => b.decrmentsEachTurn && b.turnsRemaining > 0).forEach(b => b.turnsRemaining--);
+        }
+
         this.renderBoosts();
     }
        

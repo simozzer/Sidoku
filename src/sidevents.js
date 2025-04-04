@@ -70,11 +70,11 @@ class SidukoEventsHandler {
             }
             if (state.playerCellUsed) {                
                 console.log("Cell used by player");
-                this.#playerData.doTurnPlayed();
+                this.#playerData.doTurnPlayed(true);
                 //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oGame.solution, this.gameplayChangedHandler.bind(this));
             } else if (state.cellUsed) {
                 console.log("cell used by A bonus");
-                this.#playerData.doTurnPlayed();
+                this.#playerData.doTurnPlayed(false);
             }
         }
     }
