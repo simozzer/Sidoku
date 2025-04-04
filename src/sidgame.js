@@ -61,6 +61,7 @@ function logMessage(message, className = "") {
     if (!message) {
         return;
     }
+    console.log(message);
     showMessage(message);
     const li = document.createElement("li");
     li.textContent = message;
@@ -88,54 +89,56 @@ function logMessage(message, className = "") {
     }
 }
 
+
+function __displayMessage(message){
+    let oMessageElement = document.getElementById("messageBox");
+    if (!oMessageElement) {
+        oMessageElement = document.createElement("div");
+        oMessageElement.id = "messageBox";
+        oMessageElement.classList.add("messageBox");
+        oMessageElement.classList.add("initial");
+        document.getElementById("everywhere").appendChild(oMessageElement);
+    }
+
+    oMessageElement.textContent = message;  
+    oMessageElement.style.display = "block";    
+
+    oMessageElement.classList.remove("initial");
+    oMessageElement.classList.add("initial");
+    oMessageElement.addEventListener("animationend", function() {
+        oMessageElement.style.display = "none";
+        oMessageElement.classList.remove("initial");
+    });
+}
+
+
 aMessageBuffer = [];
 messageBufferTimeout = null;
 function showMessage(message) {
-    aMessageBuffer.push(message);
-    
-
-    if (messageBufferTimeout) {
-        window.clearTimeout(messageBufferTimeout);
-        messageBufferTimeout = null;
+    if (!message) {
+        return;
     }
 
-    messageBufferTimeout = window.setTimeout(() => {
+    aMessageBuffer.push(message);
 
-        window.clearTimeout(messageBufferTimeout);
-        messageBufferTimeout = null;
-
-        if (messageBufferTimeout) {
-            window.clearTimeout(messageBufferTimeout);
-            messageBufferTimeout = null;
-        }
-
-        if (aMessageBuffer.length > 0) {
-            let oMessageElement = document.getElementById("messageBox");
-            if (!oMessageElement) {
-                oMessageElement = document.createElement("div");
-                oMessageElement.id = "messageBox";
-                oMessageElement.classList.add("messageBox");
-                oMessageElement.classList.add("initial");
-                document.getElementById("everywhere").appendChild(oMessageElement);
+    if (!messageBufferTimeout) {
+        __displayMessage(aMessageBuffer.shift());
+        
+        messageBufferTimeout = window.setInterval(() => {  
+            if (aMessageBuffer.length >0) {
+                __displayMessage(aMessageBuffer.shift());
+                
+            } else {
+                window.clearInterval(messageBufferTimeout);
+                messageBufferTimeout = null;
             }
-            oMessageElement.textContent = aMessageBuffer[0];
-            aMessageBuffer = aMessageBuffer.splice(0,aMessageBuffer.length-1);
-
-            oMessageElement.classList.remove("initial");
-            oMessageElement.classList.add("initial");
-            messageBufferTimeout = window.setTimeout(() => {
-                oMessageElement.classList.remove("initial");
-                oMessageElement.style.display = "none";
-                window.setTimeout(messageBufferTimeout,3000);
-            }, 3000, messageBufferTimeout);
-        }
-
-    }, 1000, this);
-
-
-
-
+        }, 1800, this);
+    }
+        
 }
+
+
+
 
 function addLogSeperator() {
     const hr = document.createElement("hr");
@@ -153,8 +156,6 @@ function setupGame(puzzleData) {
     oGame = new SidukoPuzzle();
     setGameStartData(oGame, puzzleData);
     
-
-    // Todo:: update hints
     const generator = new SidukoHtmlGenerator(oGame);
     const tableDOM = generator.getPuzzleDOM();
     const puzzleElementHolder = document.getElementById("everywhere");    
@@ -163,101 +164,15 @@ function setupGame(puzzleData) {
 
     
 
-    const gameplayChangedHandler = function(state) {
-        // TODO: grant a smaller bonus if the answer was provided to the player
-        if (state) {
-            if (state.column) {
-                logMessage(`✨***Column Filled***✨`, "column_filled");
-            }
-            if (state.row) {
-                logMessage(`🎉***Row Filled***🎉`, "row_filled");
-            }
-            if (state.innerTable) {
-                logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
-            }
-            if (state.board) {
-                logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
-            }
-            if (state.cellUsed) {
-                this.oPlayerData.guessesRemaining = -1;
-            }
-        }
-    };
-
-    const fnHandleGamplayChaned = gameplayChangedHandler.bind(oGame);
-    
-
     oSolution = new SidukoPuzzle();
     setGameStartData(oSolution, puzzleData);
-    oGame.solution = oSolution;
-    const solver = new SidukoSolver(oSolution,(data) => {
-        /*
-   
-        const btn = document.getElementById("bonusButton");
+    oGame. solution = oSolution;
+    const solver = new SidukoSolver(oSolution,(data) => {});
 
-        btn.style.display = "inline";
-        btn.onclick = () => { 
-            btn.disabled = true;
-            try {
-        
-                let iRand = Math.floor(Math.random() * 5);
-                if (iRand >= 3) {
-                    console.log(`Bonus button clicked: ${iRand}`);
-                        
-                    // Choose a random bonus
-                    iRand = Math.floor(Math.random() * 6);
-                    switch (iRand) {
-                        case 0:
-                            logMessage("😍 Revealing a random cell");
-                            SidokuBonuses.revealRandomValue(oGame, oSolution,fnHandleGamplayChaned);
-                            break;
-                        case 1:
-                            logMessage("😀 Revealing cells from a random row");
-                            SidokuBonuses.revealCellsWithRandomRow(oGame, oSolution, fnHandleGamplayChaned);
-                            break;
-                        case 2:
-                            logMessage("🙌 Revealing cells from a random column");
-                            SidokuBonuses.revealCellsWithRandomColumn(oGame, oSolution, fnHandleGamplayChaned);
-                            break;
-                        case 3:
-                            logMessage("💃 Revealing cells from a random inner table");
-                            SidokuBonuses.revealCellsWithRandomInnerTable(oGame, oSolution, fnHandleGamplayChaned);
-                            break;
-                        case 4:
-                            logMessage("🤗 Revealing cells which only have 1 possible value");
-                            SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oSolution, fnHandleGamplayChaned);
-                            break;
-                        case 5:
-                            logMessage("🤟 Revealing cells with a common random value");
-                            SidokuBonuses.revealCellsWithRandomValue(oGame, oSolution, fnHandleGamplayChaned);
-                            break;
-                        default:
-                            logMessage("Invalid bonus button click");
-                            break;
-                    }
-                } else {
-                    logMessage("!!No bonus this time!!", "redError");
-                }
-            } finally {
-                addLogSeperator();
-                if (oButtonPressTimeout) {
-                    clearTimeout(oButtonPressTimeout);
-                    oButtonPressTimeout = null;
-                }
-                oButtonPressTimeout = setTimeout(() => {
-                    btn.disabled = false;
-                    clearTimeout(oButtonPressTimeout);
-                    oButtonPressTimeout = null;
-                }, 500,btn);
-                
-            }
-        };
-        */
-    });
     oPlayerData = new SidukoPlayerData();
-    oPlayerData.funds = 8;
+    oPlayerData.funds = 3;
     oPlayerData.guessesRemaining = -1;
-    oPlayerData.guessesUntilNextBonus = 8;
+    oPlayerData.guessesUntilNextBonus = 3;
     solver.execute().then(() => {
 
         //document.getElementById("bonusButton").disabled = false;
@@ -266,14 +181,27 @@ function setupGame(puzzleData) {
             oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.7);
 
             oPlayerData.guessesUntilNextBonus = Math.round(oPlayerData.guessesRemaining / 12);
+
+            oPlayerData.addBoost("Row","Reveals up to a specified number of cells in a random row");
+            oPlayerData.addBoost("Column","Reveals up to a specified number of cells in a random column");
+            oPlayerData.addBoost("InnerTable","Reveals up to a specified number of cells in a random inner table");
+
+            // Show tooltips on each turn whilst we still have turns remaining
+            let oBoost = oPlayerData.addBoost("Hints","Shows tooltips for the possible values in a cell");
+            oBoost.turnsRemaining = 8;
+            oBoost.decrementsEachTurn = true;
+
+            oBoost = oPlayerData.addBoost("Seeker","After a number has been entered solves values that can only exist in 1 cell");
+            oBoost.turnsRemaining = 5;
+            oBoost.decrementsEachTurn = false;
+
+
+            oPlayerData.renderBoosts();
         }
         
 
     }, this);
-    
-    // check that the puzzle is valid
-   // const solver = new SidukoSolver(oGame, doPuzzleSolved);
-   //     solver.execute();    
+        
 
-    const eventHandler = new SidukoEventsHandler(oGame, tableDOM, oPlayerData);   
+    const eventHandler = new SidukoEventsHandler(oGame, tableDOM, oPlayerData, oGame.solution);   
 }

@@ -5,7 +5,7 @@ class SidukoEventsHandler {
     constructor(oPuzzle, oTableDomElement, playerData) {
         this.#tableDomElement = oTableDomElement;
         this.#puzzle = oPuzzle;
-        this.#playerData = playerData;
+        this.#playerData = playerData;        
         document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.attachEvents();
     }
@@ -21,17 +21,16 @@ class SidukoEventsHandler {
     }
 
     gameplayChangedHandler(state) {
+        const oGame = this.#puzzle;
         if (state) {
             // TODO: check if the cells filled match the solution if not then NO BONUS
             if (state.column) {
                 logMessage(`✨***Column Filled***✨`, "column_filled");
-                if (oGame.getData().cellsInColumn(state.column-1).map(o=>o.value).toString() === oSolution.getData().cellsInColumn(state.column-1).map(o=>o.value).toString()) {
-                    /*
+                if (oGame.getData().cellsInColumn(state.column-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInColumn(state.column-1).map(o=>o.value).toString()) {
                     oGame.getData().cellsInColumn(state.column-1).forEach(cell => {
                         cell.element.classList.add('player_solved');
                         cell.setFixedValue(true);
                     });
-                    */
                     logMessage("☝️Matches solution. Bonus $1☝️", "completion_bonus");
                     this.#playerData.funds++;
                 } else {
@@ -42,8 +41,12 @@ class SidukoEventsHandler {
             if (state.row) {
                 logMessage(`🎉***Row Filled***🎉`, "row_filled");
                 logMessage(`✨***Column Filled***✨`, "column_filled");
-                if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oSolution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {
+                if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {
                     logMessage("😺Matches solution. Bonus $1😺", "completion_bonus");
+                    oGame.getData().cellsInRow(state.row-1).forEach(cell => {
+                        cell.element.classList.add('player_solved');
+                        cell.setFixedValue(true);
+                    });
                     this.#playerData.funds++;
                 } else {
                     logMessage("😩Does not match soution. No bonus awared😩");
@@ -51,7 +54,11 @@ class SidukoEventsHandler {
             }
             if (state.innerTable) {
                 logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
-                if (oGame.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString() === oSolution.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString()) {
+                if (oGame.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString()) {
+                    oGame.getData().cellsInInnerTable(state.innerTable-1).forEach(cell => {
+                        cell.element.classList.add('player_solved');
+                        cell.setFixedValue(true);
+                    });
                     logMessage("😉Matches solution. Bonus $1😉", "completion_bonus");
                     this.#playerData.funds++;
                 } else {
@@ -60,6 +67,14 @@ class SidukoEventsHandler {
             }
             if (state.board) {
                 logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
+            }
+            if (state.playerCellUsed) {                
+                console.log("Cell used by player");
+                this.#playerData.doTurnPlayed();
+                //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oGame.solution, this.gameplayChangedHandler.bind(this));
+            } else if (state.cellUsed) {
+                console.log("cell used by A bonus");
+                this.#playerData.doTurnPlayed();
             }
         }
     }
@@ -104,7 +119,16 @@ class SidukoEventsHandler {
                     oCellData.value = null;
                     oCellData.element.innerText = '';                    
                     oCellData.element.classList.remove('entered');
-                    SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+
+                    const oBoost = this.#playerData.getBoost("Hints");
+                    if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
+                        SidukoHtmlGenerator.updateCellHints(this.#puzzle);                           
+                    } else {
+                        this.#puzzle.getData().cells.forEach(cell => {
+                            cell.element.title = "";
+                        });
+                    }
+                    
                 }
                 break;
         }
@@ -130,8 +154,14 @@ class SidukoEventsHandler {
                     oEventTarget.classList.add('entered');                       
                     oEventTarget.title = "";                    
 
-                    SidukoHtmlGenerator.updateCellHints(this.#puzzle);  
-                    
+                    let oBoost = this.#playerData.getBoost("Hints");
+                    if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
+                        SidukoHtmlGenerator.updateCellHints(this.#puzzle);                           
+                    } else {
+                        this.#puzzle.getData().cells.forEach(cell => {
+                            cell.element.title = "";
+                        });
+                    }                    
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);    
                     const oFullnessStateChanges = {};
@@ -147,13 +177,24 @@ class SidukoEventsHandler {
                     if (oStartFullnessState.board !== oEndFullnessState.board) {
                         oFullnessStateChanges['board'] = true;
                     }
-                    this.gameplayChangedHandler(oFullnessStateChanges);                             
+                    this.gameplayChangedHandler(oFullnessStateChanges);
+
+                    this.gameplayChangedHandler({playerCellUsed: true });      
+                                    
 
                     this.#playerData.guessesRemaining = this.#playerData.guessesRemaining - 1;
                     this.#playerData.guessesUntilNextBonus--;
                     if (this.#playerData.guessesUntilNextBonus === 0) {
                         this.#puzzle.triggerBonus();
-                        this.#playerData.guessesUntilNextBonus = 5;
+                        this.#playerData.guessesUntilNextBonus = 3;
+                    }
+
+
+                    oBoost = this.#playerData.getBoost("Seeker");
+                    if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
+                        SidokuBonuses.autoFillCellsWithOnePossibleValue(this.#puzzle,this.#puzzle.solution, this.gameplayChangedHandler.bind(this),oBoost);
+                        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+                        oBoost.turnsRemaining--;
                     }
                 }
             }

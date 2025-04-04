@@ -141,6 +141,9 @@ class SidukoPuzzle {
         this.#solution = value;
     }
 
+    get solution() {
+        return this.#solution;
+    }
 
     setPuzzleStartData(aStartData) {
         aStartData.forEach((iValue, iIndex) => {

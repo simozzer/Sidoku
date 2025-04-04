@@ -320,11 +320,13 @@ table.sidukoTable {
 	border: 6px double red;
 	border-radius: 8px;
 	font-size: 1.75em;
+	display: none;
 }
 
 .messageBox.initial {
 	animation-name: fade;
-	animation-duration: 1.3s;
+	animation-duration: 3s;
+	display: block;
 }
 
 
