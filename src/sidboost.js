@@ -6,6 +6,8 @@ class SidukoBoostData {
     #turnsRemaining
     #description
     #decrementsEachTurn
+    #domElement
+    #exhausted;
     constructor(name, description) {
         this.#name = name;
         this.#maxCellCount = 1;
@@ -13,6 +15,8 @@ class SidukoBoostData {
         this.#turnsRemaining = null;
         this.#description = description;
         this.#decrementsEachTurn = false;
+        this.#domElement = null;
+        this.#exhausted = false;
     }
     
     get name() {
@@ -55,9 +59,30 @@ class SidukoBoostData {
         return this.#decrementsEachTurn;
     }
 
+    get exhausted() {
+        return this.#exhausted;        
+    }
+
+    set exhausted(value) {
+        this.#exhausted = value;
+        if (value) {
+            this.#domElement.classList.add("exhausted");
+            this.#turnsRemaining = null;
+        } else {
+            this.#domElement.classList.remove("exhausted");
+        }
+    }
+
     set decrementsEachTurn(value) {
         this.#decrementsEachTurn = true;
     }
 
+    get domElement() {
+        return this.#domElement;
+    }
+
+    set domElement(value) {
+        this.#domElement = value;
+    }
 
 }

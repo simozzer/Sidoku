@@ -79,8 +79,30 @@ class SidukoPlayerData {
             const livesCell = document.createElement("td");
             livesCell.innerText = boost.turnsRemaining;
             row.appendChild(livesCell);       
-            row.title = boost.description;     
+            row.title = boost.description; 
+
+            const useCell = document.createElement("td");
+            useCell.classList.add("useBoostButtonCell");
+            const useButton = document.createElement("input");
+            useButton.type = "button";
+            useButton.value = "Use";
+            useCell.appendChild(useButton);            
+            row.appendChild(useCell);
+
+
+            const buyCell = document.createElement("td");
+            buyCell.classList.add("buyBoostButtonCell");
+            const buyButton = document.createElement("input");
+            buyButton.type = "button";
+            buyButton.value = "$1";
+            buyCell.appendChild(buyButton);
+            row.appendChild(buyCell);
+            
+
             boost.domElement = row;
+            if (boost.exhausted) {
+                boost.domElement.classList.add("exhausted");
+            }
             tbody.appendChild(row);
         });
         return tbody;
@@ -91,7 +113,8 @@ class SidukoPlayerData {
             this.#boosts.filter(b => b.decrmentsEachTurn && b.turnsRemaining > 0).forEach(b => {
                 b.turnsRemaining--;
                 if (b.turnsRemaining === 0) {
-                    logMessage("Boost '" + b.name + "' has run out of turns.");                  
+                    logMessage("Boost '" + b.name + "' has run out of turns.");     
+                    b.exhausted = true;             
                 }
                 
             });

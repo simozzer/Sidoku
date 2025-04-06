@@ -22,7 +22,8 @@ class SidokuBonuses {
         let iCellsRevealed = 0;
         for (let i = 0; i< iMaxCells -1; i++) {
             logMessage(`Random Cell: ${randomCell.column}, ${randomCell.row}`, "randomChoiceStatus");
-            if ((randomCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), randomCell, sourceCell.value)) {  
+            if ((randomCell.value <= 0)
+                && SidukoCellQueries.canSetValue(oPuzzle.getData(), randomCell, sourceCell.value)) {  
                 const oStartFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), randomCell);                  
 
                 randomCell.value = sourceCell.value;
@@ -53,12 +54,13 @@ class SidokuBonuses {
                 fnGameEventCallback(oFullnessStateChanges);
                 iCellsRevealed++;
                 if (iCellsRevealed === iMaxCells) {
-                    return;
+                    return iCellsRevealed;
                 }
             } else if (randomCell.value > 0) {
                 console.warn(`Could not reveal random value due to existing value. (${randomCell.column},${randomCell.row}) cannot be set to ${randomCell.value}`);
             }
         }
+        return iCellsRevealed;
     }
 
 
@@ -109,13 +111,14 @@ class SidokuBonuses {
                 
                 iCellsRevealed++;
                 if (iCellsRevealed === iMaxCells) {
-                    return;;
+                    iCellsRevealed;
                 }
 
             } else if (targetCell.value > 0) {
                 console.warn(`Could not reveal random row value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
             }
-        }                    
+        }
+        return iCellsRevealed;                    
             
     }
 
@@ -166,14 +169,15 @@ class SidokuBonuses {
                 
                 iCellsRevealed++;
                 if (iCellsRevealed === iMaxCells) {
-                    return;
+                    iCellsRevealed;
                 }
                 
             } else if (targetCell.value > 0) {
                 console.warn(`Could not reveal random column value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
             }
 
-        }                            
+        }
+        return iCellsRevealed;                          
     }
 
     
@@ -220,12 +224,14 @@ class SidokuBonuses {
                     if (oStartFullnessState.board !== oEndFullnessState.board) {
                         oFullnessStateChanges['board'] = true;
                     }                
-                    fnGameEventCallback(oFullnessStateChanges);         
+                    fnGameEventCallback(oFullnessStateChanges);       
+                    iCellsRevealed++;
                 } else if (targetCell.value > 0) {
                     console.warn(`Could not reveal random inner table value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
                 }
             }
-        });                          
+        });
+        return iCellsRevealed;                          
     }
 
     // Picks a random digit and then looks for all the matching cells from the solution and solves them
@@ -246,7 +252,7 @@ class SidokuBonuses {
             if (iCellsRevealed < iMaxCells) {
                 const targetCell = oPuzzle.getData().cell(oSourceCell.column, oSourceCell.row);
                 
-                if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, randomValue)){
+                if ((targetCell.value <= 0) && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, randomValue)) {
                     const oStartFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);
                     targetCell.value = randomValue;                
                     targetCell.element.innerHTML = randomValue;
@@ -279,7 +285,8 @@ class SidokuBonuses {
                 }
             }
         });  
-       // SidukoHtmlGenerator.updateCellHints(oPuzzle);        
+       // SidukoHtmlGenerator.updateCellHints(oPuzzle);       
+       return (iCellsRevealed); 
         
     }
 
@@ -293,7 +300,7 @@ class SidokuBonuses {
             return;
         }
         const iMaxCells = bonusData.maxCellCount;
-        let iCellsRevealed = 0;               
+        let iCellsRevealed = 0;            
         emptyCells.forEach(oTargetCell => {
             if (iCellsRevealed < iMaxCells) {
                 const aPossibleValues = SidukoCellQueries.getPossibleValues(oPuzzle.getData(), oTargetCell);
@@ -336,6 +343,7 @@ class SidokuBonuses {
                 }            
             }
         });          
+        return iCellsRevealed;
         // SidukoHtmlGenerator.updateCellHints(oPuzzle);
     }
 }

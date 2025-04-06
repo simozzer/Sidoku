@@ -164,16 +164,16 @@ class SidukoPuzzle {
         // TODO: grant a smaller bonus if the answer was provided to the player
         if (state) {
             if (state.column) {
-                logMessage(`✨***Column Filled***✨`, "column_filled");
+                logMessage(`✨***(Column Filled)***✨`, "column_filled");
             }
             if (state.row) {
-                logMessage(`🎉***Row Filled***🎉`, "row_filled");
+                logMessage(`🎉***(Row Filled)***🎉`, "row_filled");
             }
             if (state.innerTable) {
-                logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
+                logMessage(`👍***(Inner Table Filled***👍)`, "inner_table_filled");
             }
             if (state.board) {
-                logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
+                logMessage(`(🔥🔥🔥***Board Filled***🔥🔥🔥)`, "board_filled");
             }
         }
     };

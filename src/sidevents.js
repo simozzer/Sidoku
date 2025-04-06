@@ -2,12 +2,26 @@ class SidukoEventsHandler {
     #tableDomElement;
     #puzzle;
     #playerData;
+    #intervalTimeout;
+    #secondsRemaining;
+    
     constructor(oPuzzle, oTableDomElement, playerData) {
         this.#tableDomElement = oTableDomElement;
         this.#puzzle = oPuzzle;
         this.#playerData = playerData;        
         document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.attachEvents();
+        this.#secondsRemaining = 120;
+        this.#intervalTimeout = window.setInterval(() => {
+            if (this.#secondsRemaining > 0) {
+                this.#secondsRemaining--;
+                const w = Math.round((this.#secondsRemaining / 120) * 100);
+                document.getElementById('progressBarProgress').style.width = `${w}%`;
+            } else {
+                window.clearInterval(this.#intervalTimeout);
+                this.#intervalTimeout = null;
+            }
+        }, 1000, this);
     }
 
     attachEvents() {
@@ -40,13 +54,12 @@ class SidukoEventsHandler {
             }
             if (state.row) {
                 logMessage(`🎉***Row Filled***🎉`, "row_filled");
-                logMessage(`✨***Column Filled***✨`, "column_filled");
-                if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {
-                    logMessage("😺Matches solution. Bonus $1😺", "completion_bonus");
+                if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {                    
                     oGame.getData().cellsInRow(state.row-1).forEach(cell => {
                         cell.element.classList.add('player_solved');
                         cell.setFixedValue(true);
                     });
+                    logMessage("😺Matches solution. Bonus $1😺", "completion_bonus");
                     this.#playerData.funds++;
                 } else {
                     logMessage("😩Does not match soution. No bonus awared😩");
@@ -186,19 +199,21 @@ class SidukoEventsHandler {
                     this.#playerData.guessesUntilNextBonus--;
                     if (this.#playerData.guessesUntilNextBonus === 0) {
                         this.#puzzle.triggerBonus();
-                        this.#playerData.guessesUntilNextBonus = 3;
+                        this.#playerData.guessesUntilNextBonus = 1; //TODO
                     }
 
 
                     oBoost = this.#playerData.getBoost("Seeker");
                     if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
-                        SidokuBonuses.autoFillCellsWithOnePossibleValue(this.#puzzle,this.#puzzle.solution, this.gameplayChangedHandler.bind(this),oBoost);
-                        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
-                        oBoost.turnsRemaining--;
+                        if (SidokuBonuses.autoFillCellsWithOnePossibleValue(this.#puzzle,this.#puzzle.solution, this.gameplayChangedHandler.bind(this),oBoost)) {
+                            SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+                            oBoost.turnsRemaining--;
+                        }
                         
                     }
                     if (oBoost && oBoost.turnsRemaining === 0) {
                         oBoost.turnsRemaining = null;
+                        oBoost.domElement.classList.add("exhausted");
                         logMessage("Seeker bonus used up");
                     }
                 }

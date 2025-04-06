@@ -44,9 +44,7 @@
                     <li></li>
                     <li></li>
                 </ul>
-            </div>
-            <input type="textarea" class="textarea" id="logPanel"/>
-            
+            </div>            
             <div id="menucontainer" class="p-4 mx-auto text-center bg-indigo-300">
                 <label for="menu" class="3xl">Choose a level:</label>
                 <select name="menu" id="menu" class="bg-white border-blue-800 border-separate">  
@@ -58,177 +56,183 @@
 
                 </select>
             </div>
-            <div class="flex justify-center p-4">
-                <div id="leftPanel" class="bg-gradient-to-r from-violet-600 to-indigo-600 overflow-hidden">
-                    <div class="flex flex-col text-yellow-70 fillVert">
-                        <table class="table text-center">
-                            <thead>
-                                <tr>
-                                    <th>Skill</th>
-                                    <th>Max Cells</th>
-                                    <th>Lives</th>
-                                </tr>
-                            </thead>
-                            <tbody id="playerBoostsTableBody">
-                                <tr>
-                                    <td>Rows</td>                            
-                                    <td>2</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>Columns</td>                            
-                                    <td>2</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>Squares</td>                            
-                                    <td>2</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>Same Digit</td>                            
-                                    <td>2</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>Random</td>                            
-                                    <td>2</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Solos
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Ones
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Twos
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Threes
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Fours
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Fives
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Sixees
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Sevens
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Eights
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Nines
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Lookahead
-                                    </td>
-                                    <td>
-                                        2
-                                    </td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        All digits
-                                    </td>
-                                    <td>
-                                        1
-                                    </td>
-                                    <td>1</td>
-                                </tr>
-                            </tbody> 
-                        </table> 
-                        <div id="playerStatus">
-                            <h4>Guesses Left: </h4>
-                            <div id="playerGuessesRemaining"></div>
-                            <hr/>
-                            <h4>Next Bonus: </h4>
-                            <div id="playerGuessesUntilBonus"></div>       
-                            <hr/>                 
-                            <h4>Funds: </h4>
-                            <div id="playerFunds"></div>
-                        </div>                         
-                
-                    </div>                                             
-                </div>
-
-                <div id="everywhere" class="p-6 py-8"></div>
-                    <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800 flex-row">
-                        <ul id="messageList">
-                        </ul>                 
-                    </div>            
-                </div>                    
-                <div class="conatiner flex flex-col items-center">
-                    <button id="bonusButton" class="btn btn-blue mx-6 hidden">
-                        Click here to reveal a bonus
-                    </button>
+            <div>
+                <div class="flex justify-center p-4">
+                    <div id="leftPanel" class="bg-gradient-to-r from-violet-600 to-indigo-600 overflow-hidden">
+                        <div class="flex flex-col text-yellow-70 fillVert">
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Skill</th>
+                                        <th>Max Cells</th>
+                                        <th>Lives</th>
+                                        <th>Use</th>                                        
+                                        <th>Buy</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="playerBoostsTableBody">
+                                    <tr>
+                                        <td>Rows</td>                            
+                                        <td>2</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Columns</td>                            
+                                        <td>2</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Squares</td>                            
+                                        <td>2</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Same Digit</td>                            
+                                        <td>2</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Random</td>                            
+                                        <td>2</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Solos
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Ones
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Twos
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Threes
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fours
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fives
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Sixees
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Sevens
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Eights
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Nines
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Lookahead
+                                        </td>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            All digits
+                                        </td>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>1</td>
+                                    </tr>
+                                </tbody> 
+                            </table> 
+                            <div id="playerStatus">
+                                <h4>Guesses Left: </h4>
+                                <div id="playerGuessesRemaining"></div>
+                                <hr/>
+                                <h4>Next Bonus: </h4>
+                                <div id="playerGuessesUntilBonus"></div>       
+                                <hr/>                 
+                                <h4>Funds: </h4>
+                                <div id="playerFunds"></div>
+                            </div>                         
+                    
+                        </div>                                             
+                    </div>
+                    <div id="everywhere" class="p-6 py-8"></div>
+                        <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800 flex-row" style="display: none;"">
+                            <ul id="messageList">
+                            </ul>                 
+                        </div>            
+                    </div>
+                    <div class="progressBarContainer p-4">
+                        <div id="progressBarProgress" class="progressBarProgress bg-gradient-to-r from-red-400 to-green-600"></div>
+                    </div>                 
+                    <div class="conatiner flex flex-col items-center">
+                        <button id="bonusButton" class="btn btn-blue mx-6 hidden">
+                            Click here to reveal a bonus
+                        </button>
+                    </div>
                 </div>
             </div>
        

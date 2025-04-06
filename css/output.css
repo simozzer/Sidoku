@@ -8,10 +8,13 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-300: oklch(0.808 0.114 19.571);
+    --color-red-400: oklch(0.704 0.191 22.216);
     --color-red-700: oklch(0.505 0.213 27.518);
     --color-orange-200: oklch(0.901 0.076 70.697);
     --color-yellow-200: oklch(0.945 0.129 101.54);
     --color-green-200: oklch(0.925 0.084 155.995);
+    --color-green-600: oklch(0.627 0.194 149.214);
+    --color-teal-400: oklch(0.777 0.152 181.912);
     --color-cyan-300: oklch(0.865 0.127 207.078);
     --color-sky-200: oklch(0.901 0.058 230.902);
     --color-sky-300: oklch(0.828 0.111 230.318);
@@ -237,8 +240,14 @@
   .min-w-full {
     min-width: 100%;
   }
+  .flex-grow {
+    flex-grow: 1;
+  }
   .grow {
     flex-grow: 1;
+  }
+  .border-collapse {
+    border-collapse: collapse;
   }
   .border-separate {
     border-collapse: separate;
@@ -248,6 +257,12 @@
   }
   .\[border-spacing\:0\.75rem\] {
     border-spacing: 0.75rem;
+  }
+  .transform {
+    transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
+  }
+  .resize {
+    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -266,6 +281,10 @@
   }
   .overflow-hidden {
     overflow: hidden;
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
   }
   .border-3 {
     border-style: var(--tw-border-style);
@@ -307,8 +326,20 @@
     --tw-gradient-from: var(--color-gray-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .from-red-400 {
+    --tw-gradient-from: var(--color-red-400);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-teal-400 {
+    --tw-gradient-from: var(--color-teal-400);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
   .from-violet-600 {
     --tw-gradient-from: var(--color-violet-600);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-green-600 {
+    --tw-gradient-to: var(--color-green-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .to-indigo-600 {
@@ -392,6 +423,13 @@
   }
   .text-cyan-300 {
     color: var(--color-cyan-300);
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
 }
 #everywhere {
@@ -605,6 +643,28 @@ table.sidukoTable {
   background-color: grey;
   cursor: not-allowed;
 }
+.progressBarContainer {
+  margin: 8px;
+  height: 3em;
+  width: calc(100%-16px);
+  background-color: white;
+  border: 2px solid blue;
+}
+.progressBarProgress {
+  height: 1em;
+  width: 30%;
+  background-color: rgba(223, 8, 58, 0.349);
+}
+#playerBoostsTableBody .exhausted {
+  color: red;
+  font-weight: 600;
+  background-color: burlywood;
+}
+#playerBoostsTableBody tr {
+  padding-top: 4x;
+  margin: 4px;
+  border: 1px solid blue;
+}
 @keyframes puzzlesolvedCells {
   from {
     transform: rotate(0deg);
@@ -689,7 +749,7 @@ table.sidukoTable {
 }
 .messageBox.initial {
   animation-name: fade;
-  animation-duration: 3s;
+  animation-duration: 2.2s;
   display: block;
 }
 @keyframes animatetop {
@@ -818,6 +878,31 @@ table.sidukoTable {
     border-radius: 50%;
   }
 }
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateX(0);
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateY(0);
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateZ(0);
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewX(0);
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewY(0);
+}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
@@ -865,6 +950,11 @@ table.sidukoTable {
   inherits: false;
   initial-value: 100%;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
@@ -872,6 +962,11 @@ table.sidukoTable {
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-rotate-x: rotateX(0);
+      --tw-rotate-y: rotateY(0);
+      --tw-rotate-z: rotateZ(0);
+      --tw-skew-x: skewX(0);
+      --tw-skew-y: skewY(0);
       --tw-border-style: solid;
       --tw-gradient-position: initial;
       --tw-gradient-from: #0000;
@@ -882,6 +977,7 @@ table.sidukoTable {
       --tw-gradient-from-position: 0%;
       --tw-gradient-via-position: 50%;
       --tw-gradient-to-position: 100%;
+      --tw-outline-style: solid;
       --tw-font-weight: initial;
     }
   }

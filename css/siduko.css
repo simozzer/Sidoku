@@ -237,6 +237,33 @@ table.sidukoTable {
     cursor: not-allowed;
 }
 
+.progressBarContainer {
+	margin: 8px;
+	height: 3em;
+	width: calc(100%-16px);
+	background-color: white;
+	border: 2px solid blue;
+}
+
+.progressBarProgress {
+	height: 1em;
+	width: 30%;
+	background-color:rgba(223, 8, 58, 0.349);
+}
+
+
+#playerBoostsTableBody .exhausted {
+	color: red;
+	font-weight: 600;
+	background-color: burlywood;
+}
+
+#playerBoostsTableBody tr {
+	padding-top:4x;
+	margin:4px;
+	border: 1px solid blue;
+}
+
 @keyframes puzzlesolvedCells {
     from {
         transform: rotate(0deg);
@@ -330,7 +357,7 @@ table.sidukoTable {
 
 .messageBox.initial {
 	animation-name: fade;
-	animation-duration: 3s;
+	animation-duration: 2.2s;
 	display: block;
 }
 

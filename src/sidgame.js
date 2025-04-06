@@ -55,14 +55,16 @@ setGameStartData = (oGame, aStartData) =>{
     }
 }
 
+messageBufferTimeout= null;
 oMessageTimeout = null;
-
+oMessageElement = null;
+aMessages = [];
 function logMessage(message, className = "") {
     if (!message) {
         return;
     }
-    console.log(message);
-    showMessage(message);
+    aMessages.push({message: message});
+
     const li = document.createElement("li");
     li.textContent = message;
     const ul = document.getElementById("messageList");
@@ -71,6 +73,8 @@ function logMessage(message, className = "") {
     if (className !== "") {
         li.classList.add(className);
     }
+
+    showMessages();
 
    
     if (oMessageTimeout) {
@@ -91,48 +95,46 @@ function logMessage(message, className = "") {
 
 
 function __displayMessage(message){
-    let oMessageElement = document.getElementById("messageBox");
-    if (!oMessageElement) {
-        oMessageElement = document.createElement("div");
-        oMessageElement.id = "messageBox";
-        oMessageElement.classList.add("messageBox");
+    if (message) {
+        debugger
+        if (!oMessageElement) {
+            oMessageElement = document.createElement("div");
+            oMessageElement.id = "messageBox";
+            oMessageElement.classList.add("messageBox");
+            document.getElementById("everywhere").appendChild(oMessageElement);
+
+            oMessageElement.addEventListener("animationend", function() {
+                if (oMessageElement.classList.contains("initial")) {
+                    oMessageElement.classList.remove("initial");
+                    oMessageElement.style.display = "none";
+                }                                
+            });
+        }
+
+        oMessageElement.innerText = message;  
+        oMessageElement.style.display = "block";    
         oMessageElement.classList.add("initial");
-        document.getElementById("everywhere").appendChild(oMessageElement);
     }
-
-    oMessageElement.textContent = message;  
-    oMessageElement.style.display = "block";    
-
-    oMessageElement.classList.remove("initial");
-    oMessageElement.classList.add("initial");
-    oMessageElement.addEventListener("animationend", function() {
-        oMessageElement.style.display = "none";
-        oMessageElement.classList.remove("initial");
-    });
 }
 
 
-aMessageBuffer = [];
-messageBufferTimeout = null;
-function showMessage(message) {
-    if (!message) {
-        return;
-    }
-
-    aMessageBuffer.push(message);
-
+function showMessages() {
     if (!messageBufferTimeout) {
-        __displayMessage(aMessageBuffer.shift());
+
         
         messageBufferTimeout = window.setInterval(() => {  
-            if (aMessageBuffer.length >0) {
-                __displayMessage(aMessageBuffer.shift());
-                
-            } else {
-                window.clearInterval(messageBufferTimeout);
-                messageBufferTimeout = null;
+            if (aMessages.length > 0) {
+                const oMessage = aMessages[0];
+                if (typeof oMessage.startTime === "undefined") {
+                    oMessage.startTime = Date.now();
+                    this.__displayMessage(oMessage.message);
+                } else {
+                    if (Date.now() > (oMessage.startTime + 2200)) {                        
+                        aMessages = aMessages.slice(1);
+                    };
+                }
             }
-        }, 1800, this);
+        },50, this);
     }
         
 }
@@ -192,6 +194,9 @@ function setupGame(puzzleData) {
             oBoost.decrementsEachTurn = true;
 
             oBoost = oPlayerData.addBoost("Seeker","After a number has been entered solves values that can only exist in 1 cell");
+            oBoost.boostMaxCellCount();
+            oBoost.boostMaxCellCount();
+
             oBoost.turnsRemaining = 5;
             oBoost.decrementsEachTurn = false;
 
@@ -204,6 +209,8 @@ function setupGame(puzzleData) {
                     rowElement = oEv.target.parentNode;
                 } else if (oEv.target.tagName === "TR") {
                     rowElement = oEv.target;
+                } else if (oEv.target.tagName === "INPUT") {
+                    rowElement = oEv.target.parentNode.parentNode;
                 } else {
                     console.warn("Invalid click event target for Boost", oEv.target);
                 }
