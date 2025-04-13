@@ -22,21 +22,25 @@ doMenuChanged = (oEv) => {
            // oEv.target.disabled = true;
             //setupPuzzle(escargotAiData);
             loadPuzzle("./resources/easyPuzzleData.txt");
+            oEv.target.display = "none";
             break;            
 
         case "Medium":
             //oEv.target.disabled = true;
             loadPuzzle("./resources/mediumPuzzleData.txt");
+            oEv.target.display = "none";
             break;    
         case "Hard":
    
            // oEv.target.disabled = true;
             loadPuzzle("./resources/hardPuzzleData.txt");
+            oEv.target.display = "none";
             break;                     
         case "Diabolical":
     
             //oEv.target.disabled = true;
             loadPuzzle("./resources/diabolicalPuzzleData.txt");
+            oEv.target.display = "none";
             break;
         default:
             break
@@ -129,17 +133,13 @@ function setupGame(puzzleData) {
         window.clearTimeout(oMessageTimeout);
         oMessageTimeout = null;
     }
+    oMessageElement = null;
 
     if (oMaster) {
         oMaster.stop();
         oMaster = null;
     }
 
-    oMaster = new SidukoMain(puzzleData);
-    //oMaster.setPuzzleStartData(puzzleData); 
+    oMaster = new SidukoMain(puzzleData);    
     oMaster.start();
-
-        
-
-    //const eventHandler = new SidukoEventsHandler(oGame, tableDOM, oPlayerData, oGame.solution);   
 }

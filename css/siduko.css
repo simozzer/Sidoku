@@ -286,6 +286,14 @@ table.sidukoTable {
 	display: none;
 }
 
+
+
+#progressBarTextOverlay {
+	width:100%;
+	text-align: center;
+	margin-top: -1.2em;
+	font-size: 1.8em;
+}
 @keyframes puzzlesolvedCells {
     from {
         transform: rotate(0deg);

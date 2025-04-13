@@ -260,13 +260,9 @@ class SidukoRandomBoostData extends SidukoBoostData {
 
 }
 
-class SidukoRandomValueBoostData extends SidukoBoostData {
-
-    
+class SidukoRandomValueBoostData extends SidukoBoostData {    
     use() {
-
         if (this.getCanUse()) {
-
             SidokuBonuses.revealCellsWithRandomValue(this.puzzle, this.puzzle.solution,()=>{},this);            
             this.turnsRemaining--;
             return true;
@@ -274,5 +270,5 @@ class SidukoRandomValueBoostData extends SidukoBoostData {
         }
         return false;
     }
-
 }
+

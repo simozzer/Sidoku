@@ -27,24 +27,31 @@ class SidukoPlayerData {
     }
 
     set funds(value) {
-        this.#funds = value;
+        
         const oElem = document.getElementById("playerFunds");
         if (oElem) {
             oElem.innerText = "$" + value;
         
             if (value > this.#funds) {
                 oElem.classList.add("fund-boost");
-                oElem.addEventListener("animationend", function() {
-                    document.getElementById("playerFunds").classList.remove("fund-boost");
-                });
+                const fnListener = () => {
+                    const playerFundsElem = document.getElementById("playerFunds");
+                    playerFundsElem.classList.remove("fund-boost");
+                    playerFundsElem.removeEventListener("animationend", fnListener);
+                };
+                oElem.addEventListener("animationend", fnListener);
             } else if (value < this.#funds) {
                 oElem.classList.add("fund-reduce");
-                OElem.addEventListener("animationend", function() {
-                    document.getElementById("playerFunds").classList.remove("fund-reduce");
-                });
+                const fnListener = () => {
+                    const playerFundsElem = document.getElementById("playerFunds");
+                    playerFundsElem.classList.remove("fund-reduce");
+                    playerFundsElem.removeEventListener("animationend", fnListener);
+                };
+                oElem.addEventListener("animationend", fnListener);
             }
-        }        
+        }   
         
+        this.#funds = value;
     }
 
     get boosts() {

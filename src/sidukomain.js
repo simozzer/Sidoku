@@ -59,6 +59,7 @@ class SidukoMain {
             this.#gameTimeOut = null;
         }
         await this._solve();
+        document.getElementById("menucontainer").style.display = "none";
         const oPlayerData = this.#playerData;
         const oGame = this.#game;
         const emptyCellCount = this.#game.getData().cells.filter((cell) => cell.value === 0).length
@@ -138,12 +139,21 @@ class SidukoMain {
         oBoost.maxCellCount = null;
 
 
-        oBoost = new SidukoSeekerBoostData("Seeker","After a number has been entered solves values that can only exist in 1 cell", oGame);
+        oBoost = new SidukoSeekerBoostData("Seeker","Solves values that can only exist in 1 cell", oGame);
         oBoost.turnsRemaining = SidukoConstants.INITIAL_SEEKER_LIVES;
         oBoost.decrementsEachTurn = false;
         oPlayerData.addBoostItem(oBoost);
         oBoost.buyHint = `Add another seeker bonus to be used when you choose`;
         oBoost.boostable = true;
+
+        
+        oBoost = new SidukoBoostData("Time","Adds a maximum of 30 seconds to the timer", oGame);
+        oBoost.turnsRemaining = 0;
+        oBoost.decrementsEachTurn = false;
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.buyHint = `Add a time boost bonus to be used when you choose`;
+        oBoost.boostable = false;
+        oBoost.maxCellCount = null;
 
 
         oPlayerData.renderBoosts();
@@ -174,7 +184,14 @@ class SidukoMain {
             } else if (clickedColumn === 4) {
                 // USE
       
-                //if (sBoostName === "Seeker") {       
+                //if (sBoostName === "Seeker") {   
+                    if (sBoostName === "Time") {
+                        let gameSeconds = this.#gamesSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
+                        if (gameSeconds > SidukoConstants.GAME_DURATION_SECONDS) {
+                            gameSeconds = SidukoConstants.GAME_DURATION_SECONDS;
+                        }
+                        this.#gamesSecondsRemaining = gameSeconds;
+                    }    
                     oBoost.use()
 
                     if (oBoost.turnsRemaining <= 0) {
@@ -216,12 +233,17 @@ class SidukoMain {
             
             if (this.#gamesSecondsRemaining > 0) {
                 this.#gamesSecondsRemaining --;
-                const w = Math.round((this.#gamesSecondsRemaining / SidukoConstants.GAME_DURATION_SECONDS) * 100);
-                document.getElementById('progressBarProgress').style.width = `${w}%`
+                
+                const totalWidth = document.getElementById("progressBarProgress").parentElement.clientWidth;
+                const w = Math.round((this.#gamesSecondsRemaining / SidukoConstants.GAME_DURATION_SECONDS) * totalWidth);
+                document.getElementById('progressBarProgress').style.width = `${w}px`;
+                document.getElementById("progressBarTextOverlay").innerText = `${this.#gamesSecondsRemaining} seconds remaining`;
             } else {
                 window.clearInterval(this.#gameTimeOut);
                 this.#gameTimeOut = null;
-                window.alert(('timeout'));
+                window.alert(('You ran out of time!\nTechnically speaking the game is over and you lost.\nFeel free to carry on playing, or choose a level from the menu.'));
+                document.getElementById("menu").value = "";
+                document.getElementById("menucontainer").style.display = "block";
 
             }
             
