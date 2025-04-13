@@ -68,7 +68,7 @@ class SidukoEventsHandler {
                 logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
             }
             if (state.playerCellUsed) {                
-                console.log("Cell used by player");
+                console.log("Cell used by player");                
                 this.#playerData.doTurnPlayed(true, oGame);
                 //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oGame.solution, this.gameplayChangedHandler.bind(this));
             } else if (state.cellUsed) {

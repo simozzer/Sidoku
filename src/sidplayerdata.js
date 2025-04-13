@@ -16,7 +16,10 @@ class SidukoPlayerData {
 
     set guessesRemaining(value) {
         this.#guessesRemaining = value;
-        document.getElementById("playerGuessesRemaining").innerText = this.#guessesRemaining;
+        const oElem = document.getElementById("playerGuessesRemaining");
+        if (oElem) {
+            oElem.innerText = value;
+        }
     }
 
     get funds() {
@@ -25,7 +28,23 @@ class SidukoPlayerData {
 
     set funds(value) {
         this.#funds = value;
-        document.getElementById("playerFunds").innerText = "$" + this.#funds;
+        const oElem = document.getElementById("playerFunds");
+        if (oElem) {
+            oElem.innerText = "$" + value;
+        
+            if (value > this.#funds) {
+                oElem.classList.add("fund-boost");
+                oElem.addEventListener("animationend", function() {
+                    document.getElementById("playerFunds").classList.remove("fund-boost");
+                });
+            } else if (value < this.#funds) {
+                oElem.classList.add("fund-reduce");
+                OElem.addEventListener("animationend", function() {
+                    document.getElementById("playerFunds").classList.remove("fund-reduce");
+                });
+            }
+        }        
+        
     }
 
     get boosts() {
@@ -84,7 +103,7 @@ class SidukoPlayerData {
             maxCellCountCell.innerText = boost.maxCellCount > 0 ? boost.maxCellCount : "";;
             row.appendChild(maxCellCountCell);
             const livesCell = document.createElement("td");
-            livesCell.innerText = boost.turnsRemaining;
+            livesCell.innerText = boost.turnsRemaining > 0 ? boost.turnsRemaining : "";
             row.appendChild(livesCell);       
             row.title = boost.description; 
 
@@ -144,6 +163,9 @@ class SidukoPlayerData {
 
     doTurnPlayed(bSolvedByPlayer, oPuzzle) {     
            
+
+        this.guessesRemaining --;
+
         if (bSolvedByPlayer) {
             this.#boosts.filter(b => b.decrementsEachTurn && b.turnsRemaining > 0).forEach(b => {
                 b.turnsRemaining--;

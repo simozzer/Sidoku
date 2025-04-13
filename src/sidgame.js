@@ -60,34 +60,9 @@ function logMessage(message, className = "") {
         return;
     }
     console.log(message);
-    aMessages.push({message: message});
+    aMessages.push({message: message, className: className});
 
-    const li = document.createElement("li");
-    li.textContent = message;
-    const ul = document.getElementById("messageList");
-    ul.appendChild(li);
-    li.scrollIntoView({behavior: "smooth", block: "end"});
-    if (className !== "") {
-        li.classList.add(className);
-    }
-
-    showMessages();
-
-   
-    if (oMessageTimeout) {
-        window.clearInterval(oMessageTimeout);
-        oMessageTimeout = null;
-    }
-    
-    if (ul.childNodes.length > 0) {            
-        oMessageTimeout = window.setInterval(() => {   
-            const ul = document.getElementById("messageList");         
-            if (ul.childNodes.length > 0) {
-                ul.removeChild(ul.childNodes[0]);
-            }
-
-        },8500 / ul.childNodes.length);
-    }
+    showMessages();    
 }
 
 
@@ -123,14 +98,14 @@ function showMessages() {
                 const oMessage = aMessages[0];
                 if (typeof oMessage.startTime === "undefined") {
                     oMessage.startTime = Date.now();
-                    this.__displayMessage(oMessage.message);
+                    this.__displayMessage(oMessage.message,oMessage.className);
                 } else {
-                    if (Date.now() > (oMessage.startTime + 2200)) {                        
+                    if (Date.now() > (oMessage.startTime + 2300)) {                        
                         aMessages = aMessages.slice(1);
                     };
                 }
             }
-        },50, this);
+        },100, this);
     }
         
 }
@@ -146,6 +121,20 @@ function addLogSeperator() {
 
 oMaster = null;
 function setupGame(puzzleData) {
+    if (messageBufferTimeout) {
+        window.clearInterval(messageBufferTimeout);
+        messageBufferTimeout = null;
+    }
+    if (oMessageTimeout) {
+        window.clearTimeout(oMessageTimeout);
+        oMessageTimeout = null;
+    }
+
+    if (oMaster) {
+        oMaster.stop();
+        oMaster = null;
+    }
+
     oMaster = new SidukoMain(puzzleData);
     //oMaster.setPuzzleStartData(puzzleData); 
     oMaster.start();

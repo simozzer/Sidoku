@@ -25,7 +25,7 @@ class SidukoMain {
        
 
         this.#playerData = new SidukoPlayerData();
-        this.#playerData.funds = 3;
+        this.#playerData.funds = SidukoConstants.DEFAULT_FUNDS;
         this.#playerData.guessesRemaining = -1;
 
         this.#playerData.puzzle = this.#game;
@@ -44,7 +44,20 @@ class SidukoMain {
         });
     }
 
+    stop() {
+        this.#eventHandler.detatchEvents();
+        if (this.#gameTimeOut) {
+            window.clearInterval(this.#gameTimeOut);
+            this.#gameTimeOut = null;
+        }
+        
+    }
+
     async start() {
+        if (this.#gameTimeOut) {
+            window.clearInterval(this.#gameTimeOut);
+            this.#gameTimeOut = null;
+        }
         await this._solve();
         const oPlayerData = this.#playerData;
         const oGame = this.#game;
@@ -58,16 +71,14 @@ class SidukoMain {
         puzzleElementHolder.textContent = "";
         puzzleElementHolder.appendChild(tableDOM);
 
+        if (this.#eventHandler) {
+            this.#eventHandler.detatchEvents();
+            this.#eventHandler = null;
+        }
 
         this.#eventHandler = new SidukoEventsHandler(this.#game,tableDOM, this.#playerData, this.#game.solution); 
         this.#eventHandler.attachEvents();
 
-        
-/*
-        oPlayerData.addBoost("Row","Reveals up to a specified number of cells in a random row", oGame);
-        oPlayerData.addBoost("Column","Reveals up to a specified number of cells in a random column", oGame);
-        oPlayerData.addBoost("InnerTable","Reveals up to a specified number of cells in a random inner table", oGame);
-        */
         let oBoost = new SidukoRowBoostData("Row","Reveals up to a specified number of cells in a random row", oGame);
         oPlayerData.addBoostItem(oBoost);
         oBoost.turnsRemaining = 0;
@@ -75,6 +86,7 @@ class SidukoMain {
         oBoost.buyHint = `Increment max cell count for Rows`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
+        oBoost.exhausted = true;
 
         oBoost = new SidukoColumnBoostData("Column","Reveals up to a specified number of cells in a random column", oGame)
         oPlayerData.addBoostItem(oBoost);
@@ -83,6 +95,7 @@ class SidukoMain {
         oBoost.buyHint = `Increment max cell count for Columns`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
+        oBoost.exhausted = true;
 
 
         oBoost = new SidukoInnerTableBoostData("InnerTable","Reveals up to a specified number of cells in a random inner table", oGame)
@@ -92,6 +105,26 @@ class SidukoMain {
         oBoost.buyHint = `Increment max cell count for Inner Tables`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
+        oBoost.exhausted = true;
+
+        oBoost = new SidukoRandomBoostData("Random","Reveals up to a specified number of random cells", oGame)
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.turnsRemaining = 0;
+        oBoost.decrementsEachTurn = false;
+        oBoost.buyHint = `Increment max cell count for random`;
+        oBoost.boostable = true;
+        oBoost.maxCellCount = 1;
+        oBoost.exhausted = true;
+
+        
+        oBoost = new SidukoRandomValueBoostData("Random Value","Reveals up to a specified number of random cells with a randomly chose value", oGame)
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.turnsRemaining = 0;
+        oBoost.decrementsEachTurn = false;
+        oBoost.buyHint = `Increment max cell count for random value`;
+        oBoost.boostable = true;
+        oBoost.maxCellCount = 1;
+        oBoost.exhausted = true;
 
 
 
@@ -131,11 +164,26 @@ class SidukoMain {
 
             const clickedColumn = Array.from(rowElement.childNodes).indexOf(oEv.target.parentNode);
             //if (clickedColumn >= 0) {
-            if (clickedColumn === 4) {
+            if (clickedColumn === 3) {
+                // boost
+                if (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEl_COST) {
+                    oBoost.maxCellCount = oBoost.maxCellCount + 1;
+                    this.#playerData.funds -= SidukoConstants.BOOST_UP_LEVEl_COST;
+                    oBoost.exhausted = oBoost.turnsRemaining <= 0;  
+                }
+            } else if (clickedColumn === 4) {
                 // USE
       
                 //if (sBoostName === "Seeker") {       
                     oBoost.use()
+
+                    if (oBoost.turnsRemaining <= 0) {
+                        oBoost.exhausted = true;
+                    }
+
+                    if (oBoost.maxCellCount > 2) {
+                        oBoost.maxCellCount--;
+                    }
                 //} 
                 
             } else if (clickedColumn === 5) {
@@ -143,12 +191,11 @@ class SidukoMain {
 
                 if (sBoostName === "Hints") {
                     oBoost.turnsRemaining = oBoost.turnsRemaining + SidukoConstants.HINT_BUY_BOOST_TURNS;        
-                    oBoost.exhausted = oBoost.turnsRemaining <= 0;            
-                    this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;
                 } else {
-                    oBoost.turnsRemaining = oBoost.turnsRemaining + 1;
-                    this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;
-                }                               
+                    oBoost.turnsRemaining = oBoost.turnsRemaining + 1;                                        
+                }         
+                oBoost.exhausted = oBoost.turnsRemaining <= 0;            
+                this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;                      
             }              
             
 
@@ -164,12 +211,12 @@ class SidukoMain {
             window.clearInterval(this.#gameTimeOut);
             this.#gameTimeOut = null;
         }
-        this.#gamesSecondsRemaining = 120;
+        this.#gamesSecondsRemaining = SidukoConstants.GAME_DURATION_SECONDS;
         this.#gameTimeOut = window.setInterval(() => {
             
             if (this.#gamesSecondsRemaining > 0) {
                 this.#gamesSecondsRemaining --;
-                const w = Math.round((this.#gamesSecondsRemaining / 120) * 100);
+                const w = Math.round((this.#gamesSecondsRemaining / SidukoConstants.GAME_DURATION_SECONDS) * 100);
                 document.getElementById('progressBarProgress').style.width = `${w}%`
             } else {
                 window.clearInterval(this.#gameTimeOut);

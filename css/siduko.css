@@ -379,12 +379,73 @@ table.sidukoTable {
 
 .messageBox.initial {
 	animation-name: fade;
-	animation-duration: 3s;
+	animation-duration: 2s;
 	display: block;
 }
 
+@keyframes fundBoost {
+	from {
+		font-size: 0.1em;
+		color:white;
+	}
+	to {
+		font-size: 2em;
+		color: red;
+	}
+}
+
+#playerFunds.fund-boost {
+	animation-name: fundBoost;
+    animation-duration: 1s;
+}
+
+.boostBoostButton {
+    background-color: darkcyan;
+    border: 3px solid yellow;
+    border-radius: 6px;
+    padding: 0px 8px;
+	color: floralwhite;
+}
 
 
+.buyBoostButton {
+	background-color: white;
+	border: 1px solid black;
+	color: black;
+	padding: 0px 10px;
+	border-radius: 10px;
+}
+
+@keyframes fundReduce {
+	from {
+		font-size: 2em;
+		color:green;
+	}
+	to {
+		font-size: 0.1;
+		color: red;
+	}
+}
+
+
+#playerFunds.fund-reduce {
+	animation-name: fundReduce;
+    animation-duration: 1s;
+}
+
+
+@keyframes wobble {
+	from {
+		rotate: -1deg;
+	}
+	to {
+		rotate: 1deg;
+	}
+}
+
+#leftPanel {
+	animation:wobble 5s ease-in-out infinite alternate;
+}
 
 @tailwind base;
 @tailwind components;

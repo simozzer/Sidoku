@@ -114,7 +114,7 @@ class SidukoBoostData {
         if (value && this.#domElement) {
             this.#domElement.classList.add("exhausted");
             this.#turnsRemaining = null;
-        } else {
+        } else if (this.#domElement) {
             this.#domElement.classList.remove("exhausted");
         }
     }
@@ -234,6 +234,40 @@ class SidukoInnerTableBoostData extends SidukoBoostData {
         if (this.getCanUse()) {
 
             SidokuBonuses.revealCellsWithRandomInnerTable(this.puzzle, this.puzzle.solution,()=>{},this);            
+            this.turnsRemaining--;
+            return true;
+            // (this.#puzzle,this.#puzzle.solution)            
+        }
+        return false;
+    }
+
+}
+
+class SidukoRandomBoostData extends SidukoBoostData {
+
+    
+    use() {
+
+        if (this.getCanUse()) {
+
+            SidokuBonuses.revealRandomValue(this.puzzle, this.puzzle.solution,()=>{},this);            
+            this.turnsRemaining--;
+            return true;
+            // (this.#puzzle,this.#puzzle.solution)            
+        }
+        return false;
+    }
+
+}
+
+class SidukoRandomValueBoostData extends SidukoBoostData {
+
+    
+    use() {
+
+        if (this.getCanUse()) {
+
+            SidokuBonuses.revealCellsWithRandomValue(this.puzzle, this.puzzle.solution,()=>{},this);            
             this.turnsRemaining--;
             return true;
             // (this.#puzzle,this.#puzzle.solution)            
