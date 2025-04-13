@@ -21,6 +21,9 @@ class SidokuBonuses {
         const iMaxCells = bonusData.maxCellCount;
         let iCellsRevealed = 0;
         for (let i = 0; i< iMaxCells -1; i++) {
+            if (iCellsRevealed >= iMaxCells) {
+                break;
+            }
             logMessage(`Random Cell: ${randomCell.column}, ${randomCell.row}`, "randomChoiceStatus");
             if ((randomCell.value <= 0)
                 && SidukoCellQueries.canSetValue(oPuzzle.getData(), randomCell, sourceCell.value)) {  
@@ -38,24 +41,9 @@ class SidokuBonuses {
                 //SidukoHtmlGenerator.updateCellHints(oPuzzle);    
 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), randomCell);                
-                const oFullnessStateChanges = {};
-                if (oStartFullnessState.column !== oEndFullnessState.column) {
-                    oFullnessStateChanges['column'] = true;
-                } 
-                if (oStartFullnessState.row !== oEndFullnessState.row) {
-                    oFullnessStateChanges['row'] = true;
-                }
-                if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                    oFullnessStateChanges['innerTable'] = true;
-                }
-                if (oStartFullnessState.board !== oEndFullnessState.board) {
-                    oFullnessStateChanges['board'] = true;
-                }
+                const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, random);
                 fnGameEventCallback(oFullnessStateChanges);
                 iCellsRevealed++;
-                if (iCellsRevealed === iMaxCells) {
-                    return iCellsRevealed;
-                }
             } else if (randomCell.value > 0) {
                 console.warn(`Could not reveal random value due to existing value. (${randomCell.column},${randomCell.row}) cannot be set to ${randomCell.value}`);
             }
@@ -78,6 +66,9 @@ class SidokuBonuses {
         const iMaxCells = bonusData.maxCellCount;
         let iCellsRevealed = 0;
         for (let iIndex = 0; iIndex < 9; iIndex++) {
+            if (iCellsRevealed >= iMaxCells) {
+                break;
+            }
             const sourceCell = puzzleSolution.getData().cell(iIndex,randomRow);
             const targetCell = oPuzzle.getData().cell(iIndex, randomRow);
             if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, sourceCell.value)) {
@@ -94,26 +85,11 @@ class SidokuBonuses {
    
 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                const oFullnessStateChanges = {};
-                if (oStartFullnessState.column !== oEndFullnessState.column) {
-                    oFullnessStateChanges['column'] = true;
-                } 
-                if (oStartFullnessState.row !== oEndFullnessState.row) {
-                    oFullnessStateChanges['row'] = true;
-                }
-                if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                    oFullnessStateChanges['innerTable'] = true;
-                }
-                if (oStartFullnessState.board !== oEndFullnessState.board) {
-                    oFullnessStateChanges['board'] = true;
-                }
+                const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
                 fnGameEventCallback(oFullnessStateChanges);
                 
                 iCellsRevealed++;
-                if (iCellsRevealed === iMaxCells) {
-                    iCellsRevealed;
-                }
-
+   
             } else if (targetCell.value > 0) {
                 console.warn(`Could not reveal random row value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
             }
@@ -136,6 +112,9 @@ class SidokuBonuses {
         const iMaxCells = bonusData.maxCellCount;
         let iCellsRevealed = 0;
         for (let iIndex = 0; iIndex < 9; iIndex++) {
+            if (iCellsRevealed >= iMaxCells) {
+                break;
+            }
             const sourceCell = puzzleSolution.getData().cell(randomColumnn,iIndex);
             const targetCell = oPuzzle.getData().cell(randomColumnn, iIndex);
             if ((targetCell.value <= 0)  && SidukoCellQueries.canSetValue(oPuzzle.getData(), targetCell, sourceCell.value)) {
@@ -152,25 +131,10 @@ class SidokuBonuses {
                 //SidukoHtmlGenerator.updateCellHints(oPuzzle);
                 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                const oFullnessStateChanges = {};
-                if (oStartFullnessState.column !== oEndFullnessState.column) {
-                    oFullnessStateChanges['column'] = true;
-                } 
-                if (oStartFullnessState.row !== oEndFullnessState.row) {
-                    oFullnessStateChanges['row'] = true;
-                }
-                if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                    oFullnessStateChanges['innerTable'] = true;
-                }
-                if (oStartFullnessState.board !== oEndFullnessState.board) {
-                    oFullnessStateChanges['board'] = true;
-                }
+                const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
                 fnGameEventCallback(oFullnessStateChanges);
                 
-                iCellsRevealed++;
-                if (iCellsRevealed === iMaxCells) {
-                    iCellsRevealed;
-                }
+                iCellsRevealed++;            
                 
             } else if (targetCell.value > 0) {
                 console.warn(`Could not reveal random column value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${sourceCell.value}`);
@@ -211,19 +175,7 @@ class SidokuBonuses {
                 // SidukoHtmlGenerator.updateCellHints(oPuzzle);
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                    const oFullnessStateChanges = {};
-                    if (oStartFullnessState.column !== oEndFullnessState.column) {
-                        oFullnessStateChanges['column'] = true;
-                    } 
-                    if (oStartFullnessState.row !== oEndFullnessState.row) {
-                        oFullnessStateChanges['row'] = true;
-                    }
-                    if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                        oFullnessStateChanges['innerTable'] = true;
-                    }
-                    if (oStartFullnessState.board !== oEndFullnessState.board) {
-                        oFullnessStateChanges['board'] = true;
-                    }                
+                    const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);         
                     fnGameEventCallback(oFullnessStateChanges);       
                     iCellsRevealed++;
                 } else if (targetCell.value > 0) {
@@ -265,19 +217,7 @@ class SidokuBonuses {
                     });
                     
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                    const oFullnessStateChanges = {};
-                    if (oStartFullnessState.column !== oEndFullnessState.column) {
-                        oFullnessStateChanges['column'] = true;
-                    } 
-                    if (oStartFullnessState.row !== oEndFullnessState.row) {
-                        oFullnessStateChanges['row'] = true;
-                    }
-                    if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                        oFullnessStateChanges['innerTable'] = true;
-                    }
-                    if (oStartFullnessState.board !== oEndFullnessState.board) {
-                        oFullnessStateChanges['board'] = true;
-                    }
+                    const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
                     fnGameEventCallback(oFullnessStateChanges);      
                     iCellsRevealed++;
                 } else if (targetCell.value > 0) {
@@ -321,19 +261,7 @@ class SidokuBonuses {
                         });
 
                         const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), oTargetCell);    
-                        const oFullnessStateChanges = {};
-                        if (oStartFullnessState.column !== oEndFullnessState.column) {
-                            oFullnessStateChanges['column'] = true;
-                        } 
-                        if (oStartFullnessState.row !== oEndFullnessState.row) {
-                            oFullnessStateChanges['row'] = true;
-                        }
-                        if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                            oFullnessStateChanges['innerTable'] = true;
-                        }
-                        if (oStartFullnessState.board !== oEndFullnessState.board) {
-                            oFullnessStateChanges['board'] = true;
-                        }
+                        const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, oTargetCell);
                         fnGameEventCallback(oFullnessStateChanges);  
                         iCellsRevealed++;
         
@@ -345,5 +273,28 @@ class SidokuBonuses {
         });          
         return iCellsRevealed;
         // SidukoHtmlGenerator.updateCellHints(oPuzzle);
+    }
+
+
+    static canAutoFillCellsWithOnePossibleValue(oPuzzle, puzzleSolution) {
+        const emptyCells = oPuzzle.getData().cells.filter(c => c.value === 0);
+        if (emptyCells.length === 0) {             
+            return;
+        }
+        let iCellsRevealed = 0;            
+        emptyCells.forEach(oTargetCell => {
+            if (iCellsRevealed < 1) {
+                const aPossibleValues = SidukoCellQueries.getPossibleValues(oPuzzle.getData(), oTargetCell);
+                if (aPossibleValues.length === 1) {
+                    if ((oTargetCell.value <= 0)
+                         && SidukoCellQueries.canSetValue(oPuzzle.getData(), oTargetCell, aPossibleValues[0])
+                        && puzzleSolution.getData().cell(oTargetCell.column, oTargetCell.row).value === aPossibleValues[0]) {                     
+                        iCellsRevealed++;
+        
+                    }
+                }            
+            }
+        });          
+        return iCellsRevealed > 0;        
     }
 }

@@ -2,8 +2,6 @@ class SidukoEventsHandler {
     #tableDomElement;
     #puzzle;
     #playerData;
-    #intervalTimeout;
-    #secondsRemaining;
     
     constructor(oPuzzle, oTableDomElement, playerData) {
         this.#tableDomElement = oTableDomElement;
@@ -11,17 +9,6 @@ class SidukoEventsHandler {
         this.#playerData = playerData;        
         document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.attachEvents();
-        this.#secondsRemaining = 120;
-        this.#intervalTimeout = window.setInterval(() => {
-            if (this.#secondsRemaining > 0) {
-                this.#secondsRemaining--;
-                const w = Math.round((this.#secondsRemaining / 120) * 100);
-                document.getElementById('progressBarProgress').style.width = `${w}%`;
-            } else {
-                window.clearInterval(this.#intervalTimeout);
-                this.#intervalTimeout = null;
-            }
-        }, 1000, this);
     }
 
     attachEvents() {
@@ -36,8 +23,7 @@ class SidukoEventsHandler {
 
     gameplayChangedHandler(state) {
         const oGame = this.#puzzle;
-        if (state) {
-            // TODO: check if the cells filled match the solution if not then NO BONUS
+        if (state) {            
             if (state.column) {
                 logMessage(`✨***Column Filled***✨`, "column_filled");
                 if (oGame.getData().cellsInColumn(state.column-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInColumn(state.column-1).map(o=>o.value).toString()) {
@@ -83,11 +69,13 @@ class SidukoEventsHandler {
             }
             if (state.playerCellUsed) {                
                 console.log("Cell used by player");
-                this.#playerData.doTurnPlayed(true);
+                this.#playerData.doTurnPlayed(true, oGame);
                 //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oGame.solution, this.gameplayChangedHandler.bind(this));
             } else if (state.cellUsed) {
                 console.log("cell used by A bonus");
-                this.#playerData.doTurnPlayed(false);
+                this.#playerData.doTurnPlayed(false, oGame);
+            } else {
+                console.log("Unknown state");
             }
         }
     }
@@ -166,56 +154,17 @@ class SidukoEventsHandler {
                     oEventTarget.innerText = oEvent.key;
                     oEventTarget.classList.add('entered');                       
                     oEventTarget.title = "";                    
-
-                    let oBoost = this.#playerData.getBoost("Hints");
-                    if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
-                        SidukoHtmlGenerator.updateCellHints(this.#puzzle);                           
-                    } else {
-                        this.#puzzle.getData().cells.forEach(cell => {
-                            cell.element.title = "";
-                        });
-                    }                    
+                 
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);    
-                    const oFullnessStateChanges = {};
-                    if (oStartFullnessState.column !== oEndFullnessState.column) {
-                        oFullnessStateChanges['column'] = oCellData.column+1;
-                    } 
-                    if (oStartFullnessState.row !== oEndFullnessState.row) {
-                        oFullnessStateChanges['row'] = oCellData.row+1;
+                    let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, oCellData);
+                    if (!oFullnessStateChanges) {
+                        oFullnessStateChanges = {};
                     }
-                    if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
-                        oFullnessStateChanges['innerTable'] = oCellData.innerTableIndex+1;
-                    }
-                    if (oStartFullnessState.board !== oEndFullnessState.board) {
-                        oFullnessStateChanges['board'] = true;
-                    }
+                    oFullnessStateChanges.playerCellUsed= true;
                     this.gameplayChangedHandler(oFullnessStateChanges);
-
-                    this.gameplayChangedHandler({playerCellUsed: true });      
-                                    
-
-                    this.#playerData.guessesRemaining = this.#playerData.guessesRemaining - 1;
-                    this.#playerData.guessesUntilNextBonus--;
-                    if (this.#playerData.guessesUntilNextBonus === 0) {
-                        this.#puzzle.triggerBonus();
-                        this.#playerData.guessesUntilNextBonus = 1; //TODO
-                    }
-
-
-                    oBoost = this.#playerData.getBoost("Seeker");
-                    if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
-                        if (SidokuBonuses.autoFillCellsWithOnePossibleValue(this.#puzzle,this.#puzzle.solution, this.gameplayChangedHandler.bind(this),oBoost)) {
-                            SidukoHtmlGenerator.updateCellHints(this.#puzzle);
-                            oBoost.turnsRemaining--;
-                        }
-                        
-                    }
-                    if (oBoost && oBoost.turnsRemaining === 0) {
-                        oBoost.turnsRemaining = null;
-                        oBoost.domElement.classList.add("exhausted");
-                        logMessage("Seeker bonus used up");
-                    }
+                    
+                    // TODO REWIND TO LAST POINT OF DIVERGENCE
                 }
             }
         }

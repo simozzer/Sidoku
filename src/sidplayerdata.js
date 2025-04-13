@@ -1,13 +1,13 @@
 class SidukoPlayerData {
     #guessesRemaining
-    #guessesUntilNextBonus
     #funds
     #boosts
+    #puzzle
     constructor() {
         this.#guessesRemaining = 0;
-        this.#guessesUntilNextBonus = 0;
         this.#funds = 0;
         this.#boosts = [];
+        this.#puzzle = null;
     }
 
     get guessesRemaining() {
@@ -17,15 +17,6 @@ class SidukoPlayerData {
     set guessesRemaining(value) {
         this.#guessesRemaining = value;
         document.getElementById("playerGuessesRemaining").innerText = this.#guessesRemaining;
-    }
-
-    get guessesUntilNextBonus() {
-        return this.#guessesUntilNextBonus;
-    }
-
-    set guessesUntilNextBonus(value) {
-        this.#guessesUntilNextBonus = value;
-        document.getElementById("playerGuessesUntilBonus").innerText = this.#guessesUntilNextBonus;
     }
 
     get funds() {
@@ -41,15 +32,31 @@ class SidukoPlayerData {
         return this.#boosts;
     }
 
+    set puzzle(value) {
+        this.#puzzle = value;
+    }
 
+    get puzzle() {
+        return this.#puzzle;
+    }
     // returns a reference to a newly added boost, or an existing item
     // if one with the same name already exists
-    addBoost(boostName, boosDescription) {
+    addBoost(boostName, boosDescription, puzzle) {
         const existingBoost = this.#boosts.find(b => b.name === boostName);
         if (existingBoost) {
             return existingBoost;
         }
-        const boost = new SidukoBoostData(boostName, boosDescription);
+        const boost = new SidukoBoostData(boostName, boosDescription, puzzle);
+        this.#boosts.push(boost);
+        return boost;
+    }
+    
+
+    addBoostItem(boost) {
+        const existingBoost = this.#boosts.find(b => b.name === boost.name);
+        if (existingBoost) {
+            return existingBoost;
+        }
         this.#boosts.push(boost);
         return boost;
     }
@@ -74,28 +81,43 @@ class SidukoPlayerData {
             nameCell.innerText = boost.name;
             row.appendChild(nameCell);
             const maxCellCountCell = document.createElement("td");
-            maxCellCountCell.innerText = boost.maxCellCount;;
+            maxCellCountCell.innerText = boost.maxCellCount > 0 ? boost.maxCellCount : "";;
             row.appendChild(maxCellCountCell);
             const livesCell = document.createElement("td");
             livesCell.innerText = boost.turnsRemaining;
             row.appendChild(livesCell);       
             row.title = boost.description; 
 
-            const useCell = document.createElement("td");
-            useCell.classList.add("useBoostButtonCell");
+            const levelCell = document.createElement("td");                        
+            if (boost.boostable && this.#funds >= SidukoConstants.BOOST_UP_LEVEl_COST) {
+                const levelButton = document.createElement("input");
+                levelButton.classList.add("boostBoostButton");
+                levelButton.type = "button";
+                levelButton.value = `$${SidukoConstants.BOOST_UP_LEVEl_COST}`;
+                levelButton.style.display =  "button"; // TODO
+                levelCell.appendChild(levelButton);            
+            }
+            row.appendChild(levelCell);   
+
+            const useCell = document.createElement("td");            
             const useButton = document.createElement("input");
+            useButton.classList.add("useBoostButton");
             useButton.type = "button";
             useButton.value = "Use";
+            useButton.style.display = boost.getCanUse()  && (!boost.decrementsEachTurn) ? "button" : "none";
             useCell.appendChild(useButton);            
-            row.appendChild(useCell);
+            row.appendChild(useCell);        
 
 
-            const buyCell = document.createElement("td");
-            buyCell.classList.add("buyBoostButtonCell");
-            const buyButton = document.createElement("input");
-            buyButton.type = "button";
-            buyButton.value = "$1";
-            buyCell.appendChild(buyButton);
+            const buyCell = document.createElement("td");     
+            if (this.#funds >= SidukoConstants.BOOST_LIFE_COST) {
+                const buyButton = document.createElement("input");
+                buyButton.classList.add("buyBoostButton");
+                buyButton.type = "button";
+                buyButton.value = `$${SidukoConstants.BOOST_LIFE_COST}`;
+                buyButton.title = boost.buyHint;
+                buyCell.appendChild(buyButton);
+            }
             row.appendChild(buyCell);
             
 
@@ -108,17 +130,40 @@ class SidukoPlayerData {
         return tbody;
     }
 
-    doTurnPlayed(bSolvedByPlayer) {        
+    renderHints(oPuzzle) {
+        // update hints
+        const oBoost = this.getBoost("Hints");
+        if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
+            SidukoHtmlGenerator.updateCellHints(oPuzzle);                           
+        } else {
+            oPuzzle.getData().cells.forEach(cell => {
+                cell.element.title = "No hints remaining";
+            });
+        }   
+    }
+
+    doTurnPlayed(bSolvedByPlayer, oPuzzle) {     
+           
         if (bSolvedByPlayer) {
-            this.#boosts.filter(b => b.decrmentsEachTurn && b.turnsRemaining > 0).forEach(b => {
+            this.#boosts.filter(b => b.decrementsEachTurn && b.turnsRemaining > 0).forEach(b => {
                 b.turnsRemaining--;
                 if (b.turnsRemaining === 0) {
                     logMessage("Boost '" + b.name + "' has run out of turns.");     
                     b.exhausted = true;             
-                }
-                
+                }                
             });
         }
+        this.#boosts.forEach(b => {
+            b.forSale = this.funds >= 1;
+            if (b.forSale) {
+                b.domElement.classList.add("forSale");
+            } else {
+                b.domElement.classList.remove("forSale");
+            }
+        });
+
+
+        this.renderHints(oPuzzle);        
 
         this.renderBoosts();
     }

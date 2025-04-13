@@ -114,6 +114,35 @@ class SidukoCellQueries {
         };
     }
 
+    static getFullnessStateChanges(oStartFullnessState, oEndFullnessState, oCellData) {
+        let oFullnessStateChanges = null;
+        if (oStartFullnessState.column !== oEndFullnessState.column) {
+            if (oFullnessStateChanges === null) {
+                oFullnessStateChanges = {};
+            }
+            oFullnessStateChanges['column'] = oCellData.column+1;
+        } 
+        if (oStartFullnessState.row !== oEndFullnessState.row) {
+            if (oFullnessStateChanges === null) {
+                oFullnessStateChanges = {};
+            }            
+            oFullnessStateChanges['row'] = oCellData.row+1;
+        }
+        if (oStartFullnessState.innerTableIndex !== oEndFullnessState.innerTableIndex) {
+            if (oFullnessStateChanges === null) {
+                oFullnessStateChanges = {};
+            }
+            oFullnessStateChanges['innerTable'] = oCellData.innerTableIndex+1;
+        }
+        if (oStartFullnessState.board !== oEndFullnessState.board) {
+            if (oFullnessStateChanges === null) {
+                oFullnessStateChanges = {};
+            }
+            oFullnessStateChanges['board'] = true;
+        }
+        return oFullnessStateChanges;
+    }
+
 
 }
 

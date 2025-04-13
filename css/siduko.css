@@ -112,8 +112,7 @@ table.sidukoTable {
     height: 14%;
     background-color: white;
     border: 5px solid #238f28;
-    margin-left: 16px;
-	margin-right: 16px;
+    margin: 16px;
     text-align: center;
 }
 
@@ -264,6 +263,29 @@ table.sidukoTable {
 	border: 1px solid blue;
 }
 
+.useBoostButton {
+	border: 2px solid #5a00ff;
+    border-radius: 8px;
+    background-color: #c1e4ea;
+    font-size: 1em;
+    padding: 0 8px;
+    color: red;
+}
+
+
+#playerBoostsTableBody tr.forSale .buyBoostButton {
+	border: 2px solid yellow;
+    border-radius: 8px;
+    background-color: blue;
+    font-size: 1em;
+	padding: 0 8px;
+	display: block;
+}
+
+.#playerBoostsTableBody tr .buyBoostButton {
+	display: none;
+}
+
 @keyframes puzzlesolvedCells {
     from {
         transform: rotate(0deg);
@@ -357,7 +379,7 @@ table.sidukoTable {
 
 .messageBox.initial {
 	animation-name: fade;
-	animation-duration: 2.2s;
+	animation-duration: 3s;
 	display: block;
 }
 

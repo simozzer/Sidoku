@@ -1,0 +1,207 @@
+class SidukoMain {
+    #playerData;
+    #game;
+    #puzzleData;
+    #solution;
+    #htmlGenerator;
+    #eventHandler;
+    #gameTimeOut;
+    #gamesSecondsRemaining;
+    constructor(puzzleData) {
+            
+        this.#game = new SidukoPuzzle();
+        this._setGameStartData(this.#game, puzzleData);
+        
+        this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);        
+        const tableDOM = this.#htmlGenerator.getPuzzleDOM();
+        const puzzleElementHolder = document.getElementById("everywhere");    
+        puzzleElementHolder.textContent = "";
+        puzzleElementHolder.appendChild(tableDOM);
+
+        
+        this.#solution = new SidukoPuzzle(this);
+        this._setGameStartData(this.#solution, puzzleData);
+        this.#game.solution = this.#solution;
+       
+
+        this.#playerData = new SidukoPlayerData();
+        this.#playerData.funds = 3;
+        this.#playerData.guessesRemaining = -1;
+
+        this.#playerData.puzzle = this.#game;
+        this.#eventHandler = null;
+        this.#gameTimeOut = null;
+        this.#gamesSecondsRemaining = -1;
+    }
+
+    
+    async _solve() {
+        return new Promise(async (resolve, reject) => {
+            const solver = new SidukoSolver(this.#solution ,(data) => {});
+            await solver.execute();
+            
+            resolve();                    
+        });
+    }
+
+    async start() {
+        await this._solve();
+        const oPlayerData = this.#playerData;
+        const oGame = this.#game;
+        const emptyCellCount = this.#game.getData().cells.filter((cell) => cell.value === 0).length
+        oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.7);
+
+
+        this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);        
+        const tableDOM = this.#htmlGenerator.getPuzzleDOM();
+        const puzzleElementHolder = document.getElementById("everywhere");    
+        puzzleElementHolder.textContent = "";
+        puzzleElementHolder.appendChild(tableDOM);
+
+
+        this.#eventHandler = new SidukoEventsHandler(this.#game,tableDOM, this.#playerData, this.#game.solution); 
+        this.#eventHandler.attachEvents();
+
+        
+/*
+        oPlayerData.addBoost("Row","Reveals up to a specified number of cells in a random row", oGame);
+        oPlayerData.addBoost("Column","Reveals up to a specified number of cells in a random column", oGame);
+        oPlayerData.addBoost("InnerTable","Reveals up to a specified number of cells in a random inner table", oGame);
+        */
+        let oBoost = new SidukoRowBoostData("Row","Reveals up to a specified number of cells in a random row", oGame);
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.turnsRemaining = 0;
+        oBoost.decrementsEachTurn = false;
+        oBoost.buyHint = `Increment max cell count for Rows`;
+        oBoost.boostable = true;
+        oBoost.maxCellCount = 1;
+
+        oBoost = new SidukoColumnBoostData("Column","Reveals up to a specified number of cells in a random column", oGame)
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.turnsRemaining = 0;
+        oBoost.decrementsEachTurn = false;
+        oBoost.buyHint = `Increment max cell count for Columns`;
+        oBoost.boostable = true;
+        oBoost.maxCellCount = 1;
+
+
+        oBoost = new SidukoInnerTableBoostData("InnerTable","Reveals up to a specified number of cells in a random inner table", oGame)
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.turnsRemaining = 0;
+        oBoost.decrementsEachTurn = false;
+        oBoost.buyHint = `Increment max cell count for Inner Tables`;
+        oBoost.boostable = true;
+        oBoost.maxCellCount = 1;
+
+
+
+        // Show tooltips on each turn whilst we still have turns remaining
+        oBoost = new SidukoHintsBoostData("Hints","Shows tooltips for the possible values in a cell", oGame);
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.turnsRemaining = SidukoConstants.HINT_BUY_BOOST_TURNS;
+        oBoost.decrementsEachTurn = true;
+        oBoost.buyHint = `Add tooltip hints for another ${SidukoConstants.HINT_BUY_BOOST_TURNS}`;
+        oBoost.boostable = false;
+        oBoost.maxCellCount = null;
+
+
+        oBoost = new SidukoSeekerBoostData("Seeker","After a number has been entered solves values that can only exist in 1 cell", oGame);
+        oBoost.turnsRemaining = SidukoConstants.INITIAL_SEEKER_LIVES;
+        oBoost.decrementsEachTurn = false;
+        oPlayerData.addBoostItem(oBoost);
+        oBoost.buyHint = `Add another seeker bonus to be used when you choose`;
+        oBoost.boostable = true;
+
+
+        oPlayerData.renderBoosts();
+
+        document.getElementById("playerBoostsTableBody").addEventListener('click',(oEv) => {
+            let rowElement;
+            if (oEv.target.tagName === "TD") {
+                rowElement = oEv.target.parentNode;
+            } else if (oEv.target.tagName === "TR") {
+                rowElement = oEv.target;
+            } else if (oEv.target.tagName === "INPUT") {
+                rowElement = oEv.target.parentNode.parentNode;
+            } else {
+                console.warn("Invalid click event target for Boost", oEv.target);
+            }
+            const sBoostName = rowElement.childNodes[0].innerText;
+            let oBoost = oPlayerData.getBoost(sBoostName);
+
+            const clickedColumn = Array.from(rowElement.childNodes).indexOf(oEv.target.parentNode);
+            //if (clickedColumn >= 0) {
+            if (clickedColumn === 4) {
+                // USE
+      
+                //if (sBoostName === "Seeker") {       
+                    oBoost.use()
+                //} 
+                
+            } else if (clickedColumn === 5) {
+                // BUY
+
+                if (sBoostName === "Hints") {
+                    oBoost.turnsRemaining = oBoost.turnsRemaining + SidukoConstants.HINT_BUY_BOOST_TURNS;        
+                    oBoost.exhausted = oBoost.turnsRemaining <= 0;            
+                    this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;
+                } else {
+                    oBoost.turnsRemaining = oBoost.turnsRemaining + 1;
+                    this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;
+                }                               
+            }              
+            
+
+            oPlayerData.renderBoosts(oGame);    
+
+            oPlayerData.renderHints(oGame);
+                
+
+            
+        }, this);
+
+        if (this.#gameTimeOut) {
+            window.clearInterval(this.#gameTimeOut);
+            this.#gameTimeOut = null;
+        }
+        this.#gamesSecondsRemaining = 120;
+        this.#gameTimeOut = window.setInterval(() => {
+            
+            if (this.#gamesSecondsRemaining > 0) {
+                this.#gamesSecondsRemaining --;
+                const w = Math.round((this.#gamesSecondsRemaining / 120) * 100);
+                document.getElementById('progressBarProgress').style.width = `${w}%`
+            } else {
+                window.clearInterval(this.#gameTimeOut);
+                this.#gameTimeOut = null;
+                window.alert(('timeout'));
+
+            }
+            
+        }, 1000, this);
+    }
+
+    /**
+     * Initializes the game with the provided puzzle data, generates a solution, and renders the game.
+     * 
+     * @param {Object} puzzleData - The initial puzzle data to set up the game.
+     *                              Expected to contain the necessary information to populate the game grid.
+     * @returns {void} This function does not return a value.
+     */
+    _setGameStartData(oGame, aStartData) {
+        const gameData = oGame.getData();
+        for (let i = 0; i < aStartData.length; i++) {
+            let iValue = parseInt(aStartData[i],10);
+            const oCell = gameData.cells[i];
+            if (iValue > 0) {
+                oCell.value = iValue;
+                oCell.setFixedValue();
+            } else {
+                if (oCell) {
+                    oCell.setEmptyValue();
+                }
+            }
+        }
+    }
+    
+}

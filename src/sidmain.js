@@ -180,10 +180,10 @@ class SidukoPuzzle {
 
     
 
-    triggerBonus() {
+    triggerRandomBonus() {
         const fnHandleGamplayChaned = this.gameplayChangedHandler.bind(this);
         const iRand = Math.floor(Math.random() * 6);
-        const dummyBoost = new SidukoBoostData("","");
+        const dummyBoost = new SidukoBoostData("","",this);
         switch (iRand) {
             case 0:
                 logMessage("😍 Revealing a random cell");

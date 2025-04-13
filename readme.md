@@ -27,5 +27,5 @@ Background animation : https://tailwindflex.com/@anonymous/background-animation
 
 
 
-TODO:: use diffent classes for FAST version, to remove conditionals
+TODONE:: use diffent classes for FAST version, to remove conditionals
 

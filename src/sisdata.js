@@ -98,6 +98,10 @@ class SidukoCell {
         this.#passIndex = iPassIndex;
     }
 
+    setEmptyValue() {
+        this.#valueState = undefined;        
+    }
+
     setFixedValue() {
         this.#valueState = cellValueStates.FIXED;
     }
