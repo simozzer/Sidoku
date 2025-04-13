@@ -62,7 +62,7 @@ class SidukoMain {
         const oPlayerData = this.#playerData;
         const oGame = this.#game;
         const emptyCellCount = this.#game.getData().cells.filter((cell) => cell.value === 0).length
-        oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.7);
+        oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.3);
 
 
         this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);        
