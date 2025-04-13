@@ -147,7 +147,7 @@ class SidukoMain {
         oBoost.boostable = true;
 
         
-        oBoost = new SidukoBoostData("Time","Adds a maximum of 30 seconds to the timer", oGame);
+        oBoost = new SidukoBoostData("Time",`Adds a maximum of ${SidukoConstants.TIME_BOOST_SECONDS} seconds to the timer`, oGame);
         oBoost.turnsRemaining = 0;
         oBoost.decrementsEachTurn = false;
         oPlayerData.addBoostItem(oBoost);
