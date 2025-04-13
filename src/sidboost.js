@@ -11,6 +11,7 @@ class SidukoBoostData {
     #forSale;
     #puzzle;
     #buyHint;
+    #boostBuyHint;
     #boostable;
 
     constructor(name, description, puzzle) {
@@ -26,6 +27,7 @@ class SidukoBoostData {
         this.#puzzle = puzzle;
         this.#buyHint = "";
         this.#boostable = false;
+        this.#boostBuyHint = "";
     }
 
     get puzzle() {
@@ -60,6 +62,14 @@ class SidukoBoostData {
         this.#buyHint = value;
     }
 
+    get boostBuyHint() {
+        return this.#boostBuyHint;
+    }
+
+    set boostBuyHint(value) {
+        this.#boostBuyHint = value;
+    }
+    
     get boostable() {
         return this.#boostable;
     }

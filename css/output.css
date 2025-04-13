@@ -644,6 +644,10 @@ table.sidukoTable {
   padding: 0 8px;
   color: red;
 }
+.buyBoostButton:hover {
+  background-color: #5a00ff;
+  color: white;
+}
 #playerBoostsTableBody tr.forSale .buyBoostButton {
   border: 2px solid yellow;
   border-radius: 8px;

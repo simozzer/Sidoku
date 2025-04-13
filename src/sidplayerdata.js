@@ -121,6 +121,7 @@ class SidukoPlayerData {
                 levelButton.type = "button";
                 levelButton.value = `$${SidukoConstants.BOOST_UP_LEVEl_COST}`;
                 levelButton.style.display =  "button"; // TODO
+                levelButton.title = boost.boostBuyHint;
                 levelCell.appendChild(levelButton);            
             }
             row.appendChild(levelCell);   

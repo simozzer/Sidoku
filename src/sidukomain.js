@@ -84,7 +84,8 @@ class SidukoMain {
         oPlayerData.addBoostItem(oBoost);
         oBoost.turnsRemaining = 0;
         oBoost.decrementsEachTurn = false;
-        oBoost.buyHint = `Increment max cell count for Rows`;
+        oBoost.boostBuyHint = `Increment max cell count for Rows`;
+        oBoost.buyHint = `Add a rows bonus to your collection`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
         oBoost.exhausted = true;
@@ -93,7 +94,8 @@ class SidukoMain {
         oPlayerData.addBoostItem(oBoost);
         oBoost.turnsRemaining = 0;
         oBoost.decrementsEachTurn = false;
-        oBoost.buyHint = `Increment max cell count for Columns`;
+        oBoost.boostBuyHint = `Increment max cell count for Rows`;
+        oBoost.buyHint = `Add a columns bonus to your collection`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
         oBoost.exhausted = true;
@@ -103,7 +105,8 @@ class SidukoMain {
         oPlayerData.addBoostItem(oBoost);
         oBoost.turnsRemaining = 0;
         oBoost.decrementsEachTurn = false;
-        oBoost.buyHint = `Increment max cell count for Inner Tables`;
+        oBoost.boostBuyHint = `Increment max cell count for Inner Tables`;
+        oBoost.buyHint = `Add an inner table bonus to your collection`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
         oBoost.exhausted = true;
@@ -112,7 +115,8 @@ class SidukoMain {
         oPlayerData.addBoostItem(oBoost);
         oBoost.turnsRemaining = 0;
         oBoost.decrementsEachTurn = false;
-        oBoost.buyHint = `Increment max cell count for random`;
+        oBoost.boostBuyHint = `Increment max cell count for random`;
+        oBoost.buyHint = `Add a random cell bonus to your collection`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
         oBoost.exhausted = true;
@@ -122,7 +126,8 @@ class SidukoMain {
         oPlayerData.addBoostItem(oBoost);
         oBoost.turnsRemaining = 0;
         oBoost.decrementsEachTurn = false;
-        oBoost.buyHint = `Increment max cell count for random value`;
+        oBoost.boostBuyHint = `Increment max cell count for random value`;
+        oBoost.buyHint = `Add a random value bonus to your collection`;
         oBoost.boostable = true;
         oBoost.maxCellCount = 1;
         oBoost.exhausted = true;
@@ -143,6 +148,7 @@ class SidukoMain {
         oBoost.turnsRemaining = SidukoConstants.INITIAL_SEEKER_LIVES;
         oBoost.decrementsEachTurn = false;
         oPlayerData.addBoostItem(oBoost);
+        oBoost.boostBuyHint = 'Increase the max cell count for the Seeker bonus';
         oBoost.buyHint = `Add another seeker bonus to be used when you choose`;
         oBoost.boostable = true;
 
