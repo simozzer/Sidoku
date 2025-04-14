@@ -3,7 +3,7 @@ class SidukoSounds {
     #cachedSounds
     constructor() {
         this.#cachedSounds = [];
-        this.#getSound('click1',1);
+        this.#getSound('Click1',1);
         this.#getSound('hiss1',0.6);
         this.#getSound('all systems go',0.2);
     }

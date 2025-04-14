@@ -183,7 +183,7 @@ class SidukoEventsHandler {
 
                     this._updateCellHints();
 
-                    this.#sounds.playSound('click1');                    
+                    this.#sounds.playSound('Click1');                    
                     
                     // TODO REWIND TO LAST POINT OF DIVERGENCE
                 }
@@ -276,7 +276,7 @@ class SidukoEventsHandler {
                 oCellData.element.classList.add('value_entered');
 
                 this._updateCellHints();
-                this.#sounds.playSound('click1');                
+                this.#sounds.playSound('Click1');                
             }
             oEvent.stopImmediatePropagation();
         }
