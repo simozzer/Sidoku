@@ -12,8 +12,8 @@
 	@apply px-2;
 }
 table.sidukoTable {
-	max-width: 480px;
-	max-height: 480px;
+	max-width: 400px;
+	max-height: 400px;
 	margin-top: 30px;
 }
 
@@ -22,6 +22,7 @@ table.sidukoTable {
     @apply border-10;
     @apply bg-slate-800;
 	opacity: 70%;
+	border-spacing: 4px;
 }
 
 .sidukoTable .cell {
