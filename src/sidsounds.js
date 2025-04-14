@@ -2,7 +2,7 @@ class SidukoSounds {
 
     #cachedSounds
     constructor() {
-        this.#cachedSounds = {};
+        this.#cachedSounds = [];
         this.#getSound('click1',1);
         this.#getSound('hiss1',0.6);
         this.#getSound('all systems go',0.2);
@@ -13,12 +13,13 @@ class SidukoSounds {
     }
 
     #getSound(sSoundName, volume) {
-        let oSound = this.#cachedSounds[sSoundName];
+        let oSound = this.#cachedSounds.find(s => s.name === sSoundName);
         if (!oSound) {
-            oSound = new Audio(`./resources/sounds/${sSoundName}.wav`);
-            oSound.volume = volume;
-            this.#cachedSounds[sSoundName] = oSound;
+            const oAudio =  new Audio(`./resources/sounds/${sSoundName}.wav`);
+            oAudio.volume = volume;
+            oSound = {name: sSoundName, sound: oAudio};            
+            this.#cachedSounds.push(oSound);
         }
-        return oSound;
+        return oSound.sound;
     }
 }
