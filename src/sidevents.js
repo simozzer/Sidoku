@@ -165,7 +165,16 @@ class SidukoEventsHandler {
                     oCellData.entered = true;                    
                     oEventTarget.innerText = oEvent.key;
                     oEventTarget.classList.add('entered');                       
-                    oEventTarget.title = "";                    
+                    oEventTarget.title = "";    
+                    
+                    
+
+                    const fnAnimEnd = (oEvent) => {
+                        oEventTarget.removeEventListener('animationend', fnAnimEnd);
+                        oEventTarget.classList.remove('value_entered');
+                    }
+                    oEventTarget.addEventListener('animationend', fnAnimEnd);
+                    oEventTarget.classList.add('value_entered');
                  
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);    
@@ -255,7 +264,14 @@ class SidukoEventsHandler {
                 }
                 oFullnessStateChanges.playerCellUsed= true;
                 this.gameplayChangedHandler(oFullnessStateChanges);                
-                valueEntry.classList.add('hidden');2                
+                valueEntry.classList.add('hidden');
+                
+                const fnAnimEnd = (oEvent) => {
+                    oCellData.element.removeEventListener('animationend', fnAnimEnd);
+                    oCellData.element.classList.remove('value_entered');
+                }
+                oCellData.element.addEventListener('animationend', fnAnimEnd);
+                oCellData.element.classList.add('value_entered');
             }
             oEvent.stopImmediatePropagation();
         }

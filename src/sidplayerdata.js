@@ -174,6 +174,11 @@ class SidukoPlayerData {
 
         this.guessesRemaining --;
 
+        if (this.guessesRemaining <= 0) {
+            logMessage("You ran out of guesses. Game over.");
+            //this.puzzle.endGame(false);
+        }
+
         if (bSolvedByPlayer) {
             this.#boosts.filter(b => b.decrementsEachTurn && b.turnsRemaining > 0).forEach(b => {
                 b.turnsRemaining--;

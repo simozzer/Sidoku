@@ -86,6 +86,19 @@ table.sidukoTable {
     @apply bg-gray-100;
 }
 
+@keyframes spinValueEntered   {
+    from {
+        rotate: 0deg;		
+    }
+    to {
+        rotate: 360deg;
+    }    
+}
+.sidukoTable table td.value_entered {
+    animation-name: spinValueEntered;
+    animation-duration: 0.6s;
+}
+
 #rightPanel {
     background-color: black;
     margin-top:24px;
