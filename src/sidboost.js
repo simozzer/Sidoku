@@ -69,7 +69,7 @@ class SidukoBoostData {
     set boostBuyHint(value) {
         this.#boostBuyHint = value;
     }
-    
+
     get boostable() {
         return this.#boostable;
     }
@@ -120,11 +120,15 @@ class SidukoBoostData {
     }
 
     set exhausted(value) {
-        this.#exhausted = value;
-        if (value && this.#domElement) {
+        
+        if (value && this.#domElement && value !== this.#exhausted) {
+            this.#exhausted = value;
             this.#domElement.classList.add("exhausted");
             this.#turnsRemaining = null;
+            var audio = new Audio('./resources/sounds/Hiss1.wav');
+            audio.play();
         } else if (this.#domElement) {
+            this.#exhausted = value;
             this.#domElement.classList.remove("exhausted");
         }
     }
