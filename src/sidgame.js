@@ -73,6 +73,10 @@ function logMessage(message, className = "") {
 function __displayMessage(message){
     if (message) {
         if (!oMessageElement) {
+            oMessageElement = document.getElementById("messageBox");
+        }
+
+        if (!oMessageElement) {
             oMessageElement = document.createElement("div");
             oMessageElement.id = "messageBox";
             oMessageElement.classList.add("messageBox");
@@ -88,7 +92,11 @@ function __displayMessage(message){
 
         oMessageElement.innerText = message;  
         oMessageElement.style.display = "block";    
-        oMessageElement.classList.add("initial");
+        let fnTimeout = window.setTimeout(() => {
+            oMessageElement.classList.add("initial");
+            window.clearTimeout(fnTimeout);
+            fnTimeout = null;
+        }, 2300);
     }
 }
 
@@ -103,7 +111,7 @@ function showMessages() {
                     oMessage.startTime = Date.now();
                     this.__displayMessage(oMessage.message,oMessage.className);
                 } else {
-                    if (Date.now() > (oMessage.startTime + 2000)) {                        
+                    if (Date.now() > (oMessage.startTime + 3800)) {                        
                         aMessages = aMessages.slice(1);
                     };
                 }

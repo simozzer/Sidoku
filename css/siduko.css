@@ -323,13 +323,13 @@ table.sidukoTable {
 	padding: 20px;
 	border: 6px double red;
 	border-radius: 8px;
-	font-size: 1.75em;
+	font-size: 1.1em;
 	display: none;
 }
 
 .messageBox.initial {
 	animation-name: fade;
-	animation-duration: 1.5s;
+	animation-duration: 3.7s;
 	display: block;
 }
 

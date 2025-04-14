@@ -19,6 +19,14 @@ class SidukoEventsHandler {
         
     }
 
+    get focusedCell() {
+        return this.#focusedCell;
+    }
+
+    set focusedCell(cell) {
+        this.#focusedCell = cell;
+    }
+
     attachEvents() {
         this.#tableDomElement.addEventListener('keydown', this._onKeyDown.bind(this));
         this.#tableDomElement.addEventListener('keypress', this._onKeyPress.bind(this));
@@ -37,45 +45,47 @@ class SidukoEventsHandler {
 
     gameplayChangedHandler(state) {
         const oGame = this.#puzzle;
+        let sMessage = "";
+        let bonus = 0;
         if (state) {            
             if (state.column) {
-                logMessage(`✨***Column Filled***✨`, "column_filled");
+                sMessage = `�Column Filled*�`;
                 if (oGame.getData().cellsInColumn(state.column-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInColumn(state.column-1).map(o=>o.value).toString()) {
                     oGame.getData().cellsInColumn(state.column-1).forEach(cell => {
                         cell.element.classList.add('player_solved');
-                        cell.setFixedValue(true);
+                        cell.setFixedValue();
                     });
-                    logMessage("☝️Matches solution. Bonus $1☝️", "completion_bonus");
-                    this.#playerData.funds++;
+                    sMessage += " - Matches solution. ";
+                    bonus++;                    
                 } else {
-                    logMessage("👎Does not match soution. No bonus awared👎");
+                    sMessage += " - Does not match solution. ";
                 }
                 
             }
             if (state.row) {
-                logMessage(`🎉***Row Filled***🎉`, "row_filled");
+                sMessage += (`🎉*Row Filled*🎉`);
                 if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {                    
                     oGame.getData().cellsInRow(state.row-1).forEach(cell => {
                         cell.element.classList.add('player_solved');
-                        cell.setFixedValue(true);
+                        cell.setFixedValue();
                     });
-                    logMessage("😺Matches solution. Bonus $1😺", "completion_bonus");
-                    this.#playerData.funds++;
+                    sMessage += " - Matches solution. ";
+                    bonus++;                    
                 } else {
-                    logMessage("😩Does not match soution. No bonus awared😩");
+                    sMessage += " - Does not match solution. ";
                 }
             }
             if (state.innerTable) {
-                logMessage(`👍***Inner Table Filled***👍`, "inner_table_filled");
+                sMessage += (`👍*Inner Table Filled*👍`);
                 if (oGame.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString()) {
                     oGame.getData().cellsInInnerTable(state.innerTable-1).forEach(cell => {
                         cell.element.classList.add('player_solved');
-                        cell.setFixedValue(true);
+                        cell.setFixedValue();
                     });
-                    logMessage("😉Matches solution. Bonus $1😉", "completion_bonus");
-                    this.#playerData.funds++;
+                    sMessage += " - Matches solution. ";
+                    bonus++;                    
                 } else {
-                    logMessage("😭Does not match soution. No bonus awared😭");
+                    sMessage += " - Does not match solution. ";
                 }
             }
             if (state.board) {
@@ -90,6 +100,13 @@ class SidukoEventsHandler {
                 this.#playerData.doTurnPlayed(false, oGame);
             } else {
                 console.log("Unknown state");
+            }
+            if (bonus > 0) {
+                sMessage += `BONUS AWARDED $${bonus}`;
+                this.#playerData.funds += bonus;                
+            }
+            if (sMessage) {
+                logMessage(sMessage);
             }
         }
     }
@@ -204,7 +221,7 @@ class SidukoEventsHandler {
             if (!oEventTarget.classList.contains('fixedval')) {
                 const column = 0 | oEventTarget.dataset.column;
                 const row = 0 | oEventTarget.dataset.row;                               
-                this.#focusedCell = this.#puzzle.getData().cell(column,row);
+                this.focusedCell = this.#puzzle.getData().cell(column,row);
 
                 const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), this.#focusedCell);
 
@@ -232,7 +249,7 @@ class SidukoEventsHandler {
     }
 
     _onCellValueEntryChange(oEvent) {
-        const oCellData = this.#focusedCell;
+        const oCellData = this.focusedCell;
         const valueEntry = document.getElementById('cellValueEntryPopup');
         if (oEvent.target.innerText === "Clear") {
             oCellData.value = 0;
