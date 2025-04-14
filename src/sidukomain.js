@@ -7,8 +7,9 @@ class SidukoMain {
     #eventHandler;
     #gameTimeOut;
     #gamesSecondsRemaining;
+    #sounds;
     constructor(puzzleData) {
-            
+        this.#sounds = new SidukoSounds();    
         this.#game = new SidukoPuzzle();
         this._setGameStartData(this.#game, puzzleData);
         
@@ -32,6 +33,7 @@ class SidukoMain {
         this.#eventHandler = null;
         this.#gameTimeOut = null;
         this.#gamesSecondsRemaining = -1;
+        
     }
 
     
@@ -77,7 +79,7 @@ class SidukoMain {
             this.#eventHandler = null;
         }
 
-        this.#eventHandler = new SidukoEventsHandler(this.#game,tableDOM, this.#playerData, this.#game.solution); 
+        this.#eventHandler = new SidukoEventsHandler(this.#game,tableDOM, this.#playerData, this.#game.solution, this.#sounds); 
         this.#eventHandler.attachEvents();
 
         let oBoost = new SidukoRowBoostData("Row","Reveals up to a specified number of cells in a random row", oGame);
@@ -235,6 +237,7 @@ class SidukoMain {
             this.#gameTimeOut = null;
         }
         this.#gamesSecondsRemaining = SidukoConstants.GAME_DURATION_SECONDS;
+        this.#sounds.playSound("all systems go");
         this.#gameTimeOut = window.setInterval(() => {
             
             if (this.#gamesSecondsRemaining > 0) {

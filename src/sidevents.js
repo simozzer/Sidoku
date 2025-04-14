@@ -4,9 +4,9 @@ class SidukoEventsHandler {
     #playerData;
     #focusedCell;
     #cellValueEntry
-    #audioClips;
+    #sounds
     
-    constructor(oPuzzle, oTableDomElement, playerData) {
+    constructor(oPuzzle, oTableDomElement, playerData, solution, sounds) {
         this.#tableDomElement = oTableDomElement;
         this.#puzzle = oPuzzle;
         this.#playerData = playerData;        
@@ -14,7 +14,7 @@ class SidukoEventsHandler {
         //document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.#cellValueEntry = document.getElementById('cellValueEntryPopup');
         this.attachEvents();
-        this.#audioClips = [];
+        this.#sounds = sounds;
 
         
     }
@@ -135,15 +135,8 @@ class SidukoEventsHandler {
                     oCellData.element.innerText = '';                    
                     oCellData.element.classList.remove('entered');
 
-                    const oBoost = this.#playerData.getBoost("Hints");
-                    if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
-                        SidukoHtmlGenerator.updateCellHints(this.#puzzle);                           
-                    } else {
-                        this.#puzzle.getData().cells.forEach(cell => {
-                            cell.element.title = "";
-                        });
-                    }
-                    this.__playAudio('./resources/sounds/Swipe9.wav');               
+                    this._updateCellHints(oCellData);
+                    this.#sounds.playSound('swipe_9');                    
                     
                 }
                 break;
@@ -187,7 +180,10 @@ class SidukoEventsHandler {
                     }
                     oFullnessStateChanges.playerCellUsed= true;
                     this.gameplayChangedHandler(oFullnessStateChanges);
-                    this.__playAudio("./resources/sounds/Click1.wav");
+
+                    this._updateCellHints();
+
+                    this.#sounds.playSound('click1');                    
                     
                     // TODO REWIND TO LAST POINT OF DIVERGENCE
                 }
@@ -239,7 +235,7 @@ class SidukoEventsHandler {
         const oCellData = this.#focusedCell;
         const valueEntry = document.getElementById('cellValueEntryPopup');
         if (oEvent.target.innerText === "Clear") {
-            oCellData.value = null;
+            oCellData.value = 0;
             oCellData.entered = false;                    
             oCellData.element.innerText = '';
             oCellData.element.classList.remove('entered');                       
@@ -247,7 +243,8 @@ class SidukoEventsHandler {
             
             valueEntry.classList.add('hidden');
             oEvent.stopImmediatePropagation();
-            this.__playAudio('./resources/sounds/Swipe9.wav');
+            this._updateCellHints();
+            this.#sounds.playSound('swipe_9')            
             return;
         }
 
@@ -278,9 +275,22 @@ class SidukoEventsHandler {
                 oCellData.element.addEventListener('animationend', fnAnimEnd);
                 oCellData.element.classList.add('value_entered');
 
-                this.__playAudio('./resources/sounds/Click1.wav');
+                this._updateCellHints();
+                this.#sounds.playSound('click1');                
             }
             oEvent.stopImmediatePropagation();
+        }
+    }
+
+
+    _updateCellHints() {    
+        const oBoost = this.#playerData.getBoost("Hints");
+        if (oBoost && (typeof oBoost.turnsRemaining === "number") && oBoost.turnsRemaining > 0) {
+            SidukoHtmlGenerator.updateCellHints(this.#puzzle);                           
+        } else {
+            this.#puzzle.getData().cells.forEach(cell => {
+                cell.element.title = "";
+            });
         }
     }
 
@@ -290,15 +300,4 @@ class SidukoEventsHandler {
         oEvent.stopImmediatePropagation();
     }
 
-    __playAudio(name){
-        let audio = this.#audioClips.find(clip => clip.name === name);
-        if (!audio) {
-            audio = new Audio(name);
-            this.#audioClips.push({name : name, audio : audio });
-        }
-        
-        if (audio.audio) {
-            audio.audio.play();
-        }
-    }
 }
