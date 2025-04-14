@@ -95,7 +95,6 @@ function __displayMessage(message){
 
 function showMessages() {
     if (!messageBufferTimeout) {
-
         
         messageBufferTimeout = window.setInterval(() => {  
             if (aMessages.length > 0) {
@@ -104,7 +103,7 @@ function showMessages() {
                     oMessage.startTime = Date.now();
                     this.__displayMessage(oMessage.message,oMessage.className);
                 } else {
-                    if (Date.now() > (oMessage.startTime + 2300)) {                        
+                    if (Date.now() > (oMessage.startTime + 2000)) {                        
                         aMessages = aMessages.slice(1);
                     };
                 }

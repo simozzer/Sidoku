@@ -553,63 +553,6 @@ table.sidukoTable {
     color: black;
   }
 }
-.rightPanelLogMessage {
-  animation-name: fadeLogMessage;
-  animation-duration: 5s;
-}
-#rightPanel ul {
-  font-size: 1.3em;
-  color: #02f702;
-}
-#rightPanel ul li.redError {
-  color: red;
-  font-style: italic;
-  font-weight: 600;
-  font-size: 1.2em;
-}
-#rightPanel ul li.row_filled {
-  font-size: 1.2em;
-  color: bisque;
-  font-family: Georgia;
-  font-weight: 600;
-  animation: message_wobble 1s infinite alternate;
-}
-#rightPanel ul li.column_filled {
-  font-size: 1.2em;
-  font-family: Times;
-  color: yellow;
-  font-weight: 600;
-  animation: message_wobble 1s infinite alternate;
-}
-#rightPanel ul li.inner_table_filled {
-  font-size: 1em;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color: goldenrod;
-  font-weight: 600;
-  animation: message_wobble 1s infinite alternate;
-}
-#rightPanel ul li.board_filled {
-  font-size: 1.1em;
-  font-family: Impact;
-  color: white;
-  font-weight: 800;
-  animation: message_wobble 1s infinite alternate;
-}
-#rightPanel ul li.randomChoiceStatus {
-  font-size: 1em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: white;
-  font-weight: 500;
-  text-align: center;
-}
-#rightPanel ul li.completion_bonus {
-  color: white;
-  font-size: 1.4em;
-  background-color: black;
-}
-#rightPanel hr {
-  border: 1px solid lightgreen;
-}
 #bonusButton:disabled {
   background-color: grey;
   cursor: not-allowed;
@@ -655,9 +598,6 @@ table.sidukoTable {
   font-size: 1em;
   padding: 0 8px;
   display: block;
-}
-.#playerBoostsTableBody tr .buyBoostButton {
-  display: none;
 }
 #progressBarTextOverlay {
   width: 100%;
@@ -749,7 +689,7 @@ table.sidukoTable {
 }
 .messageBox.initial {
   animation-name: fade;
-  animation-duration: 2s;
+  animation-duration: 1.5s;
   display: block;
 }
 @keyframes fundBoost {
@@ -831,6 +771,54 @@ div#playerStatus {
 }
 #leftPanel tbody {
   font-family: math;
+}
+.cellValueEntryPopup {
+  position: absolute;
+  display: block;
+  border: 2px solid gray;
+  background-color: ghostwhite;
+  padding: 6px;
+  border-radius: 20px;
+}
+.cellValueEntryPopup:hidden {
+  display: none;
+}
+.cellValueEntryPopup td {
+  padding: 16px;
+  border: 1px solid #e5ced0;
+  margin: 9px;
+  background-color: lightyellow;
+  font-weight: 600;
+  font-size: 1.5em;
+}
+.cellValueEntryPopup table tr td:hover {
+  padding: 16px;
+  border: 5px solid gray;
+  background-color: rgb(90, 90, 73);
+  color: red;
+}
+.cellValueEntry {
+  padding: 60px;
+}
+.cellValueEntry td {
+  padding: 16px;
+  border: 1px solid #e5ced0;
+  margin: 9px;
+  background-color: lightyellow;
+  font-weight: 600;
+  font-size: 1.5em;
+  user-select: none;
+}
+.cellValueEntry td.suggested {
+  background-color: lightblue;
+  color: #5a00ff;
+  font-weight: 800;
+}
+.cellValueEntry td:hover {
+  padding: 16px;
+  border: 1px solid gray;
+  background-color: rgb(90, 90, 73);
+  color: rgb(15, 10, 10);
 }
 @keyframes animatetop {
   from {

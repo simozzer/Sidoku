@@ -221,9 +221,15 @@
                         </div>                                            
                     </div>
                     <div id="everywhere" class="p-6 py-8"></div>
-                        <div id="rightPanel" class="bg-gradient-to-tr from-gray-600 to-slate-800 flex-row" style="display: none;"">
-                            <ul id="messageList">
-                            </ul>                 
+                        <div id="rightPanel" class="flex justify-center bg-gradient-to-tr from-gray-600 to-slate-800 flex-row">
+                            <div id="cellValueEntry" class="cellValueEntry flex">
+                                <table class="flex-row">
+                                    <tr><td>1</td><td>2</td><td>3</td></tr>
+                                    <tr><td>4</td><td>5</td><td>6</td></tr>
+                                    <tr><td>7</td><td>8</td><td>9</td></tr>
+                                    <tr><td colspan="3">Clear</td></tr>
+                                </table>
+                            </div>                
                         </div>            
                     </div>
                     <div class="progressBarContainer p-4">
@@ -237,8 +243,16 @@
                         </button>
                     </div>
                 </div>
-            </div>
-       
+            </div>            
+        </div>
+
+        <div id="cellValueEntryPopup" class="cellValueEntryPopup hidden">
+            <table>
+                <tr><td>1</td><td>2</td><td>3</td></tr>
+                <tr><td>4</td><td>5</td><td>6</td></tr>
+                <tr><td>7</td><td>8</td><td>9</td></tr>
+                <tr><td colspan="3">Clear</td></tr>
+            </table>
         </div>
 
         <footer class="flex mx-auto align-bottom 3xl bg-slate-600 min-w-full content-center">            
