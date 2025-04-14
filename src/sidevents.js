@@ -4,6 +4,7 @@ class SidukoEventsHandler {
     #playerData;
     #focusedCell;
     #cellValueEntry
+    #audioClips;
     
     constructor(oPuzzle, oTableDomElement, playerData) {
         this.#tableDomElement = oTableDomElement;
@@ -13,6 +14,7 @@ class SidukoEventsHandler {
         //document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.#cellValueEntry = document.getElementById('cellValueEntryPopup');
         this.attachEvents();
+        this.#audioClips = [];
 
         
     }
@@ -141,8 +143,7 @@ class SidukoEventsHandler {
                             cell.element.title = "";
                         });
                     }
-                    var audio = new Audio('./resources/sounds/Swipe9.wav');
-                    audio.play();
+                    this.__playAudio('./resources/sounds/Swipe9.wav');               
                     
                 }
                 break;
@@ -186,8 +187,7 @@ class SidukoEventsHandler {
                     }
                     oFullnessStateChanges.playerCellUsed= true;
                     this.gameplayChangedHandler(oFullnessStateChanges);
-                    var audio = new Audio('./resources/sounds/Click1.wav');
-                    audio.play();
+                    this.__playAudio("./resources/sounds/Click1.wav");
                     
                     // TODO REWIND TO LAST POINT OF DIVERGENCE
                 }
@@ -247,8 +247,7 @@ class SidukoEventsHandler {
             
             valueEntry.classList.add('hidden');
             oEvent.stopImmediatePropagation();
-            var audio = new Audio('./resources/sounds/Swipe9.wav');
-            audio.play();
+            this.__playAudio('./resources/sounds/Swipe9.wav');
             return;
         }
 
@@ -279,8 +278,7 @@ class SidukoEventsHandler {
                 oCellData.element.addEventListener('animationend', fnAnimEnd);
                 oCellData.element.classList.add('value_entered');
 
-                var audio = new Audio('./resources/sounds/Click1.wav');
-                audio.play();
+                this.__playAudio('./resources/sounds/Click1.wav');
             }
             oEvent.stopImmediatePropagation();
         }
@@ -290,5 +288,17 @@ class SidukoEventsHandler {
         const valueEntry = document.getElementById('cellValueEntryPopup');
         valueEntry.classList.add('hidden');
         oEvent.stopImmediatePropagation();
+    }
+
+    __playAudio(name){
+        let audio = this.#audioClips.find(clip => clip.name === name);
+        if (!audio) {
+            audio = new Audio(name);
+            this.#audioClips.push({name : name, audio : audio });
+        }
+        
+        if (audio.audio) {
+            audio.audio.play();
+        }
     }
 }
