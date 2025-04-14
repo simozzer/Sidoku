@@ -141,7 +141,7 @@ class SidukoEventsHandler {
                             cell.element.title = "";
                         });
                     }
-                    var audio = new Audio('./resources/sounds/swipe9.wav');
+                    var audio = new Audio('./resources/sounds/Swipe9.wav');
                     audio.play();
                     
                 }
@@ -186,7 +186,7 @@ class SidukoEventsHandler {
                     }
                     oFullnessStateChanges.playerCellUsed= true;
                     this.gameplayChangedHandler(oFullnessStateChanges);
-                    var audio = new Audio('./resources/sounds/click1.wav');
+                    var audio = new Audio('./resources/sounds/Click1.wav');
                     audio.play();
                     
                     // TODO REWIND TO LAST POINT OF DIVERGENCE
@@ -247,7 +247,7 @@ class SidukoEventsHandler {
             
             valueEntry.classList.add('hidden');
             oEvent.stopImmediatePropagation();
-            var audio = new Audio('./resources/sounds/swipe9.wav');
+            var audio = new Audio('./resources/sounds/Swipe9.wav');
             audio.play();
             return;
         }
@@ -279,7 +279,7 @@ class SidukoEventsHandler {
                 oCellData.element.addEventListener('animationend', fnAnimEnd);
                 oCellData.element.classList.add('value_entered');
 
-                var audio = new Audio('./resources/sounds/click1.wav');
+                var audio = new Audio('./resources/sounds/Click1.wav');
                 audio.play();
             }
             oEvent.stopImmediatePropagation();
