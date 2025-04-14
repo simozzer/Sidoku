@@ -11,7 +11,7 @@ class SidukoEventsHandler {
         this.#playerData = playerData;        
         this.#focusedCell = null;
         //document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
-        this.#cellValueEntry = document.getElementById('cellValueEntry');
+        this.#cellValueEntry = document.getElementById('cellValueEntryPopup');
         this.attachEvents();
 
         
@@ -22,6 +22,7 @@ class SidukoEventsHandler {
         this.#tableDomElement.addEventListener('keypress', this._onKeyPress.bind(this));
         this.#tableDomElement.addEventListener('click', this._onTap.bind(this));
         this.#cellValueEntry.addEventListener('click', this._onCellValueEntryChange.bind(this));
+        this.#cellValueEntry.addEventListener('blur', this._onCellValueEntryBlur.bind(this));
     }
 
     detatchEvents() {
@@ -29,6 +30,7 @@ class SidukoEventsHandler {
         this.#tableDomElement.removeEventListener('keypress', this._onKeyPress.bind(this));   
         this.#tableDomElement.removeEventListener('click', this._onTap.bind(this));  
         this.#cellValueEntry.removeEventListener('click', this._onCellValueEntryChange.bind(this));   
+        this.#cellValueEntry.removeEventListener('blur', this._onCellValueEntryBlur.bind(this));
     }
 
     gameplayChangedHandler(state) {
@@ -143,7 +145,7 @@ class SidukoEventsHandler {
                 }
                 break;
         }
-        oEvent.stopPropagation();
+        oEvent.stopImmediatePropagation();
     }
 
     _onKeyPress(oEvent) {
@@ -177,6 +179,7 @@ class SidukoEventsHandler {
                     // TODO REWIND TO LAST POINT OF DIVERGENCE
                 }
             }
+            oEvent.stopImmediatePropagation();
         }
     }
 
@@ -193,9 +196,9 @@ class SidukoEventsHandler {
 
                 const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), this.#focusedCell);
 
-                const valueEntry = document.getElementById('cellValueEntry');
+                const valueEntry = document.getElementById('cellValueEntryPopup');
 
-                const valueEntryTds = Array.from(document.querySelectorAll('#cellValueEntry td'));
+                const valueEntryTds = Array.from(document.querySelectorAll('#cellValueEntryPopup td'));
                 valueEntryTds.forEach(td => {
                     if (this.#playerData.getBoost("Hints").turnsRemaining > 0 && aPossibleValues.indexOf(parseInt(td.innerText,10)) >= 0) {
                         td.classList.add('suggested');
@@ -204,11 +207,13 @@ class SidukoEventsHandler {
                     }
                 });
 
-
-               // const oPopup = document.getElementById('cellValueEntryPopup');
-                //TODO:: oPopup.classList.remove('hidden');
-                //oPopup.style.top = oEvent.clientY + "px";
-                //oPopup.style.left = oEvent.clientX + "px";                
+                valueEntry.style.top = oEvent.clientY + "px";
+                valueEntry.style.left = oEvent.clientX + "px";
+                valueEntry.classList.remove('hidden');
+                
+                valueEntry.focus();
+           
+                oEvent.stopImmediatePropagation();
             }
 
         }
@@ -216,24 +221,22 @@ class SidukoEventsHandler {
 
     _onCellValueEntryChange(oEvent) {
         const oCellData = this.#focusedCell;
-
+        const valueEntry = document.getElementById('cellValueEntryPopup');
         if (oEvent.target.innerText === "Clear") {
             oCellData.value = null;
             oCellData.entered = false;                    
-            oCellData.element.innerText = iValue
+            oCellData.element.innerText = '';
             oCellData.element.classList.remove('entered');                       
             oCellData.element.title = "";    
+            
+            valueEntry.classList.add('hidden');2                    
             oEvent.stopImmediatePropagation();
             return;
         }
 
         const iValue = parseInt(oEvent.target.innerText, 10);
-        if (iValue > 0 && iValue <= 9) {
-            
-            if (SidukoCellQueries.canSetValue(this.#puzzle.getData(), oCellData, iValue)) {
-                //window.alert(iValue);
-                        
-                 
+        if (iValue > 0 && iValue <= 9) {            
+            if (SidukoCellQueries.canSetValue(this.#puzzle.getData(), oCellData, iValue)) {                                                     
                 const oStartFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);        
 
                 oCellData.value = iValue || 0;
@@ -242,16 +245,22 @@ class SidukoEventsHandler {
                 oCellData.element.classList.add('entered');                       
                 oCellData.element.title = "";                    
                 
-
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);    
                 let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, oCellData);
                 if (!oFullnessStateChanges) {
                     oFullnessStateChanges = {};
                 }
                 oFullnessStateChanges.playerCellUsed= true;
-                this.gameplayChangedHandler(oFullnessStateChanges);
+                this.gameplayChangedHandler(oFullnessStateChanges);                
+                valueEntry.classList.add('hidden');2                
             }
             oEvent.stopImmediatePropagation();
         }
+    }
+
+    _onCellValueEntryBlur(oEvent) {
+        const valueEntry = document.getElementById('cellValueEntryPopup');
+        valueEntry.classList.add('hidden');
+        oEvent.stopImmediatePropagation();
     }
 }

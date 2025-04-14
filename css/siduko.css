@@ -21,8 +21,6 @@ table.sidukoTable {
     @apply border-white;
     @apply border-10;
     @apply bg-slate-800;
-	min-width: 120px;
-	min-height: 120px;
 	opacity: 70%;
 }
 
@@ -89,22 +87,12 @@ table.sidukoTable {
 }
 
 #rightPanel {
-    width: 400px;
-    height: 620px;
     background-color: black;
     margin-top:24px;
 	margin-left:2px;
     color: green;
     opacity: 0.6;
-    border: 6px lightblue solid;
-    border-radius: 20px;
-    overflow-y: scroll;
-}
-
-#messageList {
-	width: 100%;
-	height: 84%;
-	text-align: center;
+    border-radius: 20px;    
 }
 
 #playerStatus {
@@ -132,8 +120,6 @@ table.sidukoTable {
 
 
 #leftPanel {
-    width: 400px;
-    height: 620px;	
     background-color: rgb(77, 10, 10);
     margin-top: 24px;
 	margin-right: 2px;
@@ -161,8 +147,7 @@ table.sidukoTable {
     }
     to {
         color: black;        
-    }
-    
+    }    
 }
 
 #bonusButton:disabled {
@@ -204,6 +189,15 @@ table.sidukoTable {
     font-size: 1em;
     padding: 0 8px;
     color: red;
+}
+
+.useBoostButton:hover {
+	border: 2px solid #2396e8;
+    border-radius: 8px;
+    background-color: #4a7076;
+    font-size: 1em;
+    padding: 0 8px;
+    color: rgb(28, 57, 110);
 }
 
 .buyBoostButton:hover {
@@ -349,6 +343,13 @@ table.sidukoTable {
 	color: floralwhite;
 }
 
+.boostBoostButton:hover {
+    background-color: rgb(138, 212, 212);
+    border: 3px solid rgb(65, 20, 55);
+	color: rgb(136, 100, 26);
+}
+
+
 
 .buyBoostButton {
 	background-color: white;
@@ -444,32 +445,18 @@ div#playerStatus {
 
 .cellValueEntryPopup table tr td:hover {
     padding: 16px;
-    border: 5px solid gray;    
-    background-color: rgb(90, 90, 73);    
-	color:red
+    border: 1px solid red;
+    background-color: rgb(90, 90, 73);    	
 }
 
-.cellValueEntry {
-	padding: 60px;
-}
 
-.cellValueEntry td {
-    padding: 16px;
-    border: 1px solid #e5ced0;    
-    margin: 9px;
-    background-color: lightyellow;
-    font-weight: 600;
-    font-size: 1.5em;
-	user-select: none;
-}
-
-.cellValueEntry td.suggested {
+.cellValueEntryPopup td.suggested {
 	background-color:lightblue;
 	color: #5a00ff;
 	font-weight: 800;
 }
 
-.cellValueEntry td:hover {
+.cellValueEntryPopup td:hover {
     padding: 16px;
     border: 1px solid gray;    
     background-color: rgb(90, 90, 73);    
