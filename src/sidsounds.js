@@ -16,6 +16,7 @@ class SidukoSounds {
         let oSound = this.#cachedSounds[sSoundName];
         if (!oSound) {
             oSound = new Audio(`./resources/sounds/${sSoundName}.wav`);
+            oSound.volume = 0.2;
             this.#cachedSounds[sSoundName] = oSound;
         }
         return oSound;
