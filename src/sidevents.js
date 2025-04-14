@@ -184,6 +184,9 @@ class SidukoEventsHandler {
     }
 
     _onTap(oEvent) {
+        if (!document.getElementById("touchScreenCheckBox").checked) {
+            return;
+        }
         const oEventTarget = oEvent.target;
         
         console.log(`Tap: elem: ${oEventTarget.dataset}`);
