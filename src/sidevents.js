@@ -147,6 +147,9 @@ class SidukoEventsHandler {
                 const oElem = document.querySelector(`td[data-column="${column}"][data-row="${row}"]`);
                 if (oElem.classList.contains('entered')) {
                     const oCellData = this.#puzzle.getData().cell(column, row);
+                    if (oCellData.fixedValue) {
+                        return;
+                    }
                     oCellData.entered = false;
                     oCellData.value = null;
                     oCellData.element.innerText = '';                    
@@ -170,6 +173,9 @@ class SidukoEventsHandler {
                 const column = 0 | oEventTarget.dataset.column;
                 const row = 0 | oEventTarget.dataset.row;                               
                 const oCellData = this.#puzzle.getData().cell(column,row);
+                if (oCellData.fixedValue) {
+                    return;
+                }
                     
                 if (SidukoCellQueries.getPossibleValues(this.#puzzle.getData(),oCellData).indexOf(iValue) >= 0) {
                     const oStartFullnessState = SidukoCellQueries.getFullnessState(this.#puzzle.getData(), oCellData);        
@@ -222,6 +228,9 @@ class SidukoEventsHandler {
                 const column = 0 | oEventTarget.dataset.column;
                 const row = 0 | oEventTarget.dataset.row;                               
                 this.focusedCell = this.#puzzle.getData().cell(column,row);
+                if (this.focusedCell.fixedValue) {
+                    return;
+                }
 
                 const aPossibleValues = SidukoCellQueries.getPossibleValues(this.#puzzle.getData(), this.#focusedCell);
 
@@ -250,6 +259,9 @@ class SidukoEventsHandler {
 
     _onCellValueEntryChange(oEvent) {
         const oCellData = this.focusedCell;
+        if (oCellData.fixedValue) {
+            return;
+        }
         const valueEntry = document.getElementById('cellValueEntryPopup');
         if (oEvent.target.innerText === "Clear") {
             oCellData.value = 0;
