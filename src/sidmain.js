@@ -31,6 +31,7 @@ function setupPuzzle(puzzleData) {
         },0,oPuzzle);
     } else {
         // change the ownership, and don't leak
+        debugger
         const eventHandler = new SidukoEventsHandler(oPuzzle, tableDOM);
     }
 

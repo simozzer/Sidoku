@@ -79,4 +79,42 @@ class SidukoHtmlGenerator {
             
         }
     }
+
+    static highlightRow(oPuzzle, iRow) {
+        const aCells = oPuzzle.getData().cellsInRow(iRow);
+        aCells.forEach(oCell => {
+            oCell.element.classList.add('cell-highlight');
+            oCell.highlightListener = oCell.element.addEventListener('animationend', ()=> {
+                oCell.element.removeEventListener('animationend', oCell.highlightListener);
+                oCell.highlightListener = null;
+                oCell.element.classList.remove('cell-highlight');
+            });
+        }, this);
+    }
+
+    static highlightColumn(oPuzzle, iColumn) {
+        const aCells = oPuzzle.getData().cellsInColumn(iColumn);
+        aCells.forEach(oCell => {
+            oCell.element.classList.add('cell-highlight');
+            oCell.highlightListener = oCell.element.addEventListener('animationend', ()=> {
+                oCell.element.removeEventListener('animationend', oCell.highlightListener);
+                oCell.highlightListener = null;
+                oCell.element.classList.remove('cell-highlight');
+            });
+        }, this);
+    }
+
+    static highlightInnerTable(oPuzzle, iInnerTableIndex) {
+        const aCells = oPuzzle.getData().cellsInInnerTable(iInnerTableIndex);
+        aCells.forEach(oCell => {
+            oCell.element.classList.add('cell-highlight');
+            oCell.highlightListener = oCell.element.addEventListener('animationend', ()=> {
+                oCell.element.removeEventListener('animationend', oCell.highlightListener);
+                oCell.highlightListener = null;
+                oCell.element.classList.remove('cell-highlight');
+            });
+        }, this);
+    }
+
+
 }

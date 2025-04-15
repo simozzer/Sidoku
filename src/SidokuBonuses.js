@@ -34,14 +34,15 @@ class SidokuBonuses {
                 randomCell.setSolved();
                 randomCell.element.classList.add('aided');
                 randomCell.element.classList.add('granted');
-                randomCell.entered = true;
-                fnGameEventCallback({
-                    cellUsed: true
-                });
-                //SidukoHtmlGenerator.updateCellHints(oPuzzle);    
+                randomCell.entered = true;  
 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), randomCell);                
-                const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, random);
+                let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, randomCell);
+                if (!oFullnessStateChanges) {
+                    oFullnessStateChanges = {};
+                }                
+                oFullnessStateChanges.cellUsed = true;
+                oFullnessStateChanges.targetCell = randomCell;
                 fnGameEventCallback(oFullnessStateChanges);
                 iCellsRevealed++;
             } else if (randomCell.value > 0) {
@@ -78,14 +79,15 @@ class SidokuBonuses {
                 targetCell.setSolved();
                 targetCell.element.classList.add('aided');
                 targetCell.element.classList.add('granted');
-                targetCell.entered = true;
-                fnGameEventCallback({
-                    cellUsed: true
-                });
-   
+                targetCell.entered = true;  
 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
+                let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
+                if (!oFullnessStateChanges) {
+                    oFullnessStateChanges = {};
+                }
+                oFullnessStateChanges.cellUsed = true;
+                oFullnessStateChanges.targetCell = targetCell;
                 fnGameEventCallback(oFullnessStateChanges);
                 
                 iCellsRevealed++;
@@ -131,7 +133,12 @@ class SidokuBonuses {
                 //SidukoHtmlGenerator.updateCellHints(oPuzzle);
                 
                 const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
+                let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
+                if (!oFullnessStateChanges) {
+                    oFullnessStateChanges = {};
+                }
+                oFullnessStateChanges.cellUsed = true;
+                oFullnessStateChanges.targetCell = targetCell;
                 fnGameEventCallback(oFullnessStateChanges);
                 
                 iCellsRevealed++;            
@@ -169,13 +176,14 @@ class SidokuBonuses {
                     targetCell.element.classList.add('aided');
                     targetCell.element.classList.add('granted');
                     targetCell.entered = true;
-                    fnGameEventCallback({
-                        cellUsed: true
-                    });
-                // SidukoHtmlGenerator.updateCellHints(oPuzzle);
 
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                    const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);         
+                    let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);         
+                    if (!oFullnessStateChanges) {
+                        oFullnessStateChanges = {};
+                    }
+                    oFullnessStateChanges.cellUsed = true;
+                    oFullnessStateChanges.targetCell = targetCell;
                     fnGameEventCallback(oFullnessStateChanges);       
                     iCellsRevealed++;
                 } else if (targetCell.value > 0) {
@@ -212,13 +220,15 @@ class SidokuBonuses {
                     targetCell.element.classList.add('aided');
                     targetCell.element.classList.add('granted');
                     targetCell.entered = true;
-                    fnGameEventCallback({
-                        cellUsed: true
-                    });
                     
                     const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), targetCell);    
-                    const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
-                    fnGameEventCallback(oFullnessStateChanges);      
+                    let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, targetCell);
+                    if (!oFullnessStateChanges) {
+                        oFullnessStateChanges = {};
+                    }
+                    oFullnessStateChanges.cellUsed = true;
+                    oFullnessStateChanges.targetCell = targetCell;
+                    fnGameEventCallback(oFullnessStateChanges);
                     iCellsRevealed++;
                 } else if (targetCell.value > 0) {
                     console.warn(`Could not reveal item with random value due to existing value. (${targetCell.column},${targetCell.row}) cannot be set to ${randomValue}`);
@@ -256,12 +266,14 @@ class SidokuBonuses {
                         oTargetCell.element.classList.add('aided');
                         oTargetCell.element.classList.add('granted');
                         oTargetCell.entered = true;
-                        fnGameEventCallback({
-                            cellUsed: true
-                        });
 
                         const oEndFullnessState = SidukoCellQueries.getFullnessState(oPuzzle.getData(), oTargetCell);    
-                        const oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, oTargetCell);
+                        let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(oStartFullnessState, oEndFullnessState, oTargetCell);
+                        if (!oFullnessStateChanges) {
+                            oFullnessStateChanges = {};
+                        }
+                        oFullnessStateChanges.cellUsed = true;
+                        oFullnessStateChanges.targetCell = oTargetCell;
                         fnGameEventCallback(oFullnessStateChanges);  
                         iCellsRevealed++;
         

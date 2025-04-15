@@ -14,9 +14,7 @@ class SidukoEventsHandler {
         //document.querySelectorAll('.sidukoTable>tr>td>table>tr>td')
         this.#cellValueEntry = document.getElementById('cellValueEntryPopup');
         this.attachEvents();
-        this.#sounds = sounds;
-
-        
+        this.#sounds = sounds;        
     }
 
     get focusedCell() {
@@ -60,6 +58,7 @@ class SidukoEventsHandler {
                 } else {
                     sMessage += " - Does not match solution. ";
                 }
+                SidukoHtmlGenerator.highlightColumn(oGame,state.column-1);
                 
             }
             if (state.row) {
@@ -74,6 +73,7 @@ class SidukoEventsHandler {
                 } else {
                     sMessage += " - Does not match solution. ";
                 }
+                SidukoHtmlGenerator.highlightRow(oGame,state.row-1);
             }
             if (state.innerTable) {
                 sMessage += (`👍*Inner Table Filled*👍`);
@@ -87,13 +87,14 @@ class SidukoEventsHandler {
                 } else {
                     sMessage += " - Does not match solution. ";
                 }
+                SidukoHtmlGenerator.highlightInnerTable(oGame,state.innerTable-1);
             }
             if (state.board) {
                 logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
             }
             if (state.playerCellUsed) {                
                 console.log("Cell used by player");                
-                this.#playerData.doTurnPlayed(true, oGame);
+                this.#playerData.doTurnPlayed(true, oGame);                
                 //SidokuBonuses.autoFillCellsWithOnePossibleValue(oGame, oGame.solution, this.gameplayChangedHandler.bind(this));
             } else if (state.cellUsed) {
                 console.log("cell used by A bonus");
@@ -202,6 +203,7 @@ class SidukoEventsHandler {
                         oFullnessStateChanges = {};
                     }
                     oFullnessStateChanges.playerCellUsed= true;
+                    oFullnessStateChanges.cell = oCellData;
                     this.gameplayChangedHandler(oFullnessStateChanges);
 
                     this._updateCellHints();
@@ -227,8 +229,8 @@ class SidukoEventsHandler {
             if (!oEventTarget.classList.contains('fixedval')) {
                 const column = 0 | oEventTarget.dataset.column;
                 const row = 0 | oEventTarget.dataset.row;                               
-                this.focusedCell = this.#puzzle.getData().cell(column,row);
-                if (this.focusedCell.fixedValue) {
+                this.#focusedCell = this.#puzzle.getData().cell(column,row);
+                if (this.#focusedCell.fixedValue) {
                     return;
                 }
 
@@ -258,7 +260,7 @@ class SidukoEventsHandler {
     }
 
     _onCellValueEntryChange(oEvent) {
-        const oCellData = this.focusedCell;
+        const oCellData = this.#focusedCell;
         if (oCellData.fixedValue) {
             return;
         }
@@ -294,6 +296,7 @@ class SidukoEventsHandler {
                     oFullnessStateChanges = {};
                 }
                 oFullnessStateChanges.playerCellUsed= true;
+                oFullnessStateChanges.cell = oCellData;
                 this.gameplayChangedHandler(oFullnessStateChanges);                
                 valueEntry.classList.add('hidden');
                 

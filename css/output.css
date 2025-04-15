@@ -436,6 +436,22 @@ table.sidukoTable {
   color: var(--color-slate-800);
   font-size: var(--text-2xl);
   line-height: var(--tw-leading, var(--text-2xl--line-height));
+  user-select: none;
+}
+@keyframes doCellHighlight {
+  from {
+    border: 1px solid red;
+    background-color: black;
+    opacity: 0;
+  }
+  to {
+    border: 2px solid lightseagreen;
+    background-color: white;
+    opacity: 1;
+  }
+}
+.sidukoTable table td.cell-highlight {
+  animation: doCellHighlight 0.8s;
 }
 .sidukoTable table td:hover {
   background-color: var(--color-sky-300);

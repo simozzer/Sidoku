@@ -48,6 +48,24 @@ table.sidukoTable {
     @apply text-center;
     @apply text-slate-800;
     @apply text-2xl;
+	user-select: none;
+}
+
+@keyframes doCellHighlight {
+	from {
+		border: 1px solid red;
+		background-color: black;
+		opacity: 0;
+	}
+	to {
+		border: 2px solid lightseagreen;
+		background-color: white;
+		opacity: 1;
+	}
+}
+
+.sidukoTable table td.cell-highlight {
+	animation: doCellHighlight 0.8s;
 }
 
 .sidukoTable table td:hover {
