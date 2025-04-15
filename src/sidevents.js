@@ -50,8 +50,10 @@ class SidukoEventsHandler {
                 sMessage = `�Column Filled*�`;
                 if (oGame.getData().cellsInColumn(state.column-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInColumn(state.column-1).map(o=>o.value).toString()) {
                     oGame.getData().cellsInColumn(state.column-1).forEach(cell => {
-                        cell.element.classList.add('player_solved');
-                        cell.setFixedValue();
+                        if (!cell.fixedValue) {
+                            cell.element.classList.add('player_solved');
+                            cell.setFixedValue();     
+                        }                       
                     });
                     sMessage += " - Matches solution. ";
                     bonus++;                    
@@ -65,8 +67,10 @@ class SidukoEventsHandler {
                 sMessage += (`🎉*Row Filled*🎉`);
                 if (oGame.getData().cellsInRow(state.row-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInRow(state.row-1).map(o=>o.value).toString()) {                    
                     oGame.getData().cellsInRow(state.row-1).forEach(cell => {
-                        cell.element.classList.add('player_solved');
-                        cell.setFixedValue();
+                        if (!cell.fixedValue) {
+                            cell.element.classList.add('player_solved');
+                            cell.setFixedValue();     
+                        }     
                     });
                     sMessage += " - Matches solution. ";
                     bonus++;                    
@@ -79,8 +83,10 @@ class SidukoEventsHandler {
                 sMessage += (`👍*Inner Table Filled*👍`);
                 if (oGame.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString() === oGame.solution.getData().cellsInInnerTable(state.innerTable-1).map(o=>o.value).toString()) {
                     oGame.getData().cellsInInnerTable(state.innerTable-1).forEach(cell => {
-                        cell.element.classList.add('player_solved');
-                        cell.setFixedValue();
+                        if (!cell.fixedValue) {
+                            cell.element.classList.add('player_solved');
+                            cell.setFixedValue();     
+                        }     
                     });
                     sMessage += " - Matches solution. ";
                     bonus++;                    
