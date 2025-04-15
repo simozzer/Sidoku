@@ -283,6 +283,25 @@ table.sidukoTable {
 }
 
 
+
+@keyframes  game_start_anim {
+    from {
+        transform: rotate(0deg);    
+		opacity: 0;
+    }
+
+    to {
+        transform: rotate(-720deg);
+		opacity: 1;
+    }
+}
+
+#mainGameArea.gameStart {
+	animation-name: game_start_anim;
+    animation-duration: 3s;
+}
+
+
 .sidukoTable.solved table td {
     animation-name: puzzlesolvedCells;
     animation-duration: 2s;
@@ -546,14 +565,14 @@ div#playerStatus {
 }
 
 .circles li {
-	position: absolute;
-	display: block;
-	list-style: none;
-	width: 20px;
-	height: 20px;
-	background: rgba(255, 255, 255, 0.2);
-	animation: animate 8s linear infinite;
-	bottom: -150px;
+    position: absolute;
+    display: block;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 20s linear infinite;
+    bottom: -150px;
+    line-height: 8em;
+    font-size: 8em;
+    color: #676888;
 }
 
 .circles li:nth-child(1) {

@@ -238,6 +238,9 @@ class SidukoMain {
         }
         this.#gamesSecondsRemaining = SidukoConstants.GAME_DURATION_SECONDS;
         this.#sounds.playSound("all systems go");
+        document.getElementById("mainGameArea").classList.remove("gameStart");
+        document.getElementById("mainGameArea").classList.remove("hidden");
+        document.getElementById("mainGameArea").classList.add("gameStart");
         this.#gameTimeOut = window.setInterval(() => {
             
             if (this.#gamesSecondsRemaining > 0) {
