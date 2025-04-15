@@ -121,16 +121,17 @@ class SidukoBoostData {
 
     set exhausted(value) {
         
-        if (value && this.#domElement && value !== this.#exhausted) {
-            this.#exhausted = value;
+        if (value && this.#domElement) {
+            
             this.#domElement.classList.add("exhausted");
             this.#turnsRemaining = null;
             var audio = new Audio('./resources/sounds/Hiss1.wav');
             audio.play();
         } else if (this.#domElement) {
-            this.#exhausted = value;
+            
             this.#domElement.classList.remove("exhausted");
         }
+        this.#exhausted = value;
     }
 
     getCanUse() {

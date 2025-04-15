@@ -115,7 +115,7 @@ class SidukoPlayerData {
             row.title = boost.description; 
 
             const levelCell = document.createElement("td");                        
-            if (boost.boostable && this.#funds >= SidukoConstants.BOOST_UP_LEVEl_COST) {
+            if (boost.boostable && this.#funds >= SidukoConstants.BOOST_UP_LEVEl_COST && !boost.exhausted) {
                 const levelButton = document.createElement("input");
                 levelButton.classList.add("boostBoostButton");
                 levelButton.type = "button";

@@ -202,10 +202,11 @@ table.sidukoTable {
 }
 
 
-#playerBoostsTableBody .exhausted {
-	color: red;
-	font-weight: 600;
-	background-color: burlywood;
+#playerBoostsTableBody tr.exhausted {
+    color: #000000a6;    
+    background-color: dimgrey;
+    font-style: italic;    
+    font-family: math;
 }
 
 #playerBoostsTableBody tr {
@@ -479,6 +480,7 @@ div#playerStatus {
     background-color: ghostwhite;
     padding: 6px;
 	border-radius:20px;
+	user-select: none;
 }
 
 .cellValueEntryPopup:hidden {
