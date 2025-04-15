@@ -19,6 +19,44 @@ class SidukoSolver {
 
     // TODO:: look for values with 1 possible cell.
 
+    //TODO :: Reverse last 2 cells.
+
+    //NEGATIVE BONUSES
+
+    //EXACT CELL BONUSES
+
+    //SOLVE PAIR BONUS
+
+    //SEQUENCE BONUSES (3 or more of the same number revealed consecutively, or 3 in increasing or decreasing sequence, 3 values from the same cell, column or inner cell).
+
+    // FACE DOWN.. find matching pairs
+
+    // REWIND
+
+    // REWIND TO LAST CORRECT POSITION
+
+    // DESTROY ALL GUESSES SINCE LAST CORRECT POSITION
+
+    // HIGHLIGHT WRONG CELLS
+
+    // NON RECUSRIVE TOTAL SOLVE
+
+    // BUY EXTRA MOVES
+
+    // WILD CARDS
+
+    // REVEAL INCORRECT CELLS
+
+    // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching value in other COL/ROW/INNER CELL)
+
+    // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching position in other COL/ROW/INNER CELL)
+
+    // GUARANTEE (BONUS WILL FIND AN ANSWER)
+
+    // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals all items in a COL/ROW/INNER CELL)
+
+
+
 
     /**
      * Solves a group of cells in the Sudoku puzzle.

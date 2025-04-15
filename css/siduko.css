@@ -31,12 +31,6 @@ table.sidukoTable {
 	animation: color_change 2s infinite alternate;
 }
 
-@keyframes message_wobble {
-	from { rotate: 2deg; }
-	to { rotate: -2deg;}
-}
-
-
 @keyframes color_change {
 	from { background-color: rgb(68, 68, 106); }
 	to { background-color: rgb(111, 142, 210); }
@@ -127,13 +121,11 @@ table.sidukoTable {
     border-radius: 20px;    
 }
 
-#playerStatus {
-    border-radius: 30px;
-    height: 10%;
-    background-color: white;
-    border: 5px solid #238f28;
-    margin: 16px;
+#playerStatus {	
     text-align: center;
+    font-size: larger;
+    font-size: 1.4em;	
+    height: 10%;    
 }
 
 #playerStatus h4 {
@@ -157,9 +149,13 @@ table.sidukoTable {
 	margin-right: 2px;
     color: rgb(221, 232, 232);
     opacity: 0.6;
-    border: 6px rgb(154, 175, 183) solid;
-    border-radius: 20px;	
 	user-select: none;
+	display: contents;
+}
+
+#leftPanel table {
+	min-width: 400px;
+    min-height: 400px;
 }
 
 #leftPanel>div {
@@ -367,7 +363,7 @@ table.sidukoTable {
 
 .messageBox.initial {
 	animation-name: fade;
-	animation-duration: 3.7s;
+	animation-duration: 1.5s;
 	display: block;
 }
 
@@ -448,19 +444,6 @@ table.sidukoTable {
 
 div#playerStatus {
     animation: shake 0.8s ease-in-out infinite alternate;
-}
-
-@keyframes wobble {
-	from {
-		rotate: -1deg;
-	}
-	to {
-		rotate: 1deg;
-	}
-}
-
-#leftPanel {
-	animation:wobble 5s ease-in-out infinite alternate;
 }
 
 #leftPanel thead {
