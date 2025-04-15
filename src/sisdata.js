@@ -1,160 +1,169 @@
-
 const cellValueStates = {
-    FIXED: 1,
-    ENTERED: 2,
-    SUGGESTED: 3,
-    SOLVED: 4
-}
+  FIXED: 1,
+  ENTERED: 2,
+  SUGGESTED: 3,
+  SOLVED: 4,
+};
 Object.freeze(cellValueStates);
 
 class SidukoPuzzleData {
-    #cells;
-    #rowCells = [];
-    #columnCells = [];
-    #innerTableCells = [];
-    constructor() {
-        this.#cells = [];
-        for (let iCellIndex = 0; iCellIndex < 81; iCellIndex++) {
-            const oCell = new SidukoCell(iCellIndex);
-            this.#cells.push(oCell);
-        }
-
-        // Optimisation. Build a collection of the cells in each column, row and inner table
-        for (let i = 0; i < 9; i++) {
-            this.#rowCells[i] = this.#cells.filter(oCell => oCell.row === i && oCell.fixedValue === false);
-            this.#columnCells[i] = this.#cells.filter(oCell => oCell.column === i && oCell.fixedValue === false);
-            this.#innerTableCells[i] = this.#cells.filter(oCell => oCell.innerTableIndex === i && oCell.fixedValue === false);
-        }
+  #cells;
+  #rowCells = [];
+  #columnCells = [];
+  #innerTableCells = [];
+  constructor() {
+    this.#cells = [];
+    for (let iCellIndex = 0; iCellIndex < 81; iCellIndex++) {
+      const oCell = new SidukoCell(iCellIndex);
+      this.#cells.push(oCell);
     }
 
-    get cells() {
-        return this.#cells;
+    // Optimisation. Build a collection of the cells in each column, row and inner table
+    for (let i = 0; i < 9; i++) {
+      this.#rowCells[i] = this.#cells.filter(
+        (oCell) => oCell.row === i && oCell.fixedValue === false
+      );
+      this.#columnCells[i] = this.#cells.filter(
+        (oCell) => oCell.column === i && oCell.fixedValue === false
+      );
+      this.#innerTableCells[i] = this.#cells.filter(
+        (oCell) => oCell.innerTableIndex === i && oCell.fixedValue === false
+      );
     }
-    set cells(value) {
-        this.#cells = value;
-    }
+  }
 
-    cell(iColIndex, iRowIndex) {
-        return this.#rowCells[iRowIndex][iColIndex]; //.find(oCell => oCell.column === iColIndex);
-    }
+  get cells() {
+    return this.#cells;
+  }
+  set cells(value) {
+    this.#cells = value;
+  }
 
-    cellsInRow(iRowIndex) {
-        return this.#rowCells[iRowIndex];
-    }
+  cell(iColIndex, iRowIndex) {
+    return this.#rowCells[iRowIndex][iColIndex]; //.find(oCell => oCell.column === iColIndex);
+  }
 
-    cellsInColumn(iColumnIndex) {
-        return this.#columnCells[iColumnIndex];
-    }
+  cellsInRow(iRowIndex) {
+    return this.#rowCells[iRowIndex];
+  }
 
-    cellsInInnerTable(iInnerTableIndex) {
-        return this.#innerTableCells[iInnerTableIndex];
-    }
+  cellsInColumn(iColumnIndex) {
+    return this.#columnCells[iColumnIndex];
+  }
 
+  cellsInInnerTable(iInnerTableIndex) {
+    return this.#innerTableCells[iInnerTableIndex];
+  }
 }
 
 class SidukoCell {
-    #column;
-    #row;
-    #value;
-    #innerTableIndex;
-    #valueState;
-    #element;
-    #passIndex;
+  #column;
+  #row;
+  #value;
+  #innerTableIndex;
+  #valueState;
+  #element;
+  #passIndex;
 
-    constructor(iCellIndex) {
-        this.#row = Math.floor(iCellIndex / 9);
-        this.#column = iCellIndex - (9 * this.#row);
-        this.#innerTableIndex = (3 * Math.floor(this.#row / 3)) + Math.floor(this.#column / 3);
-        this.#value = 0;
-        this.choiceIndex = 0;
-        this.#passIndex = -1;
+  constructor(iCellIndex) {
+    this.#row = Math.floor(iCellIndex / 9);
+    this.#column = iCellIndex - 9 * this.#row;
+    this.#innerTableIndex =
+      3 * Math.floor(this.#row / 3) + Math.floor(this.#column / 3);
+    this.#value = 0;
+    this.choiceIndex = 0;
+    this.#passIndex = -1;
+  }
+
+  get innerTableIndex() {
+    return this.#innerTableIndex;
+  }
+
+  get column() {
+    return this.#column;
+  }
+
+  get row() {
+    return this.#row;
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(iValue) {
+    this.#value = iValue;
+  }
+
+  get passIndex() {
+    return this.#passIndex;
+  }
+
+  set passIndex(iPassIndex) {
+    this.#passIndex = iPassIndex;
+  }
+
+  setEmptyValue() {
+    this.#valueState = undefined;
+  }
+
+  setFixedValue() {
+    this.#valueState = cellValueStates.FIXED;
+  }
+
+  get fixedValue() {
+    return this.#valueState === cellValueStates.FIXED;
+  }
+
+  get entered() {
+    return this.#valueState === cellValueStates.ENTERED;
+  }
+
+  set entered(bEntered) {
+    if (bEntered) {
+      this.#valueState = cellValueStates.ENTERED;
+    } else if (
+      [cellValueStates.SOLVED, cellValueStates.FIXED].indexOf(
+        this.#valueState
+      ) < 0
+    ) {
+      this.#valueState = undefined;
     }
+  }
 
-    get innerTableIndex() {
-        return this.#innerTableIndex;
-    }
+  get solved() {
+    return this.#valueState === cellValueStates.SOLVED;
+  }
 
-    get column() {
-        return this.#column;
-    }
+  setSolved() {
+    this.#valueState = cellValueStates.SOLVED;
+  }
 
-    get row() {
-        return this.#row;
-    }
+  get suggested() {
+    return this.#valueState === cellValueStates.SUGGESTED;
+  }
 
-    get value() {
-        return this.#value;
-    }
+  set suggested(bSuggested) {
+    this.#valueState = bSuggested ? cellValueStates.SUGGESTED : undefined;
+  }
 
-    set value(iValue) {
-        this.#value = iValue;
-    }
+  get element() {
+    return this.#element;
+  }
 
-    get passIndex() {
-        return this.#passIndex;
-    }
+  set element(element) {
+    this.#element = element;
+  }
 
-    set passIndex(iPassIndex) {
-        this.#passIndex = iPassIndex;
-    }
-
-    setEmptyValue() {
-        this.#valueState = undefined;        
-    }
-
-    setFixedValue() {
-        this.#valueState = cellValueStates.FIXED;
-    }
-
-    get fixedValue() {
-        return this.#valueState === cellValueStates.FIXED;
-    }
-
-    get entered() {
-        return this.#valueState === cellValueStates.ENTERED;
-    }
-
-    set entered(bEntered) {
-        if (bEntered) {
-            this.#valueState = cellValueStates.ENTERED;
-        } else if ([cellValueStates.SOLVED, cellValueStates.FIXED].indexOf(this.#valueState) < 0) {
-            this.#valueState = undefined;
-        }
-    }
-
-    get solved() {
-        return this.#valueState === cellValueStates.SOLVED;
-    }
-
-    setSolved() {
-        this.#valueState = cellValueStates.SOLVED;        
-    }
-
-    get suggested() {
-        return this.#valueState === cellValueStates.SUGGESTED;
-    }
-
-    set suggested(bSuggested) {
-        this.#valueState = bSuggested ? cellValueStates.SUGGESTED : undefined;
-    }
-
-    get element() {
-        return this.#element;
-    }
-
-    set element(element) {
-        this.#element = element;
-    }
-
-    reset(bFast) {
-        this.#value = 0;
-        this.#valueState = undefined;
-        if (!bFast) {
-            /*
+  reset(bFast) {
+    this.#value = 0;
+    this.#valueState = undefined;
+    if (!bFast) {
+      /*
             this.element.innerHTML = '';
             this.element.classList.remove('suggested');
             this.element.classList.remove('solved');
             */
-        }
     }
+  }
 }
