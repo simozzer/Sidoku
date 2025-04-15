@@ -840,10 +840,12 @@ div#playerStatus {
   from {
     top: -300px;
     opacity: 0.4;
+    font-size: x-small;
   }
   to {
     top: 0;
     opacity: 1;
+    font-size: large;
   }
 }
 @keyframes zoomIn {
@@ -883,7 +885,6 @@ div#playerStatus {
   bottom: -150px;
   line-height: 8em;
   font-size: 8em;
-  color: #676888;
 }
 .circles li:nth-child(1) {
   left: 25%;
@@ -955,11 +956,15 @@ div#playerStatus {
     transform: translateY(0) rotate(0deg);
     opacity: 1;
     border-radius: 0;
+    font-size: 49pt;
+    color: #676888;
   }
   100% {
     transform: translateY(-1000px) rotate(720deg);
     opacity: 0.2;
     border-radius: 50%;
+    font-size: 6pt;
+    color: #d3d3e5;
   }
 }
 @property --tw-border-style {
