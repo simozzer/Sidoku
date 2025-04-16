@@ -182,6 +182,7 @@ class SidukoEventsHandler {
       if (bonus > 0) {
         sMessage += `BONUS AWARDED $${bonus}`;
         this.#playerData.funds += bonus;
+        this.#playerData.renderBoosts();
       }
       if (sMessage) {
         logMessage(sMessage);
@@ -252,7 +253,7 @@ class SidukoEventsHandler {
           oCellData.element.innerText = "";
           oCellData.element.classList.remove("entered");
 
-          this._updateCellHints(oCellData);
+          this._updateCellHints();
           this.#sounds.playSound("swipe_9");
         }
         break;

@@ -154,6 +154,8 @@ class SidukoPlayerData {
       boost.domElement = row;
       if (boost.exhausted) {
         boost.domElement.classList.add("exhausted");
+      } else {
+        boost.domElement.classList.remove("exhausted");
       }
       tbody.appendChild(row);
     });

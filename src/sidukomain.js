@@ -108,7 +108,7 @@ class SidukoMain {
     oBoost.boostBuyHint = `Increment max cell count for Rows`;
     oBoost.buyHint = `Add a rows bonus to your collection`;
     oBoost.boostable = true;
-    oBoost.maxCellCount = 1;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoColumnBoostData(
@@ -122,7 +122,7 @@ class SidukoMain {
     oBoost.boostBuyHint = `Increment max cell count for Rows`;
     oBoost.buyHint = `Add a columns bonus to your collection`;
     oBoost.boostable = true;
-    oBoost.maxCellCount = 1;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoInnerTableBoostData(
@@ -136,7 +136,7 @@ class SidukoMain {
     oBoost.boostBuyHint = `Increment max cell count for Inner Tables`;
     oBoost.buyHint = `Add an inner table bonus to your collection`;
     oBoost.boostable = true;
-    oBoost.maxCellCount = 1;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoRandomBoostData(
@@ -150,7 +150,7 @@ class SidukoMain {
     oBoost.boostBuyHint = `Increment max cell count for random`;
     oBoost.buyHint = `Add a random cell bonus to your collection`;
     oBoost.boostable = true;
-    oBoost.maxCellCount = 1;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoRandomValueBoostData(
@@ -164,7 +164,7 @@ class SidukoMain {
     oBoost.boostBuyHint = `Increment max cell count for random value`;
     oBoost.buyHint = `Add a random value bonus to your collection`;
     oBoost.boostable = true;
-    oBoost.maxCellCount = 1;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     // Show tooltips on each turn whilst we still have turns remaining
@@ -191,6 +191,7 @@ class SidukoMain {
     oBoost.boostBuyHint = "Increase the max cell count for the Seeker bonus";
     oBoost.buyHint = `Add another seeker bonus to be used when you choose`;
     oBoost.boostable = true;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;    
 
     oBoost = new SidukoBoostData(
       "Time",
@@ -258,6 +259,7 @@ class SidukoMain {
             if (oBoost.maxCellCount > 2) {
               oBoost.maxCellCount--;
             }
+
           } else {
             SidukoNotifications.getInstance().queueAlert(
               "Failed to use boost", 2000
@@ -275,6 +277,8 @@ class SidukoMain {
           }
           oBoost.exhausted = oBoost.turnsRemaining <= 0;
           this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;
+          
+
         }
 
         oPlayerData.renderBoosts(oGame);
