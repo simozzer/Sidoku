@@ -7,6 +7,8 @@ class SidukoConstants {
 
   static DEFAULT_FUNDS = 6;
 
-  static GAME_DURATION_SECONDS = 400;
+  static GAME_DURATION_SECONDS = 540;
   static TIME_BOOST_SECONDS = 60;
+
+  static GUESSES_MULTIPLER = 0.1;// 1.3;
 }

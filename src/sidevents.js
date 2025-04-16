@@ -168,7 +168,7 @@ class SidukoEventsHandler {
         SidukoHtmlGenerator.highlightInnerTable(oGame, state.innerTable - 1);
       }
       if (state.board) {
-        logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");
+        logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");        
       }
       if (state.playerCellUsed) {
         console.log("Cell used by player");
@@ -190,6 +190,9 @@ class SidukoEventsHandler {
   }
 
   _onKeyDown(oEvent) {
+    if (this.#playerData.guessesRemaining <= 0) {
+      return;
+    }
     const column = 0 | oEvent.target.dataset.column;
     const row = 0 | oEvent.target.dataset.row;
     console.log(
@@ -258,6 +261,9 @@ class SidukoEventsHandler {
   }
 
   _onKeyPress(oEvent) {
+    if (this.#playerData.guessesRemaining <= 0) {
+      return;
+    }    
     const oEventTarget = oEvent.target;
     const iValue = parseInt(oEvent.key, 10);
 
@@ -323,6 +329,9 @@ class SidukoEventsHandler {
   }
 
   _onTap(oEvent) {
+    if (this.#playerData.guessesRemaining <= 0) {
+      return;
+    }    
     if (!document.getElementById("touchScreenCheckBox").checked) {
       return;
     }

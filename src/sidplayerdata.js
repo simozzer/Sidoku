@@ -180,7 +180,8 @@ class SidukoPlayerData {
     this.guessesRemaining--;
 
     if (this.guessesRemaining <= 0) {
-      logMessage("You ran out of guesses. Game over.");
+      SidukoNotifications.getInstance().queueAlert("You ran out of guesses. Game over.",4000);
+      window.alert("Refresh your browser to start another puzzle");
     }
 
     if (bSolvedByPlayer) {

@@ -76,7 +76,8 @@ class SidukoMain {
     const emptyCellCount = this.#game
       .getData()
       .cells.filter((cell) => cell.value === 0).length;
-    oPlayerData.guessesRemaining = Math.round(emptyCellCount * 1.3);
+    
+    oPlayerData.guessesRemaining = Math.round(emptyCellCount * SidukoConstants.GUESSES_MULTIPLER);
 
     this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);
     const tableDOM = this.#htmlGenerator.getPuzzleDOM();
@@ -307,9 +308,7 @@ class SidukoMain {
           this.#gameTimeOut = null;
           window.alert(
             "You ran out of time!\nTechnically speaking the game is over and you lost.\nFeel free to carry on playing, or choose a level from the menu."
-          );
-          document.getElementById("menu").value = "";
-          document.getElementById("menucontainer").style.display = "block";
+          );        
         }
       },
       1000,
