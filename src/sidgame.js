@@ -22,22 +22,26 @@ doMenuChanged = (oEv) => {
     case "Easy":
       // oEv.target.disabled = true;
       //setupPuzzle(escargotAiData);
+      SidukoNotifications.getInstance().queueAlert(`There could be a short delay whilst the data is downloaded and checked`, 3000); 
       loadPuzzle("./resources/easyPuzzleData.txt");
       oEv.target.display = "none";
       break;
 
     case "Medium":
       //oEv.target.disabled = true;
+      SidukoNotifications.getInstance().queueAlert(`There could be a short delay whilst the data is downloaded and checked`, 3000); 
       loadPuzzle("./resources/mediumPuzzleData.txt");
       oEv.target.display = "none";
       break;
     case "Hard":
       // oEv.target.disabled = true;
+      SidukoNotifications.getInstance().queueAlert(`There could be a short delay whilst the data is downloaded and checked`, 3000); 
       loadPuzzle("./resources/hardPuzzleData.txt");
       oEv.target.display = "none";
       break;
     case "Diabolical":
       //oEv.target.disabled = true;
+      SidukoNotifications.getInstance().queueAlert(`There could be a short delay whilst the data is downloaded and checked`, 3000); 
       loadPuzzle("./resources/diabolicalPuzzleData.txt");
       oEv.target.display = "none";
       break;
