@@ -12,5 +12,5 @@ class SidukoConstants {
 
   static GUESSES_MULTIPLER = 1.3;
 
-  static INITIAL_DEFAULT_BOOST_LIVES = 1;
+  static INITIAL_DEFAULT_BOOST_LIVES = 0;
 }
