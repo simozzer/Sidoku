@@ -175,24 +175,7 @@ class SidukoPuzzle {
     return this.#data;
   }
 
-  gameplayChangedHandler(state) {
-    // TODO: grant a smaller bonus if the answer was provided to the player
-    window.alert("EEE");
-    if (state) {
-      if (state.column) {
-        logMessage(`✨***(Column Filled)***✨`, "column_filled");
-      }
-      if (state.row) {
-        logMessage(`🎉***(Row Filled)***🎉`, "row_filled");
-      }
-      if (state.innerTable) {
-        logMessage(`👍***(Inner Table Filled***👍)`, "inner_table_filled");
-      }
-      if (state.board) {
-        logMessage(`(🔥🔥🔥***Board Filled***🔥🔥🔥)`, "board_filled");
-      }
-    }
-  }
+
 
   triggerRandomBonus() {
     const fnHandleGamplayChaned = this.gameplayChangedHandler.bind(this);

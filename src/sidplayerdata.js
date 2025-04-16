@@ -189,7 +189,7 @@ class SidukoPlayerData {
         .forEach((b) => {
           b.turnsRemaining--;
           if (b.turnsRemaining === 0) {
-            logMessage("Boost '" + b.name + "' has run out of turns.");            
+            SidukoNotifications.getInstance().queueAlert("Boost '" + b.name + "' has run out of turns.");            
             b.exhausted = true;
             if (b.name === "Hints") {
               sounds.playSound("si_lost_hints");
@@ -199,6 +199,8 @@ class SidukoPlayerData {
           }
         });
     }
+
+
     this.#boosts.forEach((b) => {
       b.forSale = this.funds >= 1;
       if (b.forSale) {

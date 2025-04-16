@@ -1,11 +1,4 @@
 class SidokuBonuses {
-  //BONUSES WILL HAVE DIFFERENT MULTIPLIERS, WHICH WILL ENABLE THEM SELECT UP TO THE MULTIPLIER OF CELLS
-
-  //ONE BONUS WILL BE A GUARANTEE THAT ALL THE SELECTED TARGET CELLS ARE VALID
-
-  //ANOTHER BOUNS WILL DOUBLE THE TIME,
-
-  //ANOTHER ONE WILL DOUBLE THE NUMBER OF TURNS LEFT
 
   static revealRandomValue(
     oPuzzle,
@@ -53,7 +46,7 @@ class SidokuBonuses {
         randomCell.setSolved();
         randomCell.element.classList.add("aided");
         randomCell.element.classList.add("granted");
-        randomCell.entered = true;
+        randomCell.entered = true;      
 
         const oEndFullnessState = SidukoCellQueries.getFullnessState(
           oPuzzle.getData(),

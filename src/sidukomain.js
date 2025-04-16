@@ -62,6 +62,8 @@ class SidukoMain {
           
     intro.classList.add("fadeIntro");
 
+    SidukoNotifications.getInstance().queueAlert(`The could be a short delay whilst the data is downloaded and checked`, 3000); 
+
 
     if (this.#gameTimeOut) {
       window.clearInterval(this.#gameTimeOut);
@@ -248,6 +250,7 @@ class SidukoMain {
           if (oBoost.turnsRemaining <= 0) {
             oBoost.exhausted = true;
             this.#sounds.playSound("si_bonus_exhausted");
+            SidukoNotifications.getInstance().queueAlert(`Boost ${sBoostName} exhausted`);            
           }
 
           if (oBoost.maxCellCount > 2) {

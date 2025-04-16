@@ -153,6 +153,42 @@ table.sidukoTable {
 	text-align: center;
 }
 
+#alert {
+	position: absolute;
+	border: 5px dashed green;
+	background-color: rgb(149, 11, 11);
+	color: black;
+	padding: 20px;
+	font-size: 1.6em;
+	z-index: 20;
+	top: 15px;
+	left: 15px;
+	max-width: 300px;	
+}
+
+
+@keyframes show_alert_one {
+	from {
+		opacity: 0.3;
+		color: white;
+		background-color: black;
+		font-size: 1.5em;
+		padding: 20px;
+	}
+	to {
+		opacity: 1;
+		color: rgb(42, 26, 26);
+		background-color: rgb(234, 234, 228);
+		font-size: 1em;
+		padding:60px;
+	}
+}
+
+.show_alert {
+	animation-name: show_alert_one;
+  animation-duration: 3s;
+}
+
 
 @keyframes fade_intro_screen {
 	from {
