@@ -152,6 +152,10 @@ table.sidukoTable {
 	opacity: 0.8;
 	text-align: center;
 }
+.introScreenContent h4 {
+	font-weight: 600;
+	font-family: 'Times New Roman', Times, serif;
+}
 
 #alert {
 	position: absolute;

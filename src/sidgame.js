@@ -88,17 +88,21 @@ function __displayMessage(message) {
         if (oMessageElement.classList.contains("initial")) {
           oMessageElement.classList.remove("initial");
           oMessageElement.style.display = "none";
+          oMessageElement.innerText = "";
         }
       });
     }
 
     oMessageElement.innerText = message;
     oMessageElement.style.display = "block";
+
+    
     let fnTimeout = window.setTimeout(() => {
       oMessageElement.classList.add("initial");
       window.clearTimeout(fnTimeout);
       fnTimeout = null;
     }, 2300);
+    
   }
 }
 
@@ -111,10 +115,8 @@ function showMessages() {
           if (typeof oMessage.startTime === "undefined") {
             oMessage.startTime = Date.now();
             this.__displayMessage(oMessage.message, oMessage.className);
-          } else {
-            if (Date.now() > oMessage.startTime + 3800) {
-              aMessages = aMessages.slice(1);
-            }
+          } else if (Date.now() > oMessage.startTime + 3800) {
+              aMessages.shift();
           }
         }
       },

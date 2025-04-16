@@ -47,3 +47,11 @@
   // level up max cells by x for a skill (decresing when used)
 
   // level up max cells by x for a skill (permanent)
+
+  // Stop the clock
+
+  // solve inner cell corners
+
+  // solve puzzle corners
+
+  // + solve (solve from centre cell outwars)
