@@ -3,11 +3,9 @@ class SidukoSolver {
   #sortedPossibleValuesList;
   #passIndex = 0;
   #stack = [];
-  #fast = false;
   #fnComplete;
 
   constructor(oPuzzle, fnComplete) {
-    this.#fast = document.getElementById("chk_fast")?.checked;
     this.#oPuzzle = oPuzzle;
     this.oPuzzleData = this.#oPuzzle.getData();
     this.cells = [...this.#oPuzzle.getData().cells];
@@ -22,57 +20,6 @@ class SidukoSolver {
     this.#fnComplete = fnComplete;
   }
 
-  // TODO:: look for values with 1 possible cell.
-
-  //TODO :: Reverse last 2 cells.
-
-  //NEGATIVE BONUSES
-
-  //EXACT CELL BONUSES
-
-  //SOLVE PAIR BONUS
-
-  //SEQUENCE BONUSES (3 or more of the same number revealed consecutively, or 3 in increasing or decreasing sequence, 3 values from the same cell, column or inner cell).
-
-  // FACE DOWN.. find matching pairs
-
-  // REWIND
-
-  // REWIND TO LAST CORRECT POSITION
-
-  // DESTROY ALL GUESSES SINCE LAST CORRECT POSITION
-
-  // HIGHLIGHT WRONG CELLS
-
-  // NON RECUSRIVE TOTAL SOLVE
-
-  // BUY EXTRA MOVES
-
-  // WILD CARDS
-
-  // REVEAL INCORRECT CELLS
-
-  // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching value in other COL/ROW/INNER CELL)
-
-  // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching position in other COL/ROW/INNER CELL)
-
-  // GUARANTEE (BONUS WILL FIND AN ANSWER)
-
-  // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals all items in a COL/ROW/INNER CELL)
-
-  // AUTO COMPLETE ROW/COLUMN?INNER TABLE WHEN ONLY x cells left.
-
-  // allow digits ase wildcard pairs (e.g. 2s can be 1s and 1s can be 2s)
-
-  // Slow time
-
-  // level up max cells by x for a skill (temp)
-
-  // level up max cells by x for a skill (decreasing each turn)
-
-  // level up max cells by x for a skill (decresing when used)
-
-  // level up max cells by x for a skill (permanent)
 
   /**
    * Solves a group of cells in the Sudoku puzzle.
@@ -110,9 +57,6 @@ class SidukoSolver {
             oCellToAdjust.value = possibleValue;
             oCellToAdjust.setSolved();
             oCellToAdjust.passIndex = this.#passIndex;
-            if (this.#fast) {
-              return true;
-            }
             return true;
           }
         }
@@ -245,18 +189,12 @@ class SidukoSolver {
     const startTime = new Date().getTime();
     const oCells = this.#oPuzzle.getData().cells;
 
-    if (this.#fast) {
-      do {
-        this.doExecute();
-        iExecutionCount++;
-      } while (oCells.filter((oCell) => oCell.value === 0).length > 0);
-    } else {
-      do {
-        await this.doExecuteAsync().then(() => {
-          iExecutionCount++;
-        });
-      } while (oCells.filter((cell) => cell.value === 0).length > 0);
-    }
+
+    do {
+      this.doExecute();
+      iExecutionCount++;
+    } while (oCells.filter((oCell) => oCell.value === 0).length > 0);
+
 
     const duration = new Date().getTime() - startTime;
     document.querySelector("#everywhere table").classList.add("solved");
@@ -279,11 +217,11 @@ class SidukoSolver {
     const iLastUpdatedCellIndex = oLastUpdatedCell.passIndex;
     this.cells.forEach((o) => {
       if (o.passIndex === iLastUpdatedCellIndex) {
-        o.reset(this.#fast);
+        o.reset();
       }
     });
     oLastUpdatedCell.choiceIndex++;
-    oLastUpdatedCell.reset(this.#fast);
+    oLastUpdatedCell.reset();
     const oPuzzleData = this.#oPuzzle.getData();
     if (!SidukoCellQueries.canSetACellValue(oPuzzleData, oLastUpdatedCell)) {
       oLastUpdatedCell.choiceIndex = 0;
@@ -291,10 +229,10 @@ class SidukoSolver {
       const iPrevCellPassIndex = oPrevCell.passIndex;
       oPuzzleData.cells.forEach((o) => {
         if (o.passIndex === iPrevCellPassIndex) {
-          o.reset(this.#fast);
+          o.reset();
         }
       });
-      oPrevCell.reset(this.#fast);
+      oPrevCell.reset();
       this.rewind();
     }
   }
@@ -332,12 +270,6 @@ class SidukoSolver {
       oSolveCell.passIndex = this.#passIndex;
       this.#stack.push(oSolveCell);
       this.doSimpleSolve();
-      if (this.#fast) return true;
-      /*
-            const oElem = oSolveCell.element;         
-            oElem.innerHTML = oSolveCell.value;
-            oElem.classList.add('suggested');
-            */
       return true;
     }
     return false;
@@ -374,15 +306,7 @@ class SidukoSolver {
           oCell.value = iValue;
           oCell.setSolved();
           oCell.passIndex = this.#passIndex;
-          if (this.#fast) {
-            return true;
-          }
-          /*
-                    const oElem = oCell.element;
-                    oElem.innerText = iValue;
-                    oElem.title = '';
-                    oElem.classList.add('solved');
-                    */
+          return true;          
         }
       });
     }

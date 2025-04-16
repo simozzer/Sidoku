@@ -223,7 +223,6 @@ class SidukoMain {
         } else if (clickedColumn === 4) {
           // USE
 
-          //if (sBoostName === "Seeker") {
           if (sBoostName === "Time") {
             let gameSeconds =
               this.#gamesSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
@@ -236,12 +235,13 @@ class SidukoMain {
 
           if (oBoost.turnsRemaining <= 0) {
             oBoost.exhausted = true;
+            this.#sounds.playSound("si_bonus_exhausted");
           }
 
           if (oBoost.maxCellCount > 2) {
             oBoost.maxCellCount--;
           }
-          //}
+
         } else if (clickedColumn === 5) {
           // BUY
 

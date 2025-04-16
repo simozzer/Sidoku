@@ -155,7 +155,7 @@ table.sidukoTable {
 
 #leftPanel table {
 	min-width: 400px;
-    min-height: 400px;
+  min-height: 400px;
 }
 
 #leftPanel>div {
@@ -358,7 +358,8 @@ table.sidukoTable {
 	border: 6px double red;
 	border-radius: 8px;
 	font-size: 1.1em;
-	display: none;
+	max-width: 400px;
+	min-width: 400px;
 }
 
 .messageBox.initial {

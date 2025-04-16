@@ -114,7 +114,7 @@ function showMessages() {
           }
         }
       },
-      100,
+      20,
       this
     );
   }

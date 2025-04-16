@@ -45,16 +45,6 @@ function setupPuzzle(puzzleData) {
 }
 
 doSolvePressed = (oEv) => {
-  // The next step is to use web workers to try and solve this a bit faster
-  /*
-    const worker = new Worker("/src/sidoku_worker.js");
-    worker.onmessage = (oEv) => {
-      console.log("worker.onmessage: ", oEv.data);     
-      worker.postMessage("close");
-    };
-    worker.postMessage({ puzzle: oPuzzle.getData() });
-    */
-
   const startValues = oPuzzle.getData().cells.map((o) => o.value);
   setupPuzzle(startValues);
   oEv.stopPropagation();
@@ -187,6 +177,7 @@ class SidukoPuzzle {
 
   gameplayChangedHandler(state) {
     // TODO: grant a smaller bonus if the answer was provided to the player
+    window.alert("EEE");
     if (state) {
       if (state.column) {
         logMessage(`✨***(Column Filled)***✨`, "column_filled");

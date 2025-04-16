@@ -176,12 +176,11 @@ class SidukoPlayerData {
     }
   }
 
-  doTurnPlayed(bSolvedByPlayer, oPuzzle) {
+  doTurnPlayed(bSolvedByPlayer, oPuzzle, sounds) {
     this.guessesRemaining--;
 
     if (this.guessesRemaining <= 0) {
       logMessage("You ran out of guesses. Game over.");
-      //this.puzzle.endGame(false);
     }
 
     if (bSolvedByPlayer) {
@@ -190,8 +189,13 @@ class SidukoPlayerData {
         .forEach((b) => {
           b.turnsRemaining--;
           if (b.turnsRemaining === 0) {
-            logMessage("Boost '" + b.name + "' has run out of turns.");
+            logMessage("Boost '" + b.name + "' has run out of turns.");            
             b.exhausted = true;
+            if (b.name === "Hints") {
+              sounds.playSound("si_lost_hints");
+            } else {
+              sounds.playSound("si_lost_bonus");
+            }
           }
         });
     }

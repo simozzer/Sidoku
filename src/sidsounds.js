@@ -6,6 +6,11 @@ class SidukoSounds {
     this.#getSound("hiss1", 0.4);
     this.#getSound("all systems go", 0.2);
     this.#getSound("swipe_9", 0.2);
+    this.#getSound("si_lost_bonus", 0.4);
+    this.#getSound("si_lost_hints", 0.4);
+    this.#getSound("si_incorrect_row", 0.4);
+    this.#getSound("si_correct_row", 0.6);
+    this.#getSound("si_bonus_exhausted", 0.6);
   }
 
   playSound(sSoundName) {

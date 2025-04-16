@@ -40,7 +40,7 @@ class SidukoPuzzleData {
   }
 
   cell(iColIndex, iRowIndex) {
-    return this.#rowCells[iRowIndex][iColIndex]; //.find(oCell => oCell.column === iColIndex);
+    return this.#rowCells[iRowIndex][iColIndex];
   }
 
   cellsInRow(iRowIndex) {
@@ -155,15 +155,8 @@ class SidukoCell {
     this.#element = element;
   }
 
-  reset(bFast) {
+  reset() {
     this.#value = 0;
     this.#valueState = undefined;
-    if (!bFast) {
-      /*
-            this.element.innerHTML = '';
-            this.element.classList.remove('suggested');
-            this.element.classList.remove('solved');
-            */
-    }
   }
 }

@@ -363,7 +363,6 @@ class SidokuBonuses {
         }
       }
     });
-    // SidukoHtmlGenerator.updateCellHints(oPuzzle);
     return iCellsRevealed;
   }
 
@@ -440,7 +439,6 @@ class SidokuBonuses {
       }
     });
     return iCellsRevealed;
-    // SidukoHtmlGenerator.updateCellHints(oPuzzle);
   }
 
   static canAutoFillCellsWithOnePossibleValue(oPuzzle, puzzleSolution) {

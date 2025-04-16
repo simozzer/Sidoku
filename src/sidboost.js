@@ -122,8 +122,6 @@ class SidukoBoostData {
     if (value && this.#domElement) {
       this.#domElement.classList.add("exhausted");
       this.#turnsRemaining = null;
-      var audio = new Audio("./resources/sounds/Hiss1.wav");
-      audio.play();
     } else if (this.#domElement) {
       this.#domElement.classList.remove("exhausted");
     }
@@ -196,7 +194,6 @@ class SidukoSeekerBoostData extends SidukoBoostData {
       );
       this.turnsRemaining--;
       return true;
-      // (this.#puzzle,this.#puzzle.solution)
     }
     return false;
   }
@@ -213,7 +210,6 @@ class SidukoRowBoostData extends SidukoBoostData {
       );
       this.turnsRemaining--;
       return true;
-      // (this.#puzzle,this.#puzzle.solution)
     }
     return false;
   }
@@ -230,7 +226,6 @@ class SidukoColumnBoostData extends SidukoBoostData {
       );
       this.turnsRemaining--;
       return true;
-      // (this.#puzzle,this.#puzzle.solution)
     }
     return false;
   }
@@ -247,7 +242,6 @@ class SidukoInnerTableBoostData extends SidukoBoostData {
       );
       this.turnsRemaining--;
       return true;
-      // (this.#puzzle,this.#puzzle.solution)
     }
     return false;
   }
@@ -264,7 +258,6 @@ class SidukoRandomBoostData extends SidukoBoostData {
       );
       this.turnsRemaining--;
       return true;
-      // (this.#puzzle,this.#puzzle.solution)
     }
     return false;
   }
@@ -281,7 +274,6 @@ class SidukoRandomValueBoostData extends SidukoBoostData {
       );
       this.turnsRemaining--;
       return true;
-      // (this.#puzzle,this.#puzzle.solution)
     }
     return false;
   }
