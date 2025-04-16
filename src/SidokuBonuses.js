@@ -13,21 +13,18 @@ class SidokuBonuses {
     if (emptyCells.length === 0) {
       return;
     }
-    const randomCell =
-      emptyCells[Math.floor(Math.random() * emptyCells.length)];
-    const sourceCell = puzzleSolution
-      .getData()
-      .cell(randomCell.column, randomCell.row);
+
     const iMaxCells = bonusData.maxCellCount;
     let iCellsRevealed = 0;
-    for (let i = 0; i < iMaxCells - 1; i++) {
+    for (let i = 0; i < iMaxCells; i++) {
       if (iCellsRevealed >= iMaxCells) {
         break;
       }
-      logMessage(
-        `Random Cell: ${randomCell.column}, ${randomCell.row}`,
-        "randomChoiceStatus"
-      );
+      const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+      const sourceCell = puzzleSolution
+        .getData()
+        .cell(randomCell.column, randomCell.row);
+
       if (
         randomCell.value <= 0 &&
         SidukoCellQueries.canSetValue(
@@ -88,7 +85,7 @@ class SidokuBonuses {
       return;
     }
     const randomRow = Math.floor(Math.random() * 9);
-    logMessage(`Random Row: ${randomRow}`, "randomChoiceStatus");
+    //logMessage(`Random Row: ${randomRow}`, "randomChoiceStatus");
     const iMaxCells = bonusData.maxCellCount;
     let iCellsRevealed = 0;
     for (let iIndex = 0; iIndex < 9; iIndex++) {
@@ -157,7 +154,7 @@ class SidokuBonuses {
       return;
     }
     const randomColumnn = Math.floor(Math.random() * 9);
-    logMessage(`Random Column: ${randomColumnn}`, "randomChoiceStatus");
+    //logMessage(`Random Column: ${randomColumnn}`, "randomChoiceStatus");
     const iMaxCells = bonusData.maxCellCount;
     let iCellsRevealed = 0;
     for (let iIndex = 0; iIndex < 9; iIndex++) {
@@ -226,7 +223,7 @@ class SidokuBonuses {
       throw new Error("Invalid callback function");
     }
     const randomInnerTableId = Math.floor(Math.random() * 9);
-    logMessage(`Random Square: ${randomInnerTableId}`, "randomChoiceStatus");
+    //logMessage(`Random Square: ${randomInnerTableId}`, "randomChoiceStatus");
     const emptyCells = oPuzzle
       .getData()
       .cells.filter(
@@ -302,7 +299,7 @@ class SidokuBonuses {
       return;
     }
     const randomValue = Math.floor(Math.random() * 8) + 1;
-    logMessage(`Cell Value: ${randomValue}`, "randomChoiceStatus");
+    //logMessage(`Cell Value: ${randomValue}`, "randomChoiceStatus");
     const aSourceCells = puzzleSolution
       .getData()
       .cells.filter((c) => c.value === randomValue);

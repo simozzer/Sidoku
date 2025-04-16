@@ -186,14 +186,15 @@ class SidukoSeekerBoostData extends SidukoBoostData {
 
   use() {
     if (this.getCanUse()) {
-      SidokuBonuses.autoFillCellsWithOnePossibleValue(
+      if (SidokuBonuses.autoFillCellsWithOnePossibleValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},
         this
-      );
-      this.turnsRemaining--;
-      return true;
+      )) {
+        this.turnsRemaining--;
+        return true;
+      }
     }
     return false;
   }
@@ -202,14 +203,15 @@ class SidukoSeekerBoostData extends SidukoBoostData {
 class SidukoRowBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      SidokuBonuses.revealCellsWithRandomRow(
+      if (SidokuBonuses.revealCellsWithRandomRow(
         this.puzzle,
         this.puzzle.solution,
         () => {},
         this
-      );
-      this.turnsRemaining--;
-      return true;
+      )) {
+        this.turnsRemaining--;
+        return true;
+      }
     }
     return false;
   }
@@ -218,14 +220,15 @@ class SidukoRowBoostData extends SidukoBoostData {
 class SidukoColumnBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      SidokuBonuses.revealCellsWithRandomColumn(
+      if (SidokuBonuses.revealCellsWithRandomColumn(
         this.puzzle,
         this.puzzle.solution,
         () => {},
         this
-      );
-      this.turnsRemaining--;
-      return true;
+      )) {
+        this.turnsRemaining--;
+        return true;
+      }
     }
     return false;
   }
@@ -234,14 +237,15 @@ class SidukoColumnBoostData extends SidukoBoostData {
 class SidukoInnerTableBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      SidokuBonuses.revealCellsWithRandomInnerTable(
+      if (SidokuBonuses.revealCellsWithRandomInnerTable(
         this.puzzle,
         this.puzzle.solution,
         () => {},
         this
-      );
-      this.turnsRemaining--;
-      return true;
+      )) {
+        this.turnsRemaining--;
+        return true;
+      }
     }
     return false;
   }
@@ -250,14 +254,15 @@ class SidukoInnerTableBoostData extends SidukoBoostData {
 class SidukoRandomBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      SidokuBonuses.revealRandomValue(
+      if (SidokuBonuses.revealRandomValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},
         this
-      );
-      this.turnsRemaining--;
-      return true;
+      )) {
+        this.turnsRemaining--;
+        return true;
+      }
     }
     return false;
   }
@@ -266,14 +271,15 @@ class SidukoRandomBoostData extends SidukoBoostData {
 class SidukoRandomValueBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      SidokuBonuses.revealCellsWithRandomValue(
+      if (SidokuBonuses.revealCellsWithRandomValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},
         this
-      );
-      this.turnsRemaining--;
-      return true;
+      )) {;
+        this.turnsRemaining--;
+        return true;
+      }
     }
     return false;
   }

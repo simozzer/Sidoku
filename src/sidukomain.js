@@ -62,9 +62,7 @@ class SidukoMain {
           
     intro.classList.add("fadeIntro");
 
-    SidukoNotifications.getInstance().queueAlert(`The could be a short delay whilst the data is downloaded and checked`, 3000); 
-
-
+    
     if (this.#gameTimeOut) {
       window.clearInterval(this.#gameTimeOut);
       this.#gameTimeOut = null;
@@ -105,13 +103,13 @@ class SidukoMain {
       oGame
     );
     oPlayerData.addBoostItem(oBoost);
-    oBoost.turnsRemaining = 0;
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
     oBoost.boostBuyHint = `Increment max cell count for Rows`;
     oBoost.buyHint = `Add a rows bonus to your collection`;
     oBoost.boostable = true;
     oBoost.maxCellCount = 1;
-    oBoost.exhausted = true;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoColumnBoostData(
       "Column",
@@ -119,13 +117,13 @@ class SidukoMain {
       oGame
     );
     oPlayerData.addBoostItem(oBoost);
-    oBoost.turnsRemaining = 0;
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
     oBoost.boostBuyHint = `Increment max cell count for Rows`;
     oBoost.buyHint = `Add a columns bonus to your collection`;
     oBoost.boostable = true;
     oBoost.maxCellCount = 1;
-    oBoost.exhausted = true;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoInnerTableBoostData(
       "InnerTable",
@@ -133,13 +131,13 @@ class SidukoMain {
       oGame
     );
     oPlayerData.addBoostItem(oBoost);
-    oBoost.turnsRemaining = 0;
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
     oBoost.boostBuyHint = `Increment max cell count for Inner Tables`;
     oBoost.buyHint = `Add an inner table bonus to your collection`;
     oBoost.boostable = true;
     oBoost.maxCellCount = 1;
-    oBoost.exhausted = true;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoRandomBoostData(
       "Random",
@@ -147,13 +145,13 @@ class SidukoMain {
       oGame
     );
     oPlayerData.addBoostItem(oBoost);
-    oBoost.turnsRemaining = 0;
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
     oBoost.boostBuyHint = `Increment max cell count for random`;
     oBoost.buyHint = `Add a random cell bonus to your collection`;
     oBoost.boostable = true;
     oBoost.maxCellCount = 1;
-    oBoost.exhausted = true;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     oBoost = new SidukoRandomValueBoostData(
       "Random Value",
@@ -161,13 +159,13 @@ class SidukoMain {
       oGame
     );
     oPlayerData.addBoostItem(oBoost);
-    oBoost.turnsRemaining = 0;
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
     oBoost.boostBuyHint = `Increment max cell count for random value`;
     oBoost.buyHint = `Add a random value bonus to your collection`;
     oBoost.boostable = true;
     oBoost.maxCellCount = 1;
-    oBoost.exhausted = true;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
     // Show tooltips on each turn whilst we still have turns remaining
     oBoost = new SidukoHintsBoostData(
@@ -211,6 +209,9 @@ class SidukoMain {
     document.getElementById("playerBoostsTableBody").addEventListener(
       "click",
       (oEv) => {
+        if (this.#playerData.guessesRemaining <= 0) {
+          return;
+        }
         let rowElement;
         if (oEv.target.tagName === "TD") {
           rowElement = oEv.target.parentNode;
@@ -246,16 +247,21 @@ class SidukoMain {
             }
             this.#gamesSecondsRemaining = gameSeconds;
           }
-          oBoost.use();
+          if (this.#playerData.guessesRemaining > 0 && oBoost.use()) {
+          
+            if (oBoost.turnsRemaining <= 0) {
+              oBoost.exhausted = true;
+              this.#sounds.playSound("si_bonus_exhausted");
+              SidukoNotifications.getInstance().queueAlert(`Boost ${sBoostName} exhausted`);            
+            }
 
-          if (oBoost.turnsRemaining <= 0) {
-            oBoost.exhausted = true;
-            this.#sounds.playSound("si_bonus_exhausted");
-            SidukoNotifications.getInstance().queueAlert(`Boost ${sBoostName} exhausted`);            
-          }
-
-          if (oBoost.maxCellCount > 2) {
-            oBoost.maxCellCount--;
+            if (oBoost.maxCellCount > 2) {
+              oBoost.maxCellCount--;
+            }
+          } else {
+            SidukoNotifications.getInstance().queueAlert(
+              "Failed to use boost", 2000
+            );
           }
 
         } else if (clickedColumn === 5) {
