@@ -51,6 +51,18 @@ class SidukoMain {
   }
 
   async start() {
+
+    const intro = document.getElementById("introScreen");
+    const introListener = intro.addEventListener("animationend", () => {
+        intro.removeEventListener("animationend", introListener);
+        intro.classList.remove("fadeIntro");
+        intro.style.display = "none";      
+      }
+    );
+          
+    intro.classList.add("fadeIntro");
+
+
     if (this.#gameTimeOut) {
       window.clearInterval(this.#gameTimeOut);
       this.#gameTimeOut = null;

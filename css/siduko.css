@@ -142,11 +142,41 @@ table.sidukoTable {
 	font-weight: 600;
 }
 
+.introScreenContent {
+	margin: 40px;
+	padding: 50px;
+	border: 10px solid gold;
+	border-radius: 50px;
+	user-select: none;
+	background-color: #d3d3e5;
+	opacity: 0.8;
+	text-align: center;
+}
+
+
+@keyframes fade_intro_screen {
+	from {
+		opacity: 1;	
+		font-size: large;
+
+	} 
+	to {
+		opacity: 0;
+		height: 0;
+		font-size: 0%;
+	}
+}
+
+.fadeIntro {
+	animation-name: fade_intro_screen;
+	animation-duration: 2.5s;
+}
+
 
 #leftPanel {
     background-color: rgb(77, 10, 10);
     margin-top: 24px;
-	margin-right: 2px;
+		margin-right: 2px;
     color: rgb(221, 232, 232);
     opacity: 0.6;
 	user-select: none;

@@ -209,6 +209,24 @@
   .static {
     position: static;
   }
+  .container {
+    width: 100%;
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
+  }
   .mx-8 {
     margin-inline: calc(var(--spacing) * 8);
   }
@@ -517,6 +535,31 @@ table.sidukoTable {
   display: inline;
   color: darkblue;
   font-weight: 600;
+}
+.introScreenContent {
+  margin: 40px;
+  padding: 50px;
+  border: 10px solid gold;
+  border-radius: 50px;
+  user-select: none;
+  background-color: #d3d3e5;
+  opacity: 0.8;
+  text-align: center;
+}
+@keyframes fade_intro_screen {
+  from {
+    opacity: 1;
+    font-size: large;
+  }
+  to {
+    opacity: 0;
+    height: 0;
+    font-size: 0%;
+  }
+}
+.fadeIntro {
+  animation-name: fade_intro_screen;
+  animation-duration: 2.5s;
 }
 #leftPanel {
   background-color: rgb(77, 10, 10);
