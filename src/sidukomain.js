@@ -167,6 +167,20 @@ class SidukoMain {
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
 
+    oBoost = new SidukoSeekerBoostData(
+      "Seeker",
+      "Solves values that can only exist in 1 cell",
+      oGame
+    );
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_SEEKER_LIVES;
+    oBoost.decrementsEachTurn = false;
+    oPlayerData.addBoostItem(oBoost);
+    oBoost.boostBuyHint = "Increase the max cell count for the Seeker bonus";
+    oBoost.buyHint = `Add another seeker bonus to be used when you choose`;
+    oBoost.boostable = true;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;   
+
     // Show tooltips on each turn whilst we still have turns remaining
     oBoost = new SidukoHintsBoostData(
       "Hints",
@@ -179,19 +193,6 @@ class SidukoMain {
     oBoost.buyHint = `Add tooltip hints for another ${SidukoConstants.HINT_BUY_BOOST_TURNS}`;
     oBoost.boostable = false;
     oBoost.maxCellCount = null;
-
-    oBoost = new SidukoSeekerBoostData(
-      "Seeker",
-      "Solves values that can only exist in 1 cell",
-      oGame
-    );
-    oBoost.turnsRemaining = SidukoConstants.INITIAL_SEEKER_LIVES;
-    oBoost.decrementsEachTurn = false;
-    oPlayerData.addBoostItem(oBoost);
-    oBoost.boostBuyHint = "Increase the max cell count for the Seeker bonus";
-    oBoost.buyHint = `Add another seeker bonus to be used when you choose`;
-    oBoost.boostable = true;
-    oBoost.exhausted = oBoost.turnsRemaining <= 0;    
 
     oBoost = new SidukoBoostData(
       "Time",
