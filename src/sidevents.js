@@ -316,8 +316,21 @@ class SidukoEventsHandler {
           SidukoSounds.getInstance().playSound("Click1");    
           
           if (oCellData.bonusTrigger) {
-            SidukoNotifications.getInstance().queueBonus("Bonus triggered.. have some free money");
-            this.#playerData.funds += Math.floor(Math.random() * 4) + 1;            
+            const oSolutionCell = this.#puzzle.solution.getData().cell(
+              oCellData.column,
+              oCellData.row
+            );
+            if (oSolutionCell.value === oCellData.value) {
+              SidukoNotifications.getInstance().queueBonus("Bonus triggered...have some free money!");
+              this.#playerData.funds += Math.floor(Math.random() * 4) + 1;   
+            } else {
+              SidukoNotifications.getInstance().queueBonus("Penalty triggered...that'll cost you!");
+              if (this.#playerData.funds >= 1) {
+                this.#playerData.funds--;
+              }
+            }
+          
+            oCellData.bonusTrigger = false;   
           }          
         }
       }
@@ -448,8 +461,22 @@ class SidukoEventsHandler {
         SidukoSounds.getInstance().playSound("Click1");
 
         if (oCellData.bonusTrigger) {
-          SidukoNotifications.getInstance().queueBonus("Bonus triggered.. have some free money");
-          this.#playerData.funds += Math.floor(Math.random() * 4) + 1;            
+
+          const oSolutionCell = this.#puzzle.solution.getData().cell(
+            oCellData.column,
+            oCellData.row
+          );
+          if (oSolutionCell.value === oCellData.value) {
+            SidukoNotifications.getInstance().queueBonus("Bonus triggered...have some free money!");
+            this.#playerData.funds += Math.floor(Math.random() * 4) + 1;   
+          } else {
+            SidukoNotifications.getInstance().queueBonus("Penalty triggered...that'll cost you!");
+            if (this.#playerData.funds >= 1) {
+              this.#playerData.funds--;
+            }
+          }
+        
+          oCellData.bonusTrigger = false;       
         }  
       }
       oEvent.stopImmediatePropagation();
