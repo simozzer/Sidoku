@@ -314,7 +314,7 @@ class SidukoMain {
           window.clearInterval(this.#gameTimeOut);
           this.#gameTimeOut = null;
           window.alert(
-            "You ran out of time!\nTechnically speaking the game is over and you lost.\nFeel free to carry on playing, or choose a level from the menu."
+            "You ran out of time!\nTechnically speaking the game is over and you lost.\nFeel free to carry on playing, or refresh to start another puzzle."
           );        
         }
       },
