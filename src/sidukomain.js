@@ -224,21 +224,20 @@ class SidukoMain {
         } else {
           console.warn("Invalid click event target for Boost", oEv.target);
         }
-        const sBoostName = rowElement.childNodes[0].innerText;
+        const sBoostName = rowElement.childNodes[0].dataset["boostName"];
         let oBoost = oPlayerData.getBoost(sBoostName);
 
         const clickedColumn = Array.from(rowElement.childNodes).indexOf(
           oEv.target.parentNode
-        );
-        //if (clickedColumn >= 0) {
-        if (clickedColumn === 3) {
+        );        
+        if (clickedColumn === 2) {
           // boost
           if (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEl_COST) {
             oBoost.maxCellCount = oBoost.maxCellCount + 1;
             this.#playerData.funds -= SidukoConstants.BOOST_UP_LEVEl_COST;
             oBoost.exhausted = oBoost.turnsRemaining <= 0;
           }
-        } else if (clickedColumn === 4) {
+        } else if (clickedColumn === 3) {
           // USE
 
           if (sBoostName === "Time") {
@@ -267,7 +266,7 @@ class SidukoMain {
             );
           }
 
-        } else if (clickedColumn === 5) {
+        } else if (clickedColumn === 4) {
           // BUY
 
           if (sBoostName === "Hints") {
@@ -277,13 +276,10 @@ class SidukoMain {
             oBoost.turnsRemaining = oBoost.turnsRemaining + 1;
           }
           oBoost.exhausted = oBoost.turnsRemaining <= 0;
-          this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;
-          
-
+          this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;        
         }
 
         oPlayerData.renderBoosts(oGame);
-
         oPlayerData.renderHints(oGame);
       },
       this

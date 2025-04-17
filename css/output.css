@@ -209,24 +209,6 @@
   .static {
     position: static;
   }
-  .container {
-    width: 100%;
-    @media (width >= 40rem) {
-      max-width: 40rem;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem;
-    }
-    @media (width >= 96rem) {
-      max-width: 96rem;
-    }
-  }
   .mx-8 {
     margin-inline: calc(var(--spacing) * 8);
   }
@@ -650,10 +632,12 @@ table.sidukoTable {
   background-color: rgba(223, 8, 58, 0.349);
 }
 #playerBoostsTableBody tr.exhausted {
-  color: #000000a6;
-  background-color: dimgrey;
+  color: #ab9a9ade;
+  background-color: #402e5d;
   font-style: italic;
   font-family: math;
+  font-size: small;
+  line-height: 1em;
 }
 #playerBoostsTableBody tr {
   padding-top: 4x;

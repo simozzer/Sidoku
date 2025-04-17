@@ -102,16 +102,15 @@ class SidukoPlayerData {
     this.#boosts.forEach((boost) => {
       const row = document.createElement("tr");
       const nameCell = document.createElement("td");
-      nameCell.innerText = boost.name;
+
+      nameCell.innerText = `${boost.turnsRemaining} * ${boost.name}`;
+
+      nameCell.dataset.boostName = boost.name;
       row.appendChild(nameCell);
       const maxCellCountCell = document.createElement("td");
       maxCellCountCell.innerText =
         boost.maxCellCount > 0 ? boost.maxCellCount : "";
       row.appendChild(maxCellCountCell);
-      const livesCell = document.createElement("td");
-      livesCell.innerText =
-        boost.turnsRemaining > 0 ? boost.turnsRemaining : "";
-      row.appendChild(livesCell);
       row.title = boost.description;
 
       const levelCell = document.createElement("td");

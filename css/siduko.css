@@ -115,7 +115,7 @@ table.sidukoTable {
 #rightPanel {
     background-color: black;
     margin-top:24px;
-	margin-left:2px;
+		margin-left:2px;
     color: green;
     opacity: 0.6;
     border-radius: 20px;    
@@ -152,6 +152,7 @@ table.sidukoTable {
 	opacity: 0.8;
 	text-align: center;
 }
+
 .introScreenContent h4 {
 	font-weight: 600;
 	font-family: 'Times New Roman', Times, serif;
@@ -269,10 +270,12 @@ table.sidukoTable {
 
 
 #playerBoostsTableBody tr.exhausted {
-    color: #000000a6;    
-    background-color: dimgrey;
-    font-style: italic;    
-    font-family: math;
+	color: #ab9a9ade;
+	background-color: #402e5d;
+	font-style: italic;
+	font-family: math;
+	font-size: small;
+	line-height: 1em;
 }
 
 #playerBoostsTableBody tr {
