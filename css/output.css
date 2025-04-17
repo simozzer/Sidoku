@@ -401,9 +401,8 @@
   padding-inline: calc(var(--spacing) * 2);
 }
 table.sidukoTable {
-  max-width: 400px;
-  max-height: 400px;
-  margin-top: 30px;
+  max-width: 380px;
+  max-height: 380px;
 }
 .sidukoTable table {
   border-color: var(--color-white);
@@ -411,7 +410,7 @@ table.sidukoTable {
   border-width: 10px;
   background-color: var(--color-slate-800);
   opacity: 70%;
-  border-spacing: 4px;
+  border-spacing: 3px;
 }
 .sidukoTable .cell {
   border-style: var(--tw-border-style);
