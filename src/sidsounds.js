@@ -1,5 +1,5 @@
 class SidukoSounds {
-  #cachedSounds;
+  #cachedSounds
   constructor() {
     this.#cachedSounds = [];
     this.#getSound("Click1", 0.8);
@@ -29,4 +29,12 @@ class SidukoSounds {
     }
     return oSound.sound;
   }
+
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new SidukoSounds();
+    }
+    return this.instance;
+  }
 }
+

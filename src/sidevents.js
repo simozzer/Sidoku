@@ -4,16 +4,14 @@ class SidukoEventsHandler {
   #playerData;
   #focusedCell;
   #cellValueEntry;
-  #sounds;
 
-  constructor(oPuzzle, oTableDomElement, playerData, solution, sounds) {
+  constructor(oPuzzle, oTableDomElement, playerData) {
     this.#tableDomElement = oTableDomElement;
     this.#puzzle = oPuzzle;
     this.#playerData = playerData;
     this.#focusedCell = null;    
     this.#cellValueEntry = document.getElementById("cellValueEntryPopup");
     this.attachEvents();
-    this.#sounds = sounds;
   }
 
   get focusedCell() {
@@ -66,13 +64,14 @@ class SidukoEventsHandler {
 
 
   
-  gameplayChangedHandler(state, sounds) {
+  gameplayChangedHandler(state) {
     const oGame = this.#puzzle;
     let sMessage = "";
+    let sInfo = "";
     let bonus = 0;
     if (state) {
       if (state.column) {
-        sMessage = `�Column Filled*�`;
+        sMessage = `�*Column Filled*�`;
         if (
           oGame
             .getData()
@@ -94,12 +93,12 @@ class SidukoEventsHandler {
                 cell.setFixedValue();
               }
             });
-          sMessage += " - Matches solution. ";
-          sounds.playSound("si_correct_row");
+          SidukoNotifications.getInstance().queueInfo("Column matches solution. Bonus awarded");
+          SidukoSounds.getInstance().playSound("si_correct_row");
           bonus++;
         } else {
-          sMessage += " - Does not match solution. ";
-          sounds.playSound("si_incorrect_row");
+          SidukoNotifications.getInstance().queueInfo("Column Does not match solution. No bonus awarded");
+          SidukoSounds.getInstance().playSound("si_incorrect_row");
         }
         SidukoHtmlGenerator.highlightColumn(oGame, state.column - 1);
       }
@@ -126,12 +125,12 @@ class SidukoEventsHandler {
                 cell.setFixedValue();
               }
             });
-          sMessage += " - Matches solution. ";
-          sounds.playSound("si_correct_row");
+          SidukoNotifications.getInstance().queueInfo("Row matches solution. Bonus awarded");
+          SidukoSounds.getInstance().playSound("si_correct_row");
           bonus++;
         } else {
-          sMessage += " - Does not match solution. ";
-          sounds.playSound("si_incorrect_row");
+          SidukoNotifications.getInstance().queueInfo("Row Does not match solution. No bonus awarded");
+          SidukoSounds.getInstance().playSound("si_incorrect_row");
         }
         SidukoHtmlGenerator.highlightRow(oGame, state.row - 1);
       }
@@ -158,12 +157,12 @@ class SidukoEventsHandler {
                 cell.setFixedValue();
               }
             });
-          sMessage += " - Matches solution. ";
-          sounds.playSound("si_correct_row");
+          SidukoNotifications.getInstance().queueInfo("Inner table matches solution. Bonus awarded");
+          SidukoSounds.getInstance().playSound("si_correct_row");
           bonus++;
         } else {
-          sMessage += " - Does not match solution. ";
-          sounds.playSound("si_incorrect_row");
+          SidukoNotifications.getInstance().queueInfo("Inner table does not match solution. No bonus awarded");
+          SidukoSounds.getInstance().playSound("si_incorrect_row");
         }
         SidukoHtmlGenerator.highlightInnerTable(oGame, state.innerTable - 1);
       }
@@ -172,10 +171,10 @@ class SidukoEventsHandler {
       }
       if (state.playerCellUsed) {
         console.log("Cell used by player");
-        this.#playerData.doTurnPlayed(true, oGame, this.#sounds);
+        this.#playerData.doTurnPlayed(true, oGame);
       } else if (state.cellUsed) {
         console.log("cell used by A bonus");
-        this.#playerData.doTurnPlayed(false, oGame, this.#sounds);
+        this.#playerData.doTurnPlayed(false, oGame);
       } else {
         console.log("Unknown state");
       }
@@ -254,7 +253,7 @@ class SidukoEventsHandler {
           oCellData.element.classList.remove("entered");
 
           this._updateCellHints();
-          this.#sounds.playSound("swipe_9");
+          SidukoSounds.getInstance().playSound("swipe_9");
         }
         break;
     }
@@ -318,11 +317,11 @@ class SidukoEventsHandler {
           }
           oFullnessStateChanges.playerCellUsed = true;
           oFullnessStateChanges.cell = oCellData;
-          this.gameplayChangedHandler(oFullnessStateChanges, this.#sounds);
+          this.gameplayChangedHandler(oFullnessStateChanges);
 
           this._updateCellHints();
 
-          this.#sounds.playSound("Click1");
+          SidukoSounds.getInstance().playSound("Click1");
         }
       }
       oEvent.stopImmediatePropagation();
@@ -397,7 +396,7 @@ class SidukoEventsHandler {
       valueEntry.classList.add("hidden");
       oEvent.stopImmediatePropagation();
       this._updateCellHints();
-      this.#sounds.playSound("swipe_9");
+      SidukoSounds.getInstance().playSound("swipe_9");
       return;
     }
 
@@ -431,7 +430,7 @@ class SidukoEventsHandler {
         }
         oFullnessStateChanges.playerCellUsed = true;
         oFullnessStateChanges.cell = oCellData;
-        this.gameplayChangedHandler(oFullnessStateChanges, this.#sounds);
+        this.gameplayChangedHandler(oFullnessStateChanges);
         valueEntry.classList.add("hidden");
 
         const fnAnimEnd = (oEvent) => {
@@ -442,7 +441,7 @@ class SidukoEventsHandler {
         oCellData.element.classList.add("value_entered");
 
         this._updateCellHints();
-        this.#sounds.playSound("Click1");
+        SidukoSounds.getInstance().playSound("Click1");
       }
       oEvent.stopImmediatePropagation();
     }

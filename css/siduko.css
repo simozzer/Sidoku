@@ -170,7 +170,6 @@ table.sidukoTable {
 	max-width: 300px;	
 }
 
-
 @keyframes show_alert_one {
 	from {
 		opacity: 0.3;
@@ -192,6 +191,41 @@ table.sidukoTable {
 	animation-name: show_alert_one;
   animation-duration: 3s;
 }
+
+
+#info {
+	position: absolute;
+	border: 5px dashed white;
+	background-color: #c1e4ea;
+	color: blue;
+	padding: 20px;
+	font-size: 1.6em;
+	z-index: 20;
+	width: 300px;	
+}
+
+@keyframes show_info_one {
+	from {
+		opacity: 0.5;
+		color: white;
+		background-color: black;
+		font-size: 0.8em;
+		padding: 80px;
+	}
+	to {
+		opacity: 1;
+		color: rgb(43, 203, 75);
+		background-color: rgb(34, 34, 20);
+		font-size: 1.5em;
+		padding:20px;
+	}
+}
+
+.show_info {
+	animation-name: show_info_one;
+  animation-duration: 3s;
+}
+
 
 
 @keyframes fade_intro_screen {

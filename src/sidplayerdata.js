@@ -134,8 +134,7 @@ class SidukoPlayerData {
       useButton.classList.add("useBoostButton");
       useButton.type = "button";
       useButton.value = "Use";
-      useButton.style.display =
-        boost.getCanUse() && !boost.decrementsEachTurn ? "button" : "none";
+      useButton.style.display = boost.getCanUse() && !boost.decrementsEachTurn ? "button" : "none";
       useCell.appendChild(useButton);
       row.appendChild(useCell);
 
@@ -177,7 +176,7 @@ class SidukoPlayerData {
     }
   }
 
-  doTurnPlayed(bSolvedByPlayer, oPuzzle, sounds) {
+  doTurnPlayed(bSolvedByPlayer, oPuzzle) {
     this.guessesRemaining--;
 
     if (this.guessesRemaining <= 0) {
@@ -192,11 +191,12 @@ class SidukoPlayerData {
           b.turnsRemaining--;
           if (b.turnsRemaining === 0) {
             SidukoNotifications.getInstance().queueAlert("Boost '" + b.name + "' has run out of turns.");            
+            SidukoNotifications.getInstance().queueInfo("Consider buying more Hints");
             b.exhausted = true;
             if (b.name === "Hints") {
-              sounds.playSound("si_lost_hints");
+              SidukoSounds.getInstance().playSound("si_lost_hints");
             } else {
-              sounds.playSound("si_lost_bonus");
+              SidukoSounds.getInstance().playSound("si_lost_bonus");
             }
           }
         });

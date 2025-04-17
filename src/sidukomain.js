@@ -1,15 +1,12 @@
 class SidukoMain {
   #playerData;
   #game;
-  #puzzleData;
   #solution;
   #htmlGenerator;
   #eventHandler;
   #gameTimeOut;
   #gamesSecondsRemaining;
-  #sounds;
-  constructor(puzzleData) {
-    this.#sounds = new SidukoSounds();
+  constructor(puzzleData) {  
     this.#game = new SidukoPuzzle();
     this._setGameStartData(this.#game, puzzleData);
 
@@ -52,6 +49,15 @@ class SidukoMain {
 
   async start() {
 
+    if (typeof Storage !== "undefined") {
+      if (!localStorage.gamesStarted) {
+        localStorage.gamesStarted = 1;
+      } else {
+        localStorage.gamesStarted++;
+      }
+      console.log(`Games started: ${localStorage.gamesStarted}`);
+    }
+
     const intro = document.getElementById("introScreen");
     const introListener = intro.addEventListener("animationend", () => {
         intro.removeEventListener("animationend", introListener);
@@ -92,8 +98,7 @@ class SidukoMain {
       this.#game,
       tableDOM,
       this.#playerData,
-      this.#game.solution,
-      this.#sounds
+      this.#game.solution      
     );
     this.#eventHandler.attachEvents();
 
@@ -252,8 +257,9 @@ class SidukoMain {
           
             if (oBoost.turnsRemaining <= 0) {
               oBoost.exhausted = true;
-              this.#sounds.playSound("si_bonus_exhausted");
-              SidukoNotifications.getInstance().queueAlert(`Boost ${sBoostName} exhausted`);            
+              SidukoSounds.getInstance().playSound("si_bonus_exhausted");
+              SidukoNotifications.getInstance().queueAlert(`Boost ${sBoostName} exhausted`);     
+              SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for ${sBoostName}`);   
             }
 
             if (oBoost.maxCellCount > 2) {
@@ -290,7 +296,7 @@ class SidukoMain {
       this.#gameTimeOut = null;
     }
     this.#gamesSecondsRemaining = SidukoConstants.GAME_DURATION_SECONDS;
-    this.#sounds.playSound("all systems go");
+    SidukoSounds.getInstance().playSound("all systems go");
     document.getElementById("mainGameArea").classList.remove("gameStart");
     document.getElementById("mainGameArea").classList.remove("hidden");
     document.getElementById("mainGameArea").classList.add("gameStart");
