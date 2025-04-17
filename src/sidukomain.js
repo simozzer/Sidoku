@@ -309,6 +309,7 @@ class SidukoMain {
         if (this.#gamesSecondsRemaining > 0) {
           this.#gamesSecondsRemaining--;
 
+
           const totalWidth = document.getElementById("progressBarProgress")
             .parentElement.clientWidth;
           const w = Math.round(
@@ -320,6 +321,10 @@ class SidukoMain {
           document.getElementById("progressBarTextOverlay").innerText = `${
             this.#gamesSecondsRemaining
           } seconds remaining`;
+
+          if (this.#gamesSecondsRemaining < 31 && this.#gamesSecondsRemaining  % 5 === 0) {
+            SidukoNotifications.getInstance().queueAlert(`Warning: ${this.#gamesSecondsRemaining + 1} seconds left`);
+          };
         } else {
           window.clearInterval(this.#gameTimeOut);
           this.#gameTimeOut = null;
