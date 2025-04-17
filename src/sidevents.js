@@ -65,13 +65,10 @@ class SidukoEventsHandler {
 
   
   gameplayChangedHandler(state) {
-    const oGame = this.#puzzle;
-    let sMessage = "";
-    let sInfo = "";
+    const oGame = this.#puzzle;    
     let bonus = 0;
     if (state) {
-      if (state.column) {
-        sMessage = `�*Column Filled*�`;
+      if (state.column) {        
         if (
           oGame
             .getData()
@@ -102,8 +99,7 @@ class SidukoEventsHandler {
         }
         SidukoHtmlGenerator.highlightColumn(oGame, state.column - 1);
       }
-      if (state.row) {
-        sMessage += `🎉*Row Filled*🎉`;
+      if (state.row) {        
         if (
           oGame
             .getData()
@@ -134,8 +130,7 @@ class SidukoEventsHandler {
         }
         SidukoHtmlGenerator.highlightRow(oGame, state.row - 1);
       }
-      if (state.innerTable) {
-        sMessage += `👍*Inner Table Filled*👍`;
+      if (state.innerTable) {        
         if (
           oGame
             .getData()
@@ -179,12 +174,9 @@ class SidukoEventsHandler {
         console.log("Unknown state");
       }
       if (bonus > 0) {
-        sMessage += `BONUS AWARDED $${bonus}`;
+        logMessage(`BONUS AWARDED $${bonus}!`);
         this.#playerData.funds += bonus;
         this.#playerData.renderBoosts();
-      }
-      if (sMessage) {
-        logMessage(sMessage);
       }
     }
   }
