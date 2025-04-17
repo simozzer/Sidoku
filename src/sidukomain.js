@@ -5,7 +5,7 @@ class SidukoMain {
   #htmlGenerator;
   #eventHandler;
   #gameTimeOut;
-  #gamesSecondsRemaining;
+  #gameSecondsRemaining;
   constructor(puzzleData) {  
     this.#game = new SidukoPuzzle();
     this._setGameStartData(this.#game, puzzleData);
@@ -27,7 +27,7 @@ class SidukoMain {
     this.#playerData.puzzle = this.#game;
     this.#eventHandler = null;
     this.#gameTimeOut = null;
-    this.#gamesSecondsRemaining = -1;
+    this.#gameSecondsRemaining = -1;
 
     SidukoHtmlGenerator.updateCharset(this.#game);
   }
@@ -251,11 +251,11 @@ class SidukoMain {
 
           if (sBoostName === "Time") {
             let gameSeconds =
-              this.#gamesSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
+              this.#gameSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
             if (gameSeconds > SidukoConstants.GAME_DURATION_SECONDS) {
               gameSeconds = SidukoConstants.GAME_DURATION_SECONDS;
             }
-            this.#gamesSecondsRemaining = gameSeconds;
+            this.#gameSecondsRemaining = gameSeconds;
           }
           if (this.#playerData.guessesRemaining > 0 && oBoost.use()) {
           
@@ -299,21 +299,21 @@ class SidukoMain {
       window.clearInterval(this.#gameTimeOut);
       this.#gameTimeOut = null;
     }
-    this.#gamesSecondsRemaining = SidukoConstants.GAME_DURATION_SECONDS;
+    this.#gameSecondsRemaining = SidukoConstants.GAME_DURATION_SECONDS;
     SidukoSounds.getInstance().playSound("all systems go");
     document.getElementById("mainGameArea").classList.remove("gameStart");
     document.getElementById("mainGameArea").classList.remove("hidden");
     document.getElementById("mainGameArea").classList.add("gameStart");
     this.#gameTimeOut = window.setInterval(
       () => {
-        if (this.#gamesSecondsRemaining > 0) {
-          this.#gamesSecondsRemaining--;
+        if (this.#gameSecondsRemaining > 0) {
+          this.#gameSecondsRemaining--;
 
 
           const totalWidth = document.getElementById("progressBarProgress")
             .parentElement.clientWidth;
           const w = Math.round(
-            (this.#gamesSecondsRemaining /
+            (this.#gameSecondsRemaining /
               SidukoConstants.GAME_DURATION_SECONDS) *
               totalWidth
           );
@@ -322,8 +322,8 @@ class SidukoMain {
             this.#gamesSecondsRemaining
           } seconds remaining`;
 
-          if (this.#gamesSecondsRemaining < 31 && this.#gamesSecondsRemaining  % 5 === 0) {
-            SidukoNotifications.getInstance().queueAlert(`Warning: ${this.#gamesSecondsRemaining + 1} seconds left`);
+          if (this.#gameSecondsRemaining < 31 && this.#gameSecondsRemaining  % 5 === 0) {
+            SidukoNotifications.getInstance().queueAlert(`Warning: ${this.#gameSecondsRemaining + 1} seconds left`);
           };
         } else {
           window.clearInterval(this.#gameTimeOut);
