@@ -319,12 +319,12 @@ class SidukoMain {
           );
           document.getElementById("progressBarProgress").style.width = `${w}px`;
           document.getElementById("progressBarTextOverlay").innerText = `${
-            this.#gamesSecondsRemaining
+            this.#gameSecondsRemaining
           } seconds remaining`;
 
           if (this.#gameSecondsRemaining < 31 && this.#gameSecondsRemaining  % 5 === 0) {
-            SidukoNotifications.getInstance().queueAlert(`Warning: ${this.#gameSecondsRemaining + 1} seconds left`);
-          };
+            SidukoNotifications.getInstance().queueAlert(`Warning: ${this.#gameSecondsRemaining} seconds left`);
+          }
         } else {
           window.clearInterval(this.#gameTimeOut);
           this.#gameTimeOut = null;
