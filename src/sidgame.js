@@ -11,7 +11,7 @@ loadPuzzle = (filename) => {
       // do something with "text"
       const lines = text.split("\n");
       const lineNum = Math.floor(Math.random() * lines.length);
-      const puzzleData = lines[lineNum];
+      const puzzleData = lines[lineNum];      
       setupGame(puzzleData);
     })
     .catch((e) => console.error(e));

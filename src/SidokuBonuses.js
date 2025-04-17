@@ -461,4 +461,69 @@ class SidokuBonuses {
     });
     return iCellsRevealed > 0;
   }
+
+  static triggerRandomBonus(oPuzzle, fnHandleGamplayChanged) {    
+    const oSolution = oPuzzle.getSolution();
+    const iRand = Math.floor(Math.random() * 6);
+    const dummyBoost = new SidukoBoostData("", "", this);
+    const iMaxCells = Math.floor(Math.random() * 6);
+    dummyBoost.maxCellCount = iMaxCells;
+    switch (iRand) {
+      case 0:
+        SidukoNotifications.queueBonus("😍 Revealing a random cell");
+        SidokuBonuses.revealRandomValue(
+          oPuzzle,
+          oSolution,
+          fnHandleGamplayChanged,
+          dummyBoost
+        );
+        break;
+      case 1:
+        SidukoNotifications.queueBonus("😀 Revealing cells from a random row");
+        SidokuBonuses.revealCellsWithRandomRow(
+          oPuzzle,
+          oSolution,
+          fnHandleGamplayChanged,
+          dummyBoost
+        );
+        break;
+      case 2:
+        SidukoNotifications.queueBonus("🙌 Revealing cells from a random column");
+        SidokuBonuses.revealCellsWithRandomColumn(
+          oPuzzle,
+          oSolution,
+          fnHandleGamplayChanged,
+          dummyBoost
+        );
+        break;
+      case 3:
+        SidukoNotifications.queueBonus("💃 Revealing cells from a random inner table");
+        SidokuBonuses.revealCellsWithRandomInnerTable(
+          oPuzzle,
+          oSolution,
+          dummyBoost
+        );
+        break;
+      case 4:
+        SidukoNotifications.queueBonus("🤗 Revealing cells which only have 1 possible value");
+        SidokuBonuses.autoFillCellsWithOnePossibleValue(
+          oPuzzle,          
+          oSolution,
+          dummyBoost
+        );
+        break;
+      case 5:
+        SidukoNotifications.queueBonus("🤟 Revealing cells with a common random value");
+        SidokuBonuses.revealCellsWithRandomValue(
+          oPuzzle,
+          oSolution,
+          fnHandleGamplayChanged,
+          dummyBoost
+        );
+        break;
+      default:
+        console.log("Invalid bonus button click");
+        break;
+    }
+  }
 }

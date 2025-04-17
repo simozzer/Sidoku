@@ -30,6 +30,8 @@ class SidukoPuzzle {
   #data = new SidukoPuzzleData();
   #solution = null;
   #charset;
+
+  #history = [];
   constructor() {
     this.#data = new SidukoPuzzleData();
 
@@ -91,69 +93,4 @@ class SidukoPuzzle {
     this.#charset = sCharset;
   }
 
-
-  triggerRandomBonus() {
-    const fnHandleGamplayChaned = this.gameplayChangedHandler.bind(this);
-    const iRand = Math.floor(Math.random() * 6);
-    const dummyBoost = new SidukoBoostData("", "", this);
-    switch (iRand) {
-      case 0:
-        logMessage("😍 Revealing a random cell");
-        SidokuBonuses.revealRandomValue(
-          this,
-          this.#solution,
-          fnHandleGamplayChaned,
-          dummyBoost
-        );
-        break;
-      case 1:
-        logMessage("😀 Revealing cells from a random row");
-        SidokuBonuses.revealCellsWithRandomRow(
-          this,
-          this.#solution,
-          fnHandleGamplayChaned,
-          dummyBoost
-        );
-        break;
-      case 2:
-        logMessage("🙌 Revealing cells from a random column");
-        SidokuBonuses.revealCellsWithRandomColumn(
-          this,
-          this.#solution,
-          fnHandleGamplayChaned,
-          dummyBoost
-        );
-        break;
-      case 3:
-        logMessage("💃 Revealing cells from a random inner table");
-        SidokuBonuses.revealCellsWithRandomInnerTable(
-          this,
-          this.#solution,
-          fnHandleGamplayChaned,
-          dummyBoost
-        );
-        break;
-      case 4:
-        logMessage("🤗 Revealing cells which only have 1 possible value");
-        SidokuBonuses.autoFillCellsWithOnePossibleValue(
-          this,
-          this.#solution,
-          fnHandleGamplayChaned,
-          dummyBoost
-        );
-        break;
-      case 5:
-        logMessage("🤟 Revealing cells with a common random value");
-        SidokuBonuses.revealCellsWithRandomValue(
-          this,
-          this.#solution,
-          fnHandleGamplayChaned,
-          dummyBoost
-        );
-        break;
-      default:
-        logMessage("Invalid bonus button click");
-        break;
-    }
-  }
 }

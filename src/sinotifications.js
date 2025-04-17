@@ -1,14 +1,18 @@
 class SidukoNotifications {
   #messageQueue
   #infoQueue
+  #bonusQueue
   #alertElement
   #infoElement
+  #bonusElement
 
   constructor() {
     this.#messageQueue = [];
     this.#infoQueue = [];
+    this.#bonusQueue = [];
     this.#alertElement = document.getElementById('alert');
     this.#infoElement = document.getElementById('info');
+    this.#bonusElement = document.getElementById('bonus_message');
     window.setInterval(() => this._updateAlerts(), 100);    
   }
 
@@ -20,6 +24,13 @@ class SidukoNotifications {
   queueInfo(alertText, duration = 3000) {
     const oAlert = { message: alertText, duration: duration };
     this.#infoQueue.push(oAlert);
+  }
+
+  bonus_message
+
+  queueBonus(alertText, duration = 3000) {
+    const oAlert = { message: alertText, duration: duration };
+    this.#bonusQueue.push(oAlert);
   }
 
   _updateAlerts() {
@@ -66,6 +77,32 @@ class SidukoNotifications {
         this.#infoElement.addEventListener('animationend', fnStopInfo);      
 
         this.#infoElement.classList.add('show_info'); 
+      }
+    }
+
+
+    if (this.#bonusQueue.length > 0) {
+      const oBonus = this.#bonusQueue[0];
+      if (new Date().getTime() - oBonus.startTime > oBonus.duration) {
+        this.#bonusQueue.shift();
+      }
+      else if (!oBonus.startTime) {
+        oBonus.startTime = new Date().getTime();
+        this.#bonusElement.textContent = oBonus.message;
+        this.#bonusElement.style.left = `${Math.round((document.body.clientWidth - 325) / 2)}px`;
+        this.#bonusElement.style.top = `200px`;
+        this.#bonusElement.classList.remove('hidden');
+
+        let fnStopBonus = () => {          
+          this.#bonusElement.classList.add('hidden');
+          this.#bonusElement.classList.remove('show_bonus'); 
+          this.#bonusElement.innerText = '';
+          this.#bonusElement.removeEventListener('animationend', fnStopBonus);
+          fnStopBonus = null;
+        };
+        this.#bonusElement.addEventListener('animationend', fnStopBonus);      
+
+        this.#bonusElement.classList.add('show_bonus'); 
       }
     }
   }

@@ -6,7 +6,7 @@ class SidukoMain {
   #eventHandler;
   #gameTimeOut;
   #gamesSecondsRemaining;
-  constructor(puzzleData) {  
+  constructor(puzzleData, filename, lineNum) {  
     this.#game = new SidukoPuzzle();
     this._setGameStartData(this.#game, puzzleData);
 

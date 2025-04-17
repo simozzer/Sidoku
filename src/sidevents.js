@@ -379,6 +379,9 @@ class SidukoEventsHandler {
     if (oCellData.fixedValue) {
       return;
     }
+
+    //SidukoNotifications.getInstance().queueBonus("WANKER");
+
     const valueEntry = document.getElementById("cellValueEntryPopup");
     if (oEvent.target.innerText === "Clear") {
       oCellData.value = 0;
@@ -396,7 +399,7 @@ class SidukoEventsHandler {
 
     const sClickedValue = oEvent.target.innerText;
     const iValIndex = this.#puzzle.charset.indexOf(sClickedValue);
-    if (iValIndex > 0 && iValIndex <= 9) {
+    if (iValIndex >= 0 && iValIndex < 9) {
       const iValue = iValIndex + 1;
       if (
         SidukoCellQueries.canSetValue(this.#puzzle.getData(), oCellData, iValue)
