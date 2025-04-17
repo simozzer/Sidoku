@@ -103,7 +103,7 @@ class SidukoPlayerData {
       const row = document.createElement("tr");
       const nameCell = document.createElement("td");
 
-      nameCell.innerText = `${boost.turnsRemaining} * ${boost.name}`;
+      nameCell.innerText = `${boost.turnsRemaining | 0} * ${boost.name}`;
 
       nameCell.dataset.boostName = boost.name;
       row.appendChild(nameCell);
