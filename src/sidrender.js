@@ -1,7 +1,8 @@
 class SidukoHtmlGenerator {
   #sidokuPuzzle;
+  
   constructor(sidokuPuzzle) {
-    this.#sidokuPuzzle = sidokuPuzzle;
+    this.#sidokuPuzzle = sidokuPuzzle;  
   }
 
   getPuzzleDOM() {
@@ -47,15 +48,17 @@ class SidukoHtmlGenerator {
     const oInnerCell = document.createElement("td");
 
     if (iCellValue > 0) {
-      oInnerCell.innerText = iCellValue;
+      oInnerCell.innerText = this.#sidokuPuzzle.charset[iCellValue-1];
       if (oCellData.fixedValue) {
         oInnerCell.classList.add("fixedval");
       }
     } else {
-      oInnerCell.title = SidukoCellQueries.getPossibleValues(
+      const aVals = SidukoCellQueries.getPossibleValues(
         this.#sidokuPuzzle.getData(),
         oCellData
-      ).toString();
+      );
+      const sVals = aVals.map(iValue => this.#sidokuPuzzle.charset[iValue - 1]);      
+      oInnerCell.title = sVals.join(", ");
     }
     oInnerCell.tabIndex = 0;
 
@@ -77,7 +80,8 @@ class SidukoHtmlGenerator {
             oPuzzle.getData(),
             oCell
           );
-          oCell.element.title = aPossibleValues.toString();
+          const mappedPossibleValues = aPossibleValues.map((iValue) => oPuzzle.charset[iValue - 1]);            
+          oCell.element.title = mappedPossibleValues.toString();
         } else {
           oCell.element.title = "";
         }
@@ -137,5 +141,12 @@ class SidukoHtmlGenerator {
         }
       );
     }, this);
+  }
+
+  static updateCharset(oPuzzle) {
+    const entryPadDigitCells = Array.from(document.querySelectorAll("#cellValueEntryPopup td"));
+    for(let i=0; i < 9; i++) {
+      entryPadDigitCells[i].innerText = oPuzzle.charset[i];
+    }
   }
 }

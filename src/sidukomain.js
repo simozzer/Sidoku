@@ -28,6 +28,8 @@ class SidukoMain {
     this.#eventHandler = null;
     this.#gameTimeOut = null;
     this.#gamesSecondsRemaining = -1;
+
+    SidukoHtmlGenerator.updateCharset(this.#game);
   }
 
   async _solve() {

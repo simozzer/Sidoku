@@ -39,7 +39,7 @@ class SidokuBonuses {
         );
 
         randomCell.value = sourceCell.value;
-        randomCell.element.innerHTML = sourceCell.value;
+        randomCell.element.innerHTML = oPuzzle.charset[sourceCell.value-1];
         randomCell.setSolved();
         randomCell.element.classList.add("aided");
         randomCell.element.classList.add("granted");
@@ -107,7 +107,7 @@ class SidokuBonuses {
           targetCell
         );
         targetCell.value = sourceCell.value;
-        targetCell.element.innerHTML = sourceCell.value;
+        targetCell.element.innerHTML = oPuzzle.charset[sourceCell.value -1];
         targetCell.setSolved();
         targetCell.element.classList.add("aided");
         targetCell.element.classList.add("granted");
@@ -179,7 +179,7 @@ class SidokuBonuses {
           cellUsed: true,
         });
         targetCell.value = sourceCell.value;
-        targetCell.element.innerHTML = sourceCell.value;
+        targetCell.element.innerHTML = oPuzzle.charset[sourceCell.value -1];
         targetCell.setSolved();
         targetCell.element.classList.add("aided");
         targetCell.element.classList.add("granted");
@@ -252,7 +252,7 @@ class SidokuBonuses {
             targetCell
           );
           targetCell.value = sourceCell.value;
-          targetCell.element.innerHTML = sourceCell.value;
+          targetCell.element.innerHTML = oPuzzle.charset[sourceCell.value -1];
           targetCell.setSolved();
           targetCell.element.classList.add("aided");
           targetCell.element.classList.add("granted");
@@ -324,7 +324,7 @@ class SidokuBonuses {
             targetCell
           );
           targetCell.value = randomValue;
-          targetCell.element.innerHTML = randomValue;
+          targetCell.element.innerHTML = oPuzzle.charset[randomValue -1]
           targetCell.setSolved();
           targetCell.element.classList.add("aided");
           targetCell.element.classList.add("granted");
@@ -397,7 +397,7 @@ class SidokuBonuses {
               oTargetCell
             );
             oTargetCell.value = oSourceCell.value;
-            oTargetCell.element.innerHTML = oSourceCell.value;
+            oTargetCell.element.innerHTML = oPuzzle.charset[oSourceCell.value -1]
             oTargetCell.setSolved();
             oTargetCell.element.classList.add("aided");
             oTargetCell.element.classList.add("granted");

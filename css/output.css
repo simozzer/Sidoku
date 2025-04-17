@@ -248,6 +248,9 @@
   .\[border-spacing\:0\.75rem\] {
     border-spacing: 0.75rem;
   }
+  .list-none {
+    list-style-type: none;
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -773,6 +776,22 @@ table.sidukoTable {
 .sidukoTable table td.player_solved {
   color: #4e54c8;
   background-color: aliceblue;
+}
+#charset_menu {
+  margin: 10px;
+  background-color: lightgray;
+  margin-left: 30%;
+  margin-right: 30%;
+  padding: 8px;
+}
+#charset_menu a {
+  padding-left: 8px;
+  color: navy;
+}
+#charset_menu a:hover {
+  padding-left: 8px;
+  text-decoration: underline;
+  color: rgb(128, 0, 119);
 }
 .btn {
   border-radius: 0.25rem;

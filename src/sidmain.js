@@ -29,6 +29,7 @@ class SidukoPuzzle {
   #innerTableCells = [];
   #data = new SidukoPuzzleData();
   #solution = null;
+  #charset;
   constructor() {
     this.#data = new SidukoPuzzleData();
 
@@ -42,6 +43,22 @@ class SidukoPuzzle {
         (oCell) => oCell.innerTableIndex === i
       );
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const charsetVal = urlParams.get('charset');
+  
+    switch (charsetVal) {
+      case "alpha":
+        this.#charset = SidukoConstants.ALPHA_SET;
+        break;
+      case "emoji":
+        this.#charset = SidukoConstants.EMOJI_SET;
+        break;
+      default:
+        this.#charset = SidukoConstants.NUM_SET;
+        break;
+    }
+    
   }
 
   set solution(value) {
@@ -66,6 +83,13 @@ class SidukoPuzzle {
     return this.#data;
   }
 
+  get charset() {
+    return this.#charset;
+  }
+
+  set charset(sCharset) {
+    this.#charset = sCharset;
+  }
 
 
   triggerRandomBonus() {

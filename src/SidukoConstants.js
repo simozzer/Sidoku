@@ -14,4 +14,8 @@ class SidukoConstants {
 
   static INITIAL_DEFAULT_BOOST_LIVES = 0;
   static INITIAL_DEFAULT_BOOST_CELLCOUNT = 2;
+
+  static EMOJI_SET = ["☀️", "🌻", "☄️", "💫", "🎵", "♻️", "🔨", "🧸", "💎"];
+  static NUM_SET = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  static ALPHA_SET = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
 }

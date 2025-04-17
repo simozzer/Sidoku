@@ -284,7 +284,7 @@ class SidukoEventsHandler {
 
           oCellData.value = iValue || 0;
           oCellData.entered = true;
-          oEventTarget.innerText = oEvent.key;
+          oEventTarget.innerText = this.#puzzle.charset[parseInt(oEvent.key,10) - 1];
           oEventTarget.classList.add("entered");
           oEventTarget.title = "";
 
@@ -351,10 +351,12 @@ class SidukoEventsHandler {
           document.querySelectorAll("#cellValueEntryPopup td")
         );
         valueEntryTds.forEach((td) => {
-          if (
-            this.#playerData.getBoost("Hints").turnsRemaining > 0 &&
-            aPossibleValues.indexOf(parseInt(td.innerText, 10)) >= 0
-          ) {
+          
+          const sCellValue = td.innerText;
+          const iValIndex = this.#puzzle.charset.indexOf(sCellValue);
+          if (iValIndex >= 0 && this.#playerData.getBoost("Hints").turnsRemaining > 0 &&
+              aPossibleValues.indexOf(iValIndex+1) >= 0) 
+          {
             td.classList.add("suggested");
           } else {
             td.classList.remove("suggested");
@@ -392,8 +394,10 @@ class SidukoEventsHandler {
       return;
     }
 
-    const iValue = parseInt(oEvent.target.innerText, 10);
-    if (iValue > 0 && iValue <= 9) {
+    const sClickedValue = oEvent.target.innerText;
+    const iValIndex = this.#puzzle.charset.indexOf(sClickedValue);
+    if (iValIndex > 0 && iValIndex <= 9) {
+      const iValue = iValIndex + 1;
       if (
         SidukoCellQueries.canSetValue(this.#puzzle.getData(), oCellData, iValue)
       ) {
@@ -404,7 +408,7 @@ class SidukoEventsHandler {
 
         oCellData.value = iValue || 0;
         oCellData.entered = true;
-        oCellData.element.innerText = iValue;
+        oCellData.element.innerText = this.#puzzle.charset[iValue-1];
         oCellData.element.classList.add("entered");
         oCellData.element.title = "";
 
