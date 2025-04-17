@@ -97,7 +97,7 @@ class SidukoEventsHandler {
           SidukoSounds.getInstance().playSound("si_correct_row");
           bonus++;
         } else {
-          SidukoNotifications.getInstance().queueInfo("Column Does not match solution. No bonus awarded");
+          SidukoNotifications.getInstance().queueAlert("Column Does not match solution. No bonus awarded");
           SidukoSounds.getInstance().playSound("si_incorrect_row");
         }
         SidukoHtmlGenerator.highlightColumn(oGame, state.column - 1);
@@ -129,7 +129,7 @@ class SidukoEventsHandler {
           SidukoSounds.getInstance().playSound("si_correct_row");
           bonus++;
         } else {
-          SidukoNotifications.getInstance().queueInfo("Row Does not match solution. No bonus awarded");
+          SidukoNotifications.getInstance().queueAlert("Row Does not match solution. No bonus awarded");
           SidukoSounds.getInstance().playSound("si_incorrect_row");
         }
         SidukoHtmlGenerator.highlightRow(oGame, state.row - 1);
@@ -161,7 +161,7 @@ class SidukoEventsHandler {
           SidukoSounds.getInstance().playSound("si_correct_row");
           bonus++;
         } else {
-          SidukoNotifications.getInstance().queueInfo("Inner table does not match solution. No bonus awarded");
+          SidukoNotifications.getInstance().queueAlert("Inner table does not match solution. No bonus awarded");
           SidukoSounds.getInstance().playSound("si_incorrect_row");
         }
         SidukoHtmlGenerator.highlightInnerTable(oGame, state.innerTable - 1);
