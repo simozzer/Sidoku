@@ -533,9 +533,14 @@ table.sidukoTable {
   opacity: 0.8;
   text-align: center;
 }
+.introScreenContent h3 {
+  font-weight: 800;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 .introScreenContent h4 {
   font-weight: 600;
   font-family: 'Times New Roman', Times, serif;
+  font-size: 1.2em;
 }
 #alert {
   position: absolute;
