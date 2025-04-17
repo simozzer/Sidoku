@@ -313,7 +313,12 @@ class SidukoEventsHandler {
 
           this._updateCellHints();
 
-          SidukoSounds.getInstance().playSound("Click1");
+          SidukoSounds.getInstance().playSound("Click1");    
+          
+          if (oCellData.bonusTrigger) {
+            SidukoNotifications.getInstance().queueBonus("Bonus triggered.. have some free money");
+            this.#playerData.funds += Math.floor(Math.random() * 4) + 1;            
+          }          
         }
       }
       oEvent.stopImmediatePropagation();
@@ -441,6 +446,11 @@ class SidukoEventsHandler {
 
         this._updateCellHints();
         SidukoSounds.getInstance().playSound("Click1");
+
+        if (oCellData.bonusTrigger) {
+          SidukoNotifications.getInstance().queueBonus("Bonus triggered.. have some free money");
+          this.#playerData.funds += Math.floor(Math.random() * 4) + 1;            
+        }  
       }
       oEvent.stopImmediatePropagation();
     }

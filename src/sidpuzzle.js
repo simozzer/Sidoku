@@ -93,4 +93,8 @@ class SidukoPuzzle {
     this.#charset = sCharset;
   }
 
+  getHistory() {
+    return this.#history;
+  }
+
 }

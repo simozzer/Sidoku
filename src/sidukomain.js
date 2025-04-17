@@ -6,7 +6,7 @@ class SidukoMain {
   #eventHandler;
   #gameTimeOut;
   #gamesSecondsRemaining;
-  constructor(puzzleData, filename, lineNum) {  
+  constructor(puzzleData) {  
     this.#game = new SidukoPuzzle();
     this._setGameStartData(this.#game, puzzleData);
 
@@ -79,9 +79,11 @@ class SidukoMain {
     document.getElementById("menucontainer").style.display = "none";
     const oPlayerData = this.#playerData;
     const oGame = this.#game;
-    const emptyCellCount = this.#game
-      .getData()
-      .cells.filter((cell) => cell.value === 0).length;
+    const aEmptyCells = this.#game.getData().cells.filter((cell) => cell.value === 0);
+    const emptyCellCount = aEmptyCells.length;
+
+    const randomBonusIndex = Math.floor(Math.random() * emptyCellCount) -1;
+    aEmptyCells[randomBonusIndex].bonusTrigger = true;
     
     oPlayerData.guessesRemaining = Math.round(emptyCellCount * SidukoConstants.GUESSES_MULTIPLER);
 
