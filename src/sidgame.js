@@ -12,7 +12,9 @@ doGameLoaded = () => {
     const charsetVal = urlParams.get('charset');
     const attributeVal = "?charset=" + charsetVal;
     const elem = document.querySelector(`#charset_menu a[href="${attributeVal}"]`);
-    elem.classList.add("active_charset");
+    if (elem) {
+      elem.classList.add("active_charset");
+    }    
 };
 
 loadPuzzle = (filename) => {
