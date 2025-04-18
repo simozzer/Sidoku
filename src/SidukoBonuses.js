@@ -466,7 +466,7 @@ class SidukoBonuses {
     const oSolution = oPuzzle.getSolution();
     const iRand = Math.floor(Math.random() * 6);
     const dummyBoost = new SidukoBoostData("", "", this);
-    const iMaxCells = Math.floor(Math.random() * 6);
+    const iMaxCells = Math.floor(Math.random() * 2);
     dummyBoost.maxCellCount = iMaxCells;
     switch (iRand) {
       case 0:
