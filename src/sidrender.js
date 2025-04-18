@@ -148,5 +148,10 @@ class SidukoHtmlGenerator {
     for(let i=0; i < 9; i++) {
       entryPadDigitCells[i].innerText = oPuzzle.charset[i];
     }
+    oPuzzle.getData().cells.forEach((oCell) => {
+      if (oCell.value > 0) {
+        oCell.element.innerText = oPuzzle.charset[oCell.value - 1];
+      }
+    });
   }
 }

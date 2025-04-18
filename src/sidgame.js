@@ -2,6 +2,17 @@ doGameLoaded = () => {
   document
     .getElementById("menu")
     .addEventListener("change", doMenuChanged.bind(this));
+
+    const oActiveElem = document.querySelector("#charset_menu a.active_charset");
+    if (oActiveElem) {
+      oActiveElem.classList.remove("active_charset");
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const charsetVal = urlParams.get('charset');
+    const attributeVal = "?charset=" + charsetVal;
+    const elem = document.querySelector(`#charset_menu a[href="${attributeVal}"]`);
+    elem.classList.add("active_charset");
 };
 
 loadPuzzle = (filename) => {
