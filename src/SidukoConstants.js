@@ -22,7 +22,16 @@ class SidukoConstants {
   static COLOR_SET = ["🟠", "🟡", "🟢", "🟣", "🟤", "🟥", "🟦", "🟧", "🟨"];
   static FRACTIONS_SET = ["⅐", "⅑", "⅒", "⅓", "⅔", "⅕", "⅖", "⅗", "⅘"];
   static ARROWS_SET = ["🡸", "🡹", "🡺", "🡻", "🡼", "🡽", "🡾", "🡿", "*"];
-
-  static ALL_CHARSETS = [SidukoConstants.EMOJI_SET, SidukoConstants.NUM_SET, SidukoConstants.ALPHA_SET, SidukoConstants.ROMAN_SET, SidukoConstants.COLOR_SET, SidukoConstants.FRACTIONS_SET, SidukoConstants.ARROWS_SET];
+  static NUMBER_CIRCLES_SET = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
+  static ALL_CHARSETS = [
+    SidukoConstants.EMOJI_SET,
+    SidukoConstants.NUM_SET,
+    SidukoConstants.ALPHA_SET,
+    SidukoConstants.ROMAN_SET,
+    SidukoConstants.COLOR_SET,
+    SidukoConstants.FRACTIONS_SET,
+    SidukoConstants.ARROWS_SET,
+    SidukoConstants.NUMBER_CIRCLES
+  ];
 
 }
