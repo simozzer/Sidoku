@@ -20,7 +20,9 @@ class SidukoConstants {
   static ALPHA_SET = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
   static ROMAN_SET = ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ"];
   static COLOR_SET = ["🟠", "🟡", "🟢", "🟣", "🟤", "🟥", "🟦", "🟧", "🟨"];
+  static FRACTIONS_SET = ["⅐", "⅑", "⅒", "⅓", "⅔", "⅕", "⅖", "⅗", "⅘"];
+  static ARROWS_SET = ["🡸", "🡹", "🡺", "🡻", "🡼", "🡽", "🡾", "🡿", "*"];
 
-  static ALL_CHARSETS = [SidukoConstants.EMOJI_SET, SidukoConstants.NUM_SET, SidukoConstants.ALPHA_SET, SidukoConstants.ROMAN_SET, SidukoConstants.COLOR_SET];
+  static ALL_CHARSETS = [SidukoConstants.EMOJI_SET, SidukoConstants.NUM_SET, SidukoConstants.ALPHA_SET, SidukoConstants.ROMAN_SET, SidukoConstants.COLOR_SET, SidukoConstants.FRACTIONS_SET, SidukoConstants.ARROWS_SET];
 
 }

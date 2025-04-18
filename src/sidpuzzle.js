@@ -63,7 +63,13 @@ class SidukoPuzzle {
         break;
       case "color":
         this.charset = SidukoConstants.COLOR_SET;
+        break;
+      case "fractions":
+        this.charset = SidukoConstants.FRACTIONS_SET;
         break;      
+      case "arrows":
+        this.charset = SidukoConstants.ARROWS_SET;
+        break;              
       default:
         this.charset = SidukoConstants.NUM_SET;
         break;
