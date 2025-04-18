@@ -62,8 +62,7 @@ class SidukoEventsHandler {
     );
   }
 
-
-  
+ 
   gameplayChangedHandler(state) {
     const oGame = this.#puzzle;    
     let bonus = 0;
@@ -162,7 +161,8 @@ class SidukoEventsHandler {
         SidukoHtmlGenerator.highlightInnerTable(oGame, state.innerTable - 1);
       }
       if (state.board) {
-        logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");        
+        logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");      
+        window.alert("Well done. That's if for now, I haven't implemented anything more. Well done!");
       }
       if (state.playerCellUsed) {
         console.log("Cell used by player");
