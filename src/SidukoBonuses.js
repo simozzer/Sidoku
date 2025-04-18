@@ -2,7 +2,6 @@ class SidukoBonuses {
 
   static revealRandomValue(
     oPuzzle,
-    puzzleSolution,
     fnGameEventCallback,
     bonusData
   ) {
@@ -21,7 +20,7 @@ class SidukoBonuses {
         break;
       }
       const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-      const sourceCell = puzzleSolution
+      const sourceCell = oPuzzle.solution
         .getData()
         .cell(randomCell.column, randomCell.row);
 
@@ -73,7 +72,6 @@ class SidukoBonuses {
   // Picks a random columns and reveals the solution to all the items.
   static revealCellsWithRandomRow(
     oPuzzle,
-    puzzleSolution,
     fnGameEventCallback,
     bonusData
   ) {
@@ -92,7 +90,7 @@ class SidukoBonuses {
       if (iCellsRevealed >= iMaxCells) {
         break;
       }
-      const sourceCell = puzzleSolution.getData().cell(iIndex, randomRow);
+      const sourceCell = oPuzzle.solution.getData().cell(iIndex, randomRow);
       const targetCell = oPuzzle.getData().cell(iIndex, randomRow);
       if (
         targetCell.value <= 0 &&
@@ -142,7 +140,6 @@ class SidukoBonuses {
   // Picks a random column and reveals the solution to all the items.
   static revealCellsWithRandomColumn(
     oPuzzle,
-    puzzleSolution,
     fnGameEventCallback,
     bonusData
   ) {
@@ -161,7 +158,7 @@ class SidukoBonuses {
       if (iCellsRevealed >= iMaxCells) {
         break;
       }
-      const sourceCell = puzzleSolution.getData().cell(randomColumnn, iIndex);
+      const sourceCell = oPuzzle.solution.getData().cell(randomColumnn, iIndex);
       const targetCell = oPuzzle.getData().cell(randomColumnn, iIndex);
       if (
         targetCell.value <= 0 &&
@@ -215,7 +212,6 @@ class SidukoBonuses {
   // Picks a random column and reveals the solution to all the items.
   static revealCellsWithRandomInnerTable(
     oPuzzle,
-    puzzleSolution,
     fnGameEventCallback,
     bonusData
   ) {
@@ -236,9 +232,7 @@ class SidukoBonuses {
     let iCellsRevealed = 0;
     emptyCells.forEach((targetCell) => {
       if (iCellsRevealed < iMaxCells) {
-        const sourceCell = puzzleSolution
-          .getData()
-          .cell(targetCell.column, targetCell.row);
+        const sourceCell = oPuzzle.solution.getData().cell(targetCell.column, targetCell.row);
         if (
           targetCell.value <= 0 &&
           SidukoCellQueries.canSetValue(
@@ -287,7 +281,6 @@ class SidukoBonuses {
   // Picks a random digit and then looks for all the matching cells from the solution and solves them
   static revealCellsWithRandomValue(
     oPuzzle,
-    puzzleSolution,
     fnGameEventCallback,
     bonusData
   ) {
@@ -300,17 +293,12 @@ class SidukoBonuses {
     }
     const randomValue = Math.floor(Math.random() * 8) + 1;
     //logMessage(`Cell Value: ${randomValue}`, "randomChoiceStatus");
-    const aSourceCells = puzzleSolution
-      .getData()
-      .cells.filter((c) => c.value === randomValue);
+    const aSourceCells = oPuzzle.solution.getData().cells.filter((c) => c.value === randomValue);
     const iMaxCells = bonusData.maxCellCount;
     let iCellsRevealed = 0;
     aSourceCells.forEach((oSourceCell) => {
       if (iCellsRevealed < iMaxCells) {
-        const targetCell = oPuzzle
-          .getData()
-          .cell(oSourceCell.column, oSourceCell.row);
-
+        const targetCell = oPuzzle.getData().cell(oSourceCell.column, oSourceCell.row);
         if (
           targetCell.value <= 0 &&
           SidukoCellQueries.canSetValue(
@@ -359,7 +347,6 @@ class SidukoBonuses {
   //Examines all the cells and looks for the cells for which only 1 value is possible, and solves them
   static autoFillCellsWithOnePossibleValue(
     oPuzzle,
-    puzzleSolution,
     fnGameEventCallback,
     bonusData
   ) {
@@ -379,9 +366,7 @@ class SidukoBonuses {
           oTargetCell
         );
         if (aPossibleValues.length === 1) {
-          const oSourceCell = puzzleSolution
-            .getData()
-            .cell(oTargetCell.column, oTargetCell.row);
+          const oSourceCell = oPuzzle.solution.getData().cell(oTargetCell.column, oTargetCell.row);
           if (
             oTargetCell.value <= 0 &&
             SidukoCellQueries.canSetValue(
@@ -389,7 +374,7 @@ class SidukoBonuses {
               oTargetCell,
               aPossibleValues[0]
             ) &&
-            puzzleSolution.getData().cell(oTargetCell.column, oTargetCell.row)
+            oPuzzle.solution.getData().cell(oTargetCell.column, oTargetCell.row)
               .value === aPossibleValues[0]
           ) {
             const oStartFullnessState = SidukoCellQueries.getFullnessState(
@@ -431,7 +416,7 @@ class SidukoBonuses {
     return iCellsRevealed;
   }
 
-  static canAutoFillCellsWithOnePossibleValue(oPuzzle, puzzleSolution) {
+  static canAutoFillCellsWithOnePossibleValue(oPuzzle) {
     const emptyCells = oPuzzle.getData().cells.filter((c) => c.value === 0);
     if (emptyCells.length === 0) {
       return;
@@ -451,7 +436,7 @@ class SidukoBonuses {
               oTargetCell,
               aPossibleValues[0]
             ) &&
-            puzzleSolution.getData().cell(oTargetCell.column, oTargetCell.row)
+            oPuzzle.solution.getData().cell(oTargetCell.column, oTargetCell.row)
               .value === aPossibleValues[0]
           ) {
             iCellsRevealed++;
@@ -463,7 +448,6 @@ class SidukoBonuses {
   }
 
   static triggerRandomBonus(oPuzzle, fnHandleGamplayChanged) {    
-    const oSolution = oPuzzle.getSolution();
     const iRand = Math.floor(Math.random() * 6);
     const dummyBoost = new SidukoBoostData("", "", this);
     const iMaxCells = Math.floor(Math.random() * 2);
@@ -472,8 +456,7 @@ class SidukoBonuses {
       case 0:
         SidukoNotifications.queueBonus("😍 Revealing a random cell");
         SidukoBonuses.revealRandomValue(
-          oPuzzle,
-          oSolution,
+          oPuzzle,          
           fnHandleGamplayChanged,
           dummyBoost
         );
@@ -481,8 +464,7 @@ class SidukoBonuses {
       case 1:
         SidukoNotifications.queueBonus("😀 Revealing cells from a random row");
         SidukoBonuses.revealCellsWithRandomRow(
-          oPuzzle,
-          oSolution,
+          oPuzzle,          
           fnHandleGamplayChanged,
           dummyBoost
         );
@@ -490,8 +472,7 @@ class SidukoBonuses {
       case 2:
         SidukoNotifications.queueBonus("🙌 Revealing cells from a random column");
         SidukoBonuses.revealCellsWithRandomColumn(
-          oPuzzle,
-          oSolution,
+          oPuzzle,          
           fnHandleGamplayChanged,
           dummyBoost
         );
@@ -500,7 +481,7 @@ class SidukoBonuses {
         SidukoNotifications.queueBonus("💃 Revealing cells from a random inner table");
         SidukoBonuses.revealCellsWithRandomInnerTable(
           oPuzzle,
-          oSolution,
+          fnHandleGamplayChanged,
           dummyBoost
         );
         break;
@@ -508,7 +489,7 @@ class SidukoBonuses {
         SidukoNotifications.queueBonus("🤗 Revealing cells which only have 1 possible value");
         SidukoBonuses.autoFillCellsWithOnePossibleValue(
           oPuzzle,          
-          oSolution,
+          fnHandleGamplayChanged,
           dummyBoost
         );
         break;
@@ -516,7 +497,6 @@ class SidukoBonuses {
         SidukoNotifications.queueBonus("🤟 Revealing cells with a common random value");
         SidukoBonuses.revealCellsWithRandomValue(
           oPuzzle,
-          oSolution,
           fnHandleGamplayChanged,
           dummyBoost
         );

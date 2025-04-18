@@ -185,10 +185,7 @@ class SidukoSeekerBoostData extends SidukoBoostData {
     if (super.getCanUse()) {
       //        console.log("sekker boost can use");
       return SidukoBonuses.canAutoFillCellsWithOnePossibleValue(
-        this.puzzle,
-        this.puzzle.solution,
-        () => {},
-        this
+        this.puzzle
       );
     }
     return false;
@@ -198,7 +195,6 @@ class SidukoSeekerBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       if (SidukoBonuses.autoFillCellsWithOnePossibleValue(
         this.puzzle,
-        this.puzzle.solution,
         () => {},
         this
       )) {
@@ -215,7 +211,6 @@ class SidukoRowBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       if (SidukoBonuses.revealCellsWithRandomRow(
         this.puzzle,
-        this.puzzle.solution,
         () => {},
         this
       )) {
@@ -232,7 +227,6 @@ class SidukoColumnBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       if (SidukoBonuses.revealCellsWithRandomColumn(
         this.puzzle,
-        this.puzzle.solution,
         () => {},
         this
       )) {
@@ -249,7 +243,6 @@ class SidukoInnerTableBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       if (SidukoBonuses.revealCellsWithRandomInnerTable(
         this.puzzle,
-        this.puzzle.solution,
         () => {},
         this
       )) {
@@ -266,7 +259,6 @@ class SidukoRandomBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       if (SidukoBonuses.revealRandomValue(
         this.puzzle,
-        this.puzzle.solution,
         () => {},
         this
       )) {
@@ -283,7 +275,6 @@ class SidukoRandomValueBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       if (SidukoBonuses.revealCellsWithRandomValue(
         this.puzzle,
-        this.puzzle.solution,
         () => {},
         this
       )) {;

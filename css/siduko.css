@@ -518,7 +518,9 @@ table.sidukoTable {
 	border-radius: 8px;
 	font-size: 1.1em;
 	max-width: 400px;
+	text-align: center;
 	min-width: 400px;
+	font-weight: 800;
 }
 
 .messageBox.initial {
