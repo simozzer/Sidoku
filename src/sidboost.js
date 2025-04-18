@@ -12,6 +12,7 @@ class SidukoBoostData {
   #buyHint;
   #boostBuyHint;
   #boostable;
+  #cost;
 
   constructor(name, description, puzzle) {
     this.#name = name;
@@ -27,6 +28,7 @@ class SidukoBoostData {
     this.#buyHint = "";
     this.#boostable = false;
     this.#boostBuyHint = "";
+    this.#cost = SidukoConstants.BOOST_LIFE_COST;
   }
 
   get puzzle() {
@@ -75,6 +77,14 @@ class SidukoBoostData {
 
   set boostable(value) {
     this.#boostable = value;
+  }
+  
+  get cost(){
+    return this.#cost;
+  }
+
+  set cost(value){
+    this.#cost = value;
   }
 
   boostAccuracy() {

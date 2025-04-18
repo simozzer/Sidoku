@@ -49,15 +49,23 @@ class SidukoPuzzle {
     const urlParams = new URLSearchParams(window.location.search);
     const charsetVal = urlParams.get('charset');
   
+
+    //https://www.vertex42.com/ExcelTips/unicode-symbols.html#currency
     switch (charsetVal) {
       case "alpha":
-        this.#charset = SidukoConstants.ALPHA_SET;
+        this.charset = SidukoConstants.ALPHA_SET;
         break;
       case "emoji":
-        this.#charset = SidukoConstants.EMOJI_SET;
+        this.charset = SidukoConstants.EMOJI_SET;
         break;
+      case "roman":
+        this.charset = SidukoConstants.ROMAN_SET;
+        break;
+      case "color":
+        this.charset = SidukoConstants.COLOR_SET;
+        break;      
       default:
-        this.#charset = SidukoConstants.NUM_SET;
+        this.charset = SidukoConstants.NUM_SET;
         break;
     }
     

@@ -114,5 +114,3 @@ class SidukoNotifications {
     return this.instance;
   }
 }
-
- const sidukoNotifications = () => {SidukoNotifications.getInstance();}

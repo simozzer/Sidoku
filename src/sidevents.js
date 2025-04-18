@@ -313,6 +313,11 @@ class SidukoEventsHandler {
 
           this._updateCellHints();
           this.__triggerBonuses(oCellData);  
+          /*
+          const aCharset = SidukoConstants.ALL_CHARSETS[Math.floor(Math.random() * SidukoConstants.ALL_CHARSETS.length)];
+          this.#puzzle.charset = aCharset;
+          SidukoHtmlGenerator.updateCharset(this.#puzzle);
+          */
           SidukoSounds.getInstance().playSound("Click1");  
                   
         }
@@ -390,6 +395,8 @@ class SidukoEventsHandler {
         SidukoNotifications.getInstance().queueBonus("Penalty triggered...that'll cost you!");
         if (this.#playerData.funds >= 1) {
           this.#playerData.funds--;
+        } else if (this.#playerData.guessesRemaining > 5) {
+          this.#playerData.guessesRemaining = this.#playerData.guessesRemaining - 5;                    
         }
       }           
     }  
@@ -405,6 +412,8 @@ class SidukoEventsHandler {
       }            
     } 
       */
+
+    
  
   }
 
@@ -472,6 +481,11 @@ class SidukoEventsHandler {
         oCellData.element.classList.add("value_entered");
 
         this._updateCellHints();
+        /*
+        const aCharset = SidukoConstants.ALL_CHARSETS[Math.floor(Math.random() * SidukoConstants.ALL_CHARSETS.length)];
+        this.#puzzle.charset = aCharset;
+        SidukoHtmlGenerator.updateCharset(this.#puzzle);
+        */
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
         

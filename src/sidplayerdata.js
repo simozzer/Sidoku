@@ -18,6 +18,7 @@ class SidukoPlayerData {
     this.#guessesRemaining = value;
     const oElem = document.getElementById("playerGuessesRemaining");
     if (oElem) {
+      // TODO:: animate
       oElem.innerText = value;
     }
   }
@@ -139,11 +140,11 @@ class SidukoPlayerData {
       row.appendChild(useCell);
 
       const buyCell = document.createElement("td");
-      if (this.#funds >= SidukoConstants.BOOST_LIFE_COST) {
+      if (this.#funds >= boost.cost) {
         const buyButton = document.createElement("input");
         buyButton.classList.add("buyBoostButton");
         buyButton.type = "button";
-        buyButton.value = `$${SidukoConstants.BOOST_LIFE_COST}`;
+        buyButton.value = `$${boost.cost}`;
         buyButton.title = boost.buyHint;
         buyCell.appendChild(buyButton);
       }

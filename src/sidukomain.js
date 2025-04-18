@@ -130,6 +130,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 4;
 
     oBoost = new SidukoColumnBoostData(
       "Column",
@@ -144,6 +145,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 4;
 
     oBoost = new SidukoInnerTableBoostData(
       "InnerTable",
@@ -158,6 +160,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 4;
 
     oBoost = new SidukoRandomBoostData(
       "Random",
@@ -172,6 +175,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 4;
 
     oBoost = new SidukoRandomValueBoostData(
       "Random Value",
@@ -186,6 +190,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 4;
 
     oBoost = new SidukoSeekerBoostData(
       "Seeker",
@@ -200,6 +205,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;   
+    oBoost.cost = 5;
 
     // Show tooltips on each turn whilst we still have turns remaining
     oBoost = new SidukoHintsBoostData(
@@ -213,6 +219,7 @@ class SidukoMain {
     oBoost.buyHint = `Add tooltip hints for another ${SidukoConstants.HINT_BUY_BOOST_TURNS}`;
     oBoost.boostable = false;
     oBoost.maxCellCount = null;
+    oBoost.cost = 1;
 
     oBoost = new SidukoBoostData(
       "Time",
@@ -225,6 +232,7 @@ class SidukoMain {
     oBoost.buyHint = `Add a time boost bonus to be used when you choose`;
     oBoost.boostable = false;
     oBoost.maxCellCount = null;
+    oBoost.cost = 2;
 
     oPlayerData.renderBoosts();
 
@@ -252,9 +260,9 @@ class SidukoMain {
         );        
         if (clickedColumn === 2) {
           // boost
-          if (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEl_COST) {
+          if (this.#playerData.funds >= oBoost.cost) {
             oBoost.maxCellCount = oBoost.maxCellCount + 1;
-            this.#playerData.funds -= SidukoConstants.BOOST_UP_LEVEl_COST;
+            this.#playerData.funds -= oBoost.cost;;
             oBoost.exhausted = oBoost.turnsRemaining <= 0;
           }
         } else if (clickedColumn === 3) {
