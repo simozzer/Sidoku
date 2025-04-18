@@ -171,11 +171,9 @@ class SidukoCell {
     return this.#randomBonusTrigger;
   }
 
-  set randomBonusTrigger(randomBonusTrigger) {
-    this.#randomBonusTrigger = randomBonusTrigger;
+  set randomBonusTrigger(b) {
+    this.#randomBonusTrigger = b;
   }
-
-
 
   reset() {
     this.#value = 0;

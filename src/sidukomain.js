@@ -82,20 +82,19 @@ class SidukoMain {
 
     const aEmptyCells = this.#game.getData().cells.filter((cell) => cell.value === 0);
 
-    let randomBonusIndex = Math.floor(Math.random() * aEmptyCells.length) -1;
-    if (randomBonusIndex >= 0) {
+    let randomBonusIndex = Math.floor(Math.random() * aEmptyCells.length -1);
+    if (randomBonusIndex >= 0) {     
       aEmptyCells[randomBonusIndex].bonusTrigger = true;
+      aEmptyCells[randomBonusIndex].element.innerText = "B";
     }
 
     if (Math.random() < 0.3) {
       const aRemainingCells = aEmptyCells.filter((cell) => !cell.bonusTrigger);
-      randomBonusIndex = Math.floor(Math.random() * aRemainingCells.length) -1;
-      if (randomBonusIndex >= 0) {
-        aEmptyCells[randomBonusIndex].randomBonusTrigger = true;
+      randomBonusIndex = Math.floor(Math.random() * aRemainingCells.length -1);
+      if (randomBonusIndex >= 0) {        
+        aRemainingCells[randomBonusIndex].randomBonusTrigger = true;
       }
     }
-
-
     
     oPlayerData.guessesRemaining = Math.round(aEmptyCells.length * SidukoConstants.GUESSES_MULTIPLER);
 

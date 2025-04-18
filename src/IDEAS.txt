@@ -67,3 +67,5 @@
 // no penalty from bonus cells
 
 // add extra bonus/penalty cells
+
+//shuffle incorrect
