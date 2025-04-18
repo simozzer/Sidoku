@@ -2,7 +2,7 @@ An animated solver for sudoko problems, written using ES6, CSS and HTML.
 (Now updated to use tailwindcss)
 
 
-To try this out simply go here: https://simozzer.github.io/Sidoku/
+To try this out simply go here: https://simozzer.github.io/Siduko/
 
 
 Can solve even extremely difficult problems e.g 'Shining Mirror' 

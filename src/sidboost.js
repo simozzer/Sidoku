@@ -174,7 +174,7 @@ class SidukoSeekerBoostData extends SidukoBoostData {
   getCanUse(playerData) {
     if (super.getCanUse()) {
       //        console.log("sekker boost can use");
-      return SidokuBonuses.canAutoFillCellsWithOnePossibleValue(
+      return SidukoBonuses.canAutoFillCellsWithOnePossibleValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},
@@ -186,7 +186,7 @@ class SidukoSeekerBoostData extends SidukoBoostData {
 
   use() {
     if (this.getCanUse()) {
-      if (SidokuBonuses.autoFillCellsWithOnePossibleValue(
+      if (SidukoBonuses.autoFillCellsWithOnePossibleValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},
@@ -203,7 +203,7 @@ class SidukoSeekerBoostData extends SidukoBoostData {
 class SidukoRowBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      if (SidokuBonuses.revealCellsWithRandomRow(
+      if (SidukoBonuses.revealCellsWithRandomRow(
         this.puzzle,
         this.puzzle.solution,
         () => {},
@@ -220,7 +220,7 @@ class SidukoRowBoostData extends SidukoBoostData {
 class SidukoColumnBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      if (SidokuBonuses.revealCellsWithRandomColumn(
+      if (SidukoBonuses.revealCellsWithRandomColumn(
         this.puzzle,
         this.puzzle.solution,
         () => {},
@@ -237,7 +237,7 @@ class SidukoColumnBoostData extends SidukoBoostData {
 class SidukoInnerTableBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      if (SidokuBonuses.revealCellsWithRandomInnerTable(
+      if (SidukoBonuses.revealCellsWithRandomInnerTable(
         this.puzzle,
         this.puzzle.solution,
         () => {},
@@ -254,7 +254,7 @@ class SidukoInnerTableBoostData extends SidukoBoostData {
 class SidukoRandomBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      if (SidokuBonuses.revealRandomValue(
+      if (SidukoBonuses.revealRandomValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},
@@ -271,7 +271,7 @@ class SidukoRandomBoostData extends SidukoBoostData {
 class SidukoRandomValueBoostData extends SidukoBoostData {
   use() {
     if (this.getCanUse()) {
-      if (SidokuBonuses.revealCellsWithRandomValue(
+      if (SidukoBonuses.revealCellsWithRandomValue(
         this.puzzle,
         this.puzzle.solution,
         () => {},

@@ -65,6 +65,7 @@ class SidukoCell {
   #element;
   #passIndex;
   #bonusTrigger;
+  #randomBonusTrigger;
 
   constructor(iCellIndex) {
     this.#row = Math.floor(iCellIndex / 9);
@@ -75,6 +76,7 @@ class SidukoCell {
     this.choiceIndex = 0;
     this.#passIndex = -1;
     this.#bonusTrigger = false;
+    this.#randomBonusTrigger = false;
   }
 
   get innerTableIndex() {
@@ -164,6 +166,16 @@ class SidukoCell {
   set bonusTrigger(bBonusTrigger) {
     this.#bonusTrigger = bBonusTrigger;
   }
+
+  get randomBonusTrigger() {
+    return this.#randomBonusTrigger;
+  }
+
+  set randomBonusTrigger(randomBonusTrigger) {
+    this.#randomBonusTrigger = randomBonusTrigger;
+  }
+
+
 
   reset() {
     this.#value = 0;

@@ -1,5 +1,5 @@
 {
-  "name": "sidoku",
+  "name": "Siduko",
   "version": "1.0.0",
   "description": "An animated solver for sudoko problems, written using ES6, CSS and HTML.",
   "main": "sidevents.js",

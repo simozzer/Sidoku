@@ -1,4 +1,4 @@
-class SidokuBonuses {
+class SidukoBonuses {
 
   static revealRandomValue(
     oPuzzle,
@@ -471,7 +471,7 @@ class SidokuBonuses {
     switch (iRand) {
       case 0:
         SidukoNotifications.queueBonus("😍 Revealing a random cell");
-        SidokuBonuses.revealRandomValue(
+        SidukoBonuses.revealRandomValue(
           oPuzzle,
           oSolution,
           fnHandleGamplayChanged,
@@ -480,7 +480,7 @@ class SidokuBonuses {
         break;
       case 1:
         SidukoNotifications.queueBonus("😀 Revealing cells from a random row");
-        SidokuBonuses.revealCellsWithRandomRow(
+        SidukoBonuses.revealCellsWithRandomRow(
           oPuzzle,
           oSolution,
           fnHandleGamplayChanged,
@@ -489,7 +489,7 @@ class SidokuBonuses {
         break;
       case 2:
         SidukoNotifications.queueBonus("🙌 Revealing cells from a random column");
-        SidokuBonuses.revealCellsWithRandomColumn(
+        SidukoBonuses.revealCellsWithRandomColumn(
           oPuzzle,
           oSolution,
           fnHandleGamplayChanged,
@@ -498,7 +498,7 @@ class SidokuBonuses {
         break;
       case 3:
         SidukoNotifications.queueBonus("💃 Revealing cells from a random inner table");
-        SidokuBonuses.revealCellsWithRandomInnerTable(
+        SidukoBonuses.revealCellsWithRandomInnerTable(
           oPuzzle,
           oSolution,
           dummyBoost
@@ -506,7 +506,7 @@ class SidokuBonuses {
         break;
       case 4:
         SidukoNotifications.queueBonus("🤗 Revealing cells which only have 1 possible value");
-        SidokuBonuses.autoFillCellsWithOnePossibleValue(
+        SidukoBonuses.autoFillCellsWithOnePossibleValue(
           oPuzzle,          
           oSolution,
           dummyBoost
@@ -514,7 +514,7 @@ class SidokuBonuses {
         break;
       case 5:
         SidukoNotifications.queueBonus("🤟 Revealing cells with a common random value");
-        SidokuBonuses.revealCellsWithRandomValue(
+        SidukoBonuses.revealCellsWithRandomValue(
           oPuzzle,
           oSolution,
           fnHandleGamplayChanged,

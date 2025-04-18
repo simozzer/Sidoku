@@ -315,23 +315,35 @@ class SidukoEventsHandler {
 
           SidukoSounds.getInstance().playSound("Click1");    
           
+
+          const oSolutionCell = this.#puzzle.solution.getData().cell(
+            oCellData.column,
+            oCellData.row
+          );
           if (oCellData.bonusTrigger) {
-            const oSolutionCell = this.#puzzle.solution.getData().cell(
-              oCellData.column,
-              oCellData.row
-            );
+
             if (oSolutionCell.value === oCellData.value) {
               SidukoNotifications.getInstance().queueBonus("Bonus triggered...have some free money!");
-              this.#playerData.funds += Math.floor(Math.random() * 4) + 1;   
+              this.#playerData.funds += Math.floor(Math.random() * 2) + 1;   
             } else {
               SidukoNotifications.getInstance().queueBonus("Penalty triggered...that'll cost you!");
               if (this.#playerData.funds >= 1) {
                 this.#playerData.funds--;
               }
-            }
-          
+            }          
             oCellData.bonusTrigger = false;   
-          }          
+          }  
+          
+          if (oCellData.randomBonusTrigger) {
+            oCellData.randomBonusTrigger = false;
+            if (oSolutionCell.value === oCellData.value) {
+              SidukoNotifications.getInstance().queueBonus("Correct Value. Random bonus triggered!");
+              SidukoBonuses.triggerRandomBonus(this.#puzzle,()=>{});              
+            } else {
+              SidukoNotifications.getInstance().queueAlert("Incorrect value. Random bonus failed!");  
+            }            
+          } 
+
         }
       }
       oEvent.stopImmediatePropagation();
@@ -460,15 +472,16 @@ class SidukoEventsHandler {
         this._updateCellHints();
         SidukoSounds.getInstance().playSound("Click1");
 
+        
+        const oSolutionCell = this.#puzzle.solution.getData().cell(
+          oCellData.column,
+          oCellData.row
+        );
         if (oCellData.bonusTrigger) {
 
-          const oSolutionCell = this.#puzzle.solution.getData().cell(
-            oCellData.column,
-            oCellData.row
-          );
           if (oSolutionCell.value === oCellData.value) {
             SidukoNotifications.getInstance().queueBonus("Bonus triggered...have some free money!");
-            this.#playerData.funds += Math.floor(Math.random() * 4) + 1;   
+            this.#playerData.funds += Math.floor(Math.random() * 2) + 1;   
           } else {
             SidukoNotifications.getInstance().queueBonus("Penalty triggered...that'll cost you!");
             if (this.#playerData.funds >= 1) {
@@ -478,6 +491,16 @@ class SidukoEventsHandler {
         
           oCellData.bonusTrigger = false;       
         }  
+
+        if (oCellData.randomBonusTrigger) {
+          oCellData.randomBonusTrigger = false;
+          if (oSolutionCell.value === oCellData.value) {
+            SidukoNotifications.getInstance().queueBonus("Correct Value. Random bonus triggered!");
+            SidukoBonuses.triggerRandomBonus(this.#puzzle,()=>{});              
+          } else {
+            SidukoNotifications.getInstance().queueAlert("Incorrect value. Random bonus failed!");  
+          }            
+        } 
       }
       oEvent.stopImmediatePropagation();
     }

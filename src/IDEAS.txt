@@ -26,6 +26,8 @@
 
   // REVEAL INCORRECT CELLS
 
+  // Remove incorrect cells
+
   // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching value in other COL/ROW/INNER CELL)
 
   // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching position in other COL/ROW/INNER CELL)
@@ -55,3 +57,9 @@
   // solve puzzle corners
 
   // + solve (solve from centre cell outwars)
+
+  // show bonus/penalty cells
+  
+// no penalty from bonus cells
+
+// add extra bonus/penalty cells

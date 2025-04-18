@@ -1,8 +1,8 @@
 class SidukoHtmlGenerator {
-  #sidokuPuzzle;
+  #sidukoPuzzle;
   
-  constructor(sidokuPuzzle) {
-    this.#sidokuPuzzle = sidokuPuzzle;  
+  constructor(SidukoPuzzle) {
+    this.#sidukoPuzzle = SidukoPuzzle;  
   }
 
   getPuzzleDOM() {
@@ -43,21 +43,21 @@ class SidukoHtmlGenerator {
   }
 
   getCellDOM(iColumn, iRow) {
-    const oCellData = this.#sidokuPuzzle.getData().cell(iColumn, iRow);
+    const oCellData = this.#sidukoPuzzle.getData().cell(iColumn, iRow);
     const iCellValue = oCellData.value;
     const oInnerCell = document.createElement("td");
 
     if (iCellValue > 0) {
-      oInnerCell.innerText = this.#sidokuPuzzle.charset[iCellValue-1];
+      oInnerCell.innerText = this.#sidukoPuzzle.charset[iCellValue-1];
       if (oCellData.fixedValue) {
         oInnerCell.classList.add("fixedval");
       }
     } else {
       const aVals = SidukoCellQueries.getPossibleValues(
-        this.#sidokuPuzzle.getData(),
+        this.#sidukoPuzzle.getData(),
         oCellData
       );
-      const sVals = aVals.map(iValue => this.#sidokuPuzzle.charset[iValue - 1]);      
+      const sVals = aVals.map(iValue => this.#sidukoPuzzle.charset[iValue - 1]);      
       oInnerCell.title = sVals.join(", ");
     }
     oInnerCell.tabIndex = 0;

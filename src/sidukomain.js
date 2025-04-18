@@ -79,13 +79,25 @@ class SidukoMain {
     document.getElementById("menucontainer").style.display = "none";
     const oPlayerData = this.#playerData;
     const oGame = this.#game;
-    const aEmptyCells = this.#game.getData().cells.filter((cell) => cell.value === 0);
-    const emptyCellCount = aEmptyCells.length;
 
-    const randomBonusIndex = Math.floor(Math.random() * emptyCellCount) -1;
-    aEmptyCells[randomBonusIndex].bonusTrigger = true;
+    const aEmptyCells = this.#game.getData().cells.filter((cell) => cell.value === 0);
+
+    let randomBonusIndex = Math.floor(Math.random() * aEmptyCells.length) -1;
+    if (randomBonusIndex >= 0) {
+      aEmptyCells[randomBonusIndex].bonusTrigger = true;
+    }
+
+    if (Math.random() < 0.3) {
+      const aRemainingCells = aEmptyCells.filter((cell) => !cell.bonusTrigger);
+      randomBonusIndex = Math.floor(Math.random() * aRemainingCells.length) -1;
+      if (randomBonusIndex >= 0) {
+        aEmptyCells[randomBonusIndex].randomBonusTrigger = true;
+      }
+    }
+
+
     
-    oPlayerData.guessesRemaining = Math.round(emptyCellCount * SidukoConstants.GUESSES_MULTIPLER);
+    oPlayerData.guessesRemaining = Math.round(aEmptyCells.length * SidukoConstants.GUESSES_MULTIPLER);
 
     this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);
     const tableDOM = this.#htmlGenerator.getPuzzleDOM();
