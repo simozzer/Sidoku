@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
 .flipHorz {
-    transform: scaleX(-1);
-		background-color: purple;
-		border: 2px solid white;
+    transform: scaleX(-1);		
+		border: 2px solid red;
 }
 
 .flipVert {
