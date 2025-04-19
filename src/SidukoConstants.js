@@ -1,5 +1,5 @@
 class SidukoConstants {
-  static HINT_BUY_BOOST_TURNS = 4;
+  static HINT_BUY_BOOST_TURNS = 5;
   static INITIAL_SEEKER_LIVES = 0;
 
   static BOOST_UP_LEVEL_COST = 3;
@@ -13,11 +13,11 @@ class SidukoConstants {
   static GUESSES_MULTIPLER = 1.3;
 
   static INITIAL_DEFAULT_BOOST_LIVES = 0;
-  static INITIAL_DEFAULT_BOOST_CELLCOUNT = 2;
+  static INITIAL_DEFAULT_BOOST_CELLCOUNT = 1;
 
   static MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT = 3;
 
-  static SPAM_GUESS_PENALTY = 4; // number of guesses lost for spamming input
+  static SPAM_GUESS_PENALTY = 3; // number of guesses lost for spamming input
 
   static EMOJI_SET = ["☀️", "🌻", "☄️", "💫", "🎵", "♻️", "🔨", "🧸", "💎"];
   static NUM_SET = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -38,7 +38,7 @@ class SidukoConstants {
     SidukoConstants.COLOR_SET,
     SidukoConstants.FRACTIONS_SET,
     SidukoConstants.ARROWS_SET,
-    SidukoConstants.NUMBER_CIRCLES,
+    SidukoConstants.NUMBER_CIRCLES_SET,
     SidukoConstants.BRAILLE_SET,
 
     SidukoConstants.RUDE_SET,
