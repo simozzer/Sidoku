@@ -141,7 +141,7 @@ class SidukoMain {
 
     oBoost = new SidukoHighlightBoostData(
       "Highlight",
-      "Shows highlights for incorrect values",
+      "Shows highlights for incorrect values [this will only be available when you're off-track]",
       oGame
     );    
     oBoost.turnsRemaining = 1;
