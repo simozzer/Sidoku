@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+.flipHorz {
+    transform: scaleX(-1);
+}
+
+.flipVert {
+	transform: scaleY(-1);
+}
+
+
 #everywhere {
 	opacity: 70%;
 	@apply px-2;

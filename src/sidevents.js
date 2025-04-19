@@ -189,9 +189,30 @@ class SidukoEventsHandler {
         this.#playerData.funds += (bonus * bonus);
         this.#playerData.renderBoosts();
       }
+
+      this.__letJohnMessYourHeadUp();
     }
   }
 
+
+  __letJohnMessYourHeadUp() {
+    // Do some random shit      
+    if (Math.random() < 0.3) {
+      //SidukoNotifications.getInstance().queueAlert("John just messed with your head!!!");
+      const allCells  = this.#puzzle.getData().cells.filter((cell) => Boolean(cell.value));
+      if (allCells && allCells.length > 0) {
+        const iRandomCellIndex = Math.floor(Math.random() * allCells.length);
+        const oCell = allCells[iRandomCellIndex];
+        if (oCell && oCell.element) {
+          if (Math.random() < 0.5) {
+            oCell.element.classList.add("flipVert");
+          } else {
+            oCell.element.classList.add("flipHorz");
+          }
+        }
+      }
+    }
+  }
   
   _onKeyDown(oEvent) {
     if (this.#playerData.guessesRemaining <= 0) {
@@ -497,7 +518,7 @@ class SidukoEventsHandler {
         this._updateCellHints();
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
-        SidukoElementEffects.slideCellOut(oCellData.element);     
+        SidukoElementEffects.slideCellOut(oCellData.element);  
       } else {
         if (!this.__badGuessCount) {
           this.__badGuessCount = 1;          

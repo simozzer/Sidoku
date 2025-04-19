@@ -24,7 +24,13 @@ class SidukoPlayerData {
   }
 
   get funds() {
-    return this.#funds;
+    const urlParams = new URLSearchParams(window.location.search);
+    const cheatMode = urlParams.get('cheat');    
+    if (cheatMode) {
+      return 100;
+    } else {
+      return this.#funds;
+    }    
   }
 
   set funds(value) {
@@ -32,7 +38,7 @@ class SidukoPlayerData {
     if (oElem) {
       oElem.innerText = "$" + value;
 
-      if (value > this.#funds) {
+      if (value > this.funds) {
         oElem.classList.add("fund-boost");
         const fnListener = () => {
           const playerFundsElem = document.getElementById("playerFunds");
@@ -40,7 +46,7 @@ class SidukoPlayerData {
           playerFundsElem.removeEventListener("animationend", fnListener);
         };
         oElem.addEventListener("animationend", fnListener);
-      } else if (value < this.#funds) {
+      } else if (value < this.funds) {
         oElem.classList.add("fund-reduce");
         const fnListener = () => {
           const playerFundsElem = document.getElementById("playerFunds");
@@ -117,7 +123,7 @@ class SidukoPlayerData {
       const levelCell = document.createElement("td");
       if (
         boost.boostable &&
-        this.#funds >= SidukoConstants.BOOST_UP_LEVEL_COST &&
+        this.funds >= SidukoConstants.BOOST_UP_LEVEL_COST &&
         !boost.exhausted
       ) {
         const levelButton = document.createElement("input");
@@ -140,7 +146,7 @@ class SidukoPlayerData {
       row.appendChild(useCell);
 
       const buyCell = document.createElement("td");
-      if (this.#funds >= boost.cost) {
+      if (this.funds >= boost.cost) {
         const buyButton = document.createElement("input");
         buyButton.classList.add("buyBoostButton");
         buyButton.type = "button";

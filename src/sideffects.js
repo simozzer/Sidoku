@@ -84,4 +84,8 @@ class SidukoElementEffects {
     return Promise.resolve();
   }
 
+  static johnFucksWithYouHead() {
+    
+  }
+
 }

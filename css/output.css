@@ -12,7 +12,6 @@
     --color-red-700: oklch(0.505 0.213 27.518);
     --color-orange-200: oklch(0.901 0.076 70.697);
     --color-yellow-200: oklch(0.945 0.129 101.54);
-    --color-yellow-500: oklch(0.795 0.184 86.047);
     --color-green-200: oklch(0.925 0.084 155.995);
     --color-green-600: oklch(0.627 0.194 149.214);
     --color-cyan-300: oklch(0.865 0.127 207.078);
@@ -390,9 +389,6 @@
   .text-cyan-300 {
     color: var(--color-cyan-300);
   }
-  .text-yellow-500 {
-    color: var(--color-yellow-500);
-  }
   .italic {
     font-style: italic;
   }
@@ -400,6 +396,12 @@
     --tw-blur: blur(8px);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+}
+.flipHorz {
+  transform: scaleX(-1);
+}
+.flipVert {
+  transform: scaleY(-1);
 }
 #everywhere {
   opacity: 70%;
