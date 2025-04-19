@@ -988,11 +988,13 @@ div#playerStatus {
 @keyframes slide_out_top_left_cell {
   from {
     opacity: 1;
+    background-color: white;
   }
   to {
     opacity: 0;
     top: 0px;
     left: 0px;
+    background-color: black;
   }
 }
 .slide_out_top_left {
@@ -1002,11 +1004,13 @@ div#playerStatus {
 @keyframes slide_out_bottom_left_cell {
   from {
     opacity: 1;
+    background-color: firebrick;
   }
   to {
     opacity: 0;
     top: 100%;
     left: 0px;
+    background-color: goldenrod;
   }
 }
 .slide_out_bottom_left {
@@ -1016,11 +1020,13 @@ div#playerStatus {
 @keyframes slide_out_top_right_cell {
   from {
     opacity: 1;
+    background-color: brown;
   }
   to {
     opacity: 0;
     top: 0px;
     left: 100%;
+    background-color: burlywood;
   }
 }
 .slide_out_top_right {
@@ -1030,11 +1036,13 @@ div#playerStatus {
 @keyframes slide_out_bottom_right_cell {
   from {
     opacity: 1;
+    background-color: aqua;
   }
   to {
     opacity: 0;
     top: 100%;
     left: 100%;
+    background-color: red;
   }
 }
 .slide_out_bottom_right {
@@ -1044,11 +1052,13 @@ div#playerStatus {
 @keyframes slide_out_bottom_right_cell {
   from {
     opacity: 1;
+    background-color: orange;
   }
   to {
     opacity: 0;
     top: 100%;
     left: 100%;
+    background-color: orangered;
   }
 }
 .slide_out_bottom_right {
@@ -1058,11 +1068,13 @@ div#playerStatus {
 @keyframes slide_out_mid_left_cell {
   from {
     opacity: 1;
+    background-color: purple;
   }
   to {
     opacity: 0;
     top: 50%;
     left: 0;
+    background-color: lightpink;
   }
 }
 .slide_out_mid_left {
@@ -1072,11 +1084,13 @@ div#playerStatus {
 @keyframes slide_out_mid_right_cell {
   from {
     opacity: 1;
+    background-color: yellow;
   }
   to {
     opacity: 0;
     top: 50%;
     left: 100%;
+    background-color: orange;
   }
 }
 .slide_out_mid_right {
@@ -1086,11 +1100,13 @@ div#playerStatus {
 @keyframes slide_out_mid_top_cell {
   from {
     opacity: 1;
+    background-color: lightblue;
   }
   to {
     opacity: 0;
     top: 0;
     left: 50%;
+    background-color: darkblue;
   }
 }
 .slide_out_mid_top {
@@ -1100,11 +1116,13 @@ div#playerStatus {
 @keyframes slide_out_mid_bottom_cell {
   from {
     opacity: 1;
+    background-color: green;
   }
   to {
     opacity: 0;
     top: 100%;
     left: 50%;
+    background-color: lightgreen;
   }
 }
 .slide_out_mid_bottom {

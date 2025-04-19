@@ -23,7 +23,7 @@ class SidukoConstants {
   static FRACTIONS_SET = ["⅐", "⅑", "⅒", "⅓", "⅔", "⅕", "⅖", "⅗", "⅘"];
   static ARROWS_SET = ["🡸", "🡹", "🡺", "🡻", "🡼", "🡽", "🡾", "🡿", "*"];
   static NUMBER_CIRCLES_SET = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
-  static RUDE_SET = ["C", "N", "T", "F", "U", "K", "S", "H", "I"];
+  static RUDE_SET = ["C", "N", "T", "F", "U", "K", "S", "H", "I"]; // POINTS FOR SICK, FUCK, CUNT, SHIT, KIT, SIT, SHIN, HIT, FIT, THIS, 
   static ALL_CHARSETS = [
     SidukoConstants.EMOJI_SET,
     SidukoConstants.NUM_SET,
