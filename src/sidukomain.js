@@ -205,7 +205,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;   
-    oBoost.cost = 5;
+    oBoost.cost = 3; // cost is lower, as the user could solve this easily
 
     // Show tooltips on each turn whilst we still have turns remaining
     oBoost = new SidukoHintsBoostData(
