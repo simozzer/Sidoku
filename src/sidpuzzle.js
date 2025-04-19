@@ -72,7 +72,10 @@ class SidukoPuzzle {
         break;  
       case "numcircles":
         this.charset = SidukoConstants.NUMBER_CIRCLES_SET;
-        break;        
+        break;  
+      case "rude":
+        this.charset = SidukoConstants.RUDE_SET;
+        break;  
       default:
         this.charset = SidukoConstants.NUM_SET;
         break;
