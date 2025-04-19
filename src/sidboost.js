@@ -285,3 +285,15 @@ class SidukoRandomValueBoostData extends SidukoBoostData {
     return false;
   }
 }
+
+class SidukoHighlightBoostData extends SidukoBoostData {
+  use() {
+    if (this.getCanUse()) {
+      SidukoBonuses.highlightCellsWithBadValues(this.puzzle, this);
+      this.turnsRemaining--;
+      return true;
+    }    
+    return false;
+  }
+}
+

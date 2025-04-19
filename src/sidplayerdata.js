@@ -117,13 +117,13 @@ class SidukoPlayerData {
       const levelCell = document.createElement("td");
       if (
         boost.boostable &&
-        this.#funds >= SidukoConstants.BOOST_UP_LEVEl_COST &&
+        this.#funds >= SidukoConstants.BOOST_UP_LEVEL_COST &&
         !boost.exhausted
       ) {
         const levelButton = document.createElement("input");
         levelButton.classList.add("boostBoostButton");
         levelButton.type = "button";
-        levelButton.value = `$${SidukoConstants.BOOST_UP_LEVEl_COST}`;
+        levelButton.value = `$${SidukoConstants.BOOST_UP_LEVEL_COST}`;
         levelButton.style.display = "button"; // TODO
         levelButton.title = boost.boostBuyHint;
         levelCell.appendChild(levelButton);
@@ -205,7 +205,7 @@ class SidukoPlayerData {
 
 
     this.#boosts.forEach((b) => {
-      b.forSale = this.funds >= 1;
+      b.forSale = this.funds >= b.cost;
       if (b.forSale) {
         b.domElement.classList.add("forSale");
       } else {

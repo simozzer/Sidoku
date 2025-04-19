@@ -344,6 +344,29 @@ class SidukoBonuses {
     return iCellsRevealed;
   }
 
+
+  static highlightCellsWithBadValues(oPuzzle, bonusData) {
+    const aCells = oPuzzle.getData().cells.filter((c) => c.value > 0);
+    const iMaxCells = bonusData.maxCellCount;
+    let iCellsRevealed = 0;
+    for(let i = 0; i < aCells.length; i++) {
+      const oCell = aCells[i];
+      if (oCell.value !== oPuzzle.solution.getData().cell(oCell.column, oCell.row).value) {        
+        const fnAnimEnd = () => {
+          oCell.element.classList.remove("badValue");
+        };
+        oCell.element.addEventListener("animationend", fnAnimEnd);
+        oCell.element.classList.add("badValue");
+        iCellsRevealed++;
+        if(iCellsRevealed >= iMaxCells) {
+          break;
+        }
+      }
+    }
+    return iCellsRevealed;
+  }
+
+
   //Examines all the cells and looks for the cells for which only 1 value is possible, and solves them
   static autoFillCellsWithOnePossibleValue(
     oPuzzle,

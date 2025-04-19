@@ -34,9 +34,8 @@ class SidukoMain {
 
   async _solve() {
     return new Promise(async (resolve, reject) => {
-      const solver = new SidukoSolver(this.#solution, (data) => {});
+      const solver = new SidukoSolver(this.#solution, () => {});
       await solver.execute();
-
       resolve();
     });
   }
@@ -206,6 +205,24 @@ class SidukoMain {
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;   
     oBoost.cost = 3; // cost is lower, as the user could solve this easily
+
+
+    
+
+    oBoost = new SidukoHighlightBoostData(
+      "Highlight",
+      "Shows highlights for incorrect values",
+      oGame
+    );    
+    oBoost.turnsRemaining = 1;
+    oBoost.decrementsEachTurn = false;
+    oPlayerData.addBoostItem(oBoost);
+    oBoost.boostBuyHint = "Increase the max cell count for the Highlight bonus";
+    oBoost.buyHint = `Add another Highlight bonus to be used when you choose`;;
+    oBoost.boostable = true;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 3;
 
     // Show tooltips on each turn whilst we still have turns remaining
     oBoost = new SidukoHintsBoostData(

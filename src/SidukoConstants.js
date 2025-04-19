@@ -1,11 +1,11 @@
 class SidukoConstants {
-  static HINT_BUY_BOOST_TURNS = 6;
+  static HINT_BUY_BOOST_TURNS = 4;
   static INITIAL_SEEKER_LIVES = 0;
 
-  static BOOST_UP_LEVEl_COST = 3;
+  static BOOST_UP_LEVEL_COST = 3;
   static BOOST_LIFE_COST = 2;
 
-  static DEFAULT_FUNDS = 3;
+  static DEFAULT_FUNDS = 6;
 
   static GAME_DURATION_SECONDS = 500;
   static TIME_BOOST_SECONDS = 60;
@@ -23,7 +23,9 @@ class SidukoConstants {
   static FRACTIONS_SET = ["⅐", "⅑", "⅒", "⅓", "⅔", "⅕", "⅖", "⅗", "⅘"];
   static ARROWS_SET = ["🡸", "🡹", "🡺", "🡻", "🡼", "🡽", "🡾", "🡿", "*"];
   static NUMBER_CIRCLES_SET = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
-  static RUDE_SET = ["C", "N", "T", "F", "U", "K", "S", "H", "I"]; // POINTS FOR SICK, FUCK, CUNT, SHIT, KIT, SIT, SHIN, HIT, FIT, THIS, 
+  static BRAILLE_SET = ["⠼⠁", "⠼⠃", "⠼⠉", "⠼⠙", "⠼⠑", "⠼⠋", "⠼⠛", "⠼⠐", "⠼⠓"];
+  static RUDE_SET = ["C", "N", "T", "F", "U", "K", "S", "H", "I"]; // POINTS FOR SICK, FUCK, CUNT, SHIT,  SHIN,  THIS,  HISS, CHIN, FIST,
+  // KIT, SIT,HIT, FIT,FUN, FIN, HIS,
   static ALL_CHARSETS = [
     SidukoConstants.EMOJI_SET,
     SidukoConstants.NUM_SET,
@@ -33,6 +35,8 @@ class SidukoConstants {
     SidukoConstants.FRACTIONS_SET,
     SidukoConstants.ARROWS_SET,
     SidukoConstants.NUMBER_CIRCLES,
+    SidukoConstants.BRAILLE_SET,
+
     SidukoConstants.RUDE_SET,
     
   ];

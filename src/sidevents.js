@@ -323,6 +323,47 @@ class SidukoEventsHandler {
     }
   }
 
+  __showValueEntryPopup(oEvent) {
+    if (this.__lastFocusedCell == this.#focusedCell) {
+      console.log("same cell");
+
+    } else {
+      this.__lastFocusedCell = this.#focusedCell;
+      this.__badGuessCount = 0;
+      console.log("new cell");
+    }
+    const aPossibleValues = SidukoCellQueries.getPossibleValues(
+      this.#puzzle.getData(),
+      this.#focusedCell
+    );
+    const valueEntryTds = Array.from(
+      document.querySelectorAll("#cellValueEntryPopup td")
+    );
+    valueEntryTds.forEach((td) => {
+      
+      const sCellValue = td.innerText;
+      const iValIndex = this.#puzzle.charset.indexOf(sCellValue);
+      if (iValIndex >= 0 && this.#playerData.getBoost("Hints").turnsRemaining > 0 &&
+          aPossibleValues.indexOf(iValIndex+1) >= 0) 
+      {
+        td.classList.add("suggested");
+      } else {
+        td.classList.remove("suggested");
+      }
+    });
+    this.#cellValueEntry.style.top = oEvent.clientY + "px";
+    this.#cellValueEntry.style.left = oEvent.clientX + "px";
+    const valueClearButton = document.getElementById("cellValueClearButton");
+    if (this.#focusedCell.value) {
+      valueClearButton.classList.remove("hidden");
+    } else {
+      valueClearButton.classList.add("hidden");
+    }
+    this.#cellValueEntry.classList.remove("hidden");
+    this.#cellValueEntry.focus();
+  }
+
+
   _onTap(oEvent) {
     if (this.#playerData.guessesRemaining <= 0) {
       return;
@@ -342,44 +383,7 @@ class SidukoEventsHandler {
         if (this.#focusedCell.fixedValue) {
           return;
         }
-
-        const aPossibleValues = SidukoCellQueries.getPossibleValues(
-          this.#puzzle.getData(),
-          this.#focusedCell
-        );
-
-        const valueEntry = document.getElementById("cellValueEntryPopup");
-
-        const valueEntryTds = Array.from(
-          document.querySelectorAll("#cellValueEntryPopup td")
-        );
-        valueEntryTds.forEach((td) => {
-          
-          const sCellValue = td.innerText;
-          const iValIndex = this.#puzzle.charset.indexOf(sCellValue);
-          if (iValIndex >= 0 && this.#playerData.getBoost("Hints").turnsRemaining > 0 &&
-              aPossibleValues.indexOf(iValIndex+1) >= 0) 
-          {
-            td.classList.add("suggested");
-          } else {
-            td.classList.remove("suggested");
-          }
-        });
-
-        valueEntry.style.top = oEvent.clientY + "px";
-        valueEntry.style.left = oEvent.clientX + "px";
-
-        const valueClearButton = document.getElementById("cellValueClearButton");
-        if (this.#focusedCell.value) {
-          valueClearButton.classList.remove("hidden");
-        } else {
-          valueClearButton.classList.add("hidden");
-        }
-
-        valueEntry.classList.remove("hidden");
-
-        valueEntry.focus();
-
+        this.__showValueEntryPopup(oEvent);
         oEvent.stopImmediatePropagation();
       }
     }
@@ -489,6 +493,19 @@ class SidukoEventsHandler {
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
         SidukoElementEffects.slideCellOut(oCellData.element);        
+
+
+      } else {
+        if (!this.__badGuessCount) {
+          this.__badGuessCount = 1;          
+        } else {
+          this.__badGuessCount++;
+          if (this.__badGuessCount > 3) {
+            //TODO: add a penalty
+            SidukoNotifications.getInstance().queueAlert("You're just spamming the guesses, aren't you?.");
+            this.__badGuessCount = 0;
+          }
+        }
       }
 
       oEvent.stopImmediatePropagation();

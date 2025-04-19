@@ -107,6 +107,19 @@ table.sidukoTable {
     animation-duration: 0.6s;
 }
 
+@keyframes badValueEntered   {
+	from {
+		border: 5px solid cyan;	
+	}
+	to {
+		border: 1px solid red;		
+	}    
+}
+.sidukoTable table td.entered.badValue {
+	animation-name: badValueEntered;
+	animation-duration: 4s;
+}
+
 #rightPanel {
     background-color: black;
     margin-top:24px;
