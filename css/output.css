@@ -31,7 +31,6 @@
     --color-slate-400: oklch(0.704 0.04 256.788);
     --color-slate-600: oklch(0.446 0.043 257.281);
     --color-slate-800: oklch(0.279 0.041 260.031);
-    --color-gray-100: oklch(0.967 0.003 264.542);
     --color-gray-800: oklch(0.278 0.033 256.848);
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -491,7 +490,7 @@ table.sidukoTable {
   --tw-font-weight: var(--font-weight-light);
   font-weight: var(--font-weight-light);
   color: var(--color-gray-800);
-  background-color: var(--color-gray-100);
+  background-color: yellow;
 }
 @keyframes spinValueEntered {
   from {
@@ -812,7 +811,7 @@ table.sidukoTable {
 }
 .sidukoTable table td.player_solved {
   color: #4e54c8;
-  background-color: aliceblue;
+  background-color: black;
 }
 #charset_menu {
   margin: 10px;

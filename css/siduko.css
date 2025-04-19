@@ -91,7 +91,7 @@ table.sidukoTable {
 .sidukoTable table td.aided {
     @apply font-light;
     @apply  text-gray-800;
-    @apply bg-gray-100;
+    background-color: yellow;
 }
 
 @keyframes spinValueEntered   {
@@ -468,7 +468,7 @@ table.sidukoTable {
 
 .sidukoTable table td.player_solved {
     color: #4e54c8;
-    background-color: aliceblue;
+    background-color: black;
 }
 
 #charset_menu {
