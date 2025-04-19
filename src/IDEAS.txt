@@ -69,3 +69,8 @@
 // add extra bonus/penalty cells
 
 //shuffle incorrect
+
+// when complete more points for player solved cells (i.e not solved by bonus)
+
+
+// add bonus to allow completion with less than 100%
