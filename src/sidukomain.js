@@ -281,8 +281,8 @@ class SidukoMain {
             if (oBoost.turnsRemaining <= 0) {
               oBoost.exhausted = true;
               SidukoSounds.getInstance().playSound("si_bonus_exhausted");
-              SidukoNotifications.getInstance().queueAlert(`Boost ${sBoostName} exhausted`);     
-              SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for ${sBoostName}`);   
+              SidukoNotifications.getInstance().queueAlert(`Boost "${sBoostName}" exhausted`);     
+              SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for "${sBoostName}"`);   
             }
 
             if (oBoost.maxCellCount > 2) {

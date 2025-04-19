@@ -162,6 +162,7 @@ class SidukoEventsHandler {
       }
       if (state.board) {
         logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");      
+        SidukoElementEffects.explodeAllCells();
         window.alert("Well done. That's if for now, I haven't implemented anything more. Well done!");
       }
       if (state.playerCellUsed) {
@@ -479,12 +480,9 @@ class SidukoEventsHandler {
         this._updateCellHints();
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
-        SidukoElementEffects.slideCellOut(oCellData.element);
-        
+        SidukoElementEffects.slideCellOut(oCellData.element);        
       }
 
-
-      //TODO:
       oEvent.stopImmediatePropagation();
     }
   }
