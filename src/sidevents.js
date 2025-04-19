@@ -165,6 +165,15 @@ class SidukoEventsHandler {
         SidukoElementEffects.explodeAllCells();
         window.alert("Well done. That's if for now, I haven't implemented anything more. Well done!");
       }
+
+      if (state.badGuess) {
+        
+        if (this.#playerData.guessesRemaining >= SidukoConstants.SPAM_GUESS_PENALTY) {
+          SidukoNotifications.getInstance().queueAlert("Spamming guesses looses you some of your remaining guesses!!!");
+          this.#playerData.guessesRemaining -= SidukoConstants.SPAM_GUESS_PENALTY;
+        }
+        
+      }
       if (state.playerCellUsed) {
         console.log("Cell used by player");
         this.#playerData.doTurnPlayed(true, oGame);
@@ -182,6 +191,7 @@ class SidukoEventsHandler {
     }
   }
 
+  
   _onKeyDown(oEvent) {
     if (this.#playerData.guessesRemaining <= 0) {
       return;
@@ -365,12 +375,6 @@ class SidukoEventsHandler {
 
 
   _onTap(oEvent) {
-    if (this.#playerData.guessesRemaining <= 0) {
-      return;
-    }    
-    if (!document.getElementById("touchScreenCheckBox").checked) {
-      return;
-    }
     const oEventTarget = oEvent.target;
 
     console.log(`Tap: elem: ${oEventTarget.dataset}`);
@@ -492,16 +496,14 @@ class SidukoEventsHandler {
         this._updateCellHints();
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
-        SidukoElementEffects.slideCellOut(oCellData.element);        
-
-
+        SidukoElementEffects.slideCellOut(oCellData.element);     
       } else {
         if (!this.__badGuessCount) {
           this.__badGuessCount = 1;          
         } else {
           this.__badGuessCount++;
           if (this.__badGuessCount > 3) {
-            //TODO: add a penalty
+            this.gameplayChangedHandler({badGuess: true});
             SidukoNotifications.getInstance().queueAlert("You're just spamming the guesses, aren't you?.");
             this.__badGuessCount = 0;
           }

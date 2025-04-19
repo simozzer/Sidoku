@@ -17,6 +17,8 @@ class SidukoConstants {
 
   static MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT = 3;
 
+  static SPAM_GUESS_PENALTY = 2; // number of guesses lost for spamming input
+
   static EMOJI_SET = ["☀️", "🌻", "☄️", "💫", "🎵", "♻️", "🔨", "🧸", "💎"];
   static NUM_SET = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
   static ALPHA_SET = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
