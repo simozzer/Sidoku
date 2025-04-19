@@ -4,6 +4,7 @@ class SidukoEventsHandler {
   #playerData;
   #focusedCell;
   #cellValueEntry;
+  #registeredListeners;
 
   constructor(oPuzzle, oTableDomElement, playerData) {
     this.#tableDomElement = oTableDomElement;
@@ -11,8 +12,19 @@ class SidukoEventsHandler {
     this.#playerData = playerData;
     this.#focusedCell = null;    
     this.#cellValueEntry = document.getElementById("cellValueEntryPopup");
+    this.#registeredListeners = {};
     this.attachEvents();
   }
+
+  addEventListener(name, callback) {
+    if (!this.#registeredListeners[name]) this.#registeredListeners[name] = [];
+    this.#registeredListeners[name].push(callback);
+  }
+  
+  triggerEvent(name, args) {
+     this.#registeredListeners[name]?.forEach(fnc => fnc.apply(this, args));
+  }
+    
 
   get focusedCell() {
     return this.#focusedCell;
@@ -23,14 +35,6 @@ class SidukoEventsHandler {
   }
 
   attachEvents() {
-    this.#tableDomElement.addEventListener(
-      "keydown",
-      this._onKeyDown.bind(this)
-    );
-    this.#tableDomElement.addEventListener(
-      "keypress",
-      this._onKeyPress.bind(this)
-    );
     this.#tableDomElement.addEventListener("click", this._onTap.bind(this));
     this.#cellValueEntry.addEventListener(
       "click",
@@ -43,14 +47,6 @@ class SidukoEventsHandler {
   }
 
   detatchEvents() {
-    this.#tableDomElement.removeEventListener(
-      "keydown",
-      this._onKeyDown.bind(this)
-    );
-    this.#tableDomElement.removeEventListener(
-      "keypress",
-      this._onKeyPress.bind(this)
-    );
     this.#tableDomElement.removeEventListener("click", this._onTap.bind(this));
     this.#cellValueEntry.removeEventListener(
       "click",
@@ -163,7 +159,8 @@ class SidukoEventsHandler {
       if (state.board) {
         logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");      
         SidukoElementEffects.explodeAllCells();
-        window.alert("Well done. That's if for now, I haven't implemented anything more. Well done!");
+        //window.alert("Well done. That's if for now, I haven't implemented anything more. Well done!");
+        this.triggerEvent("levelComplete", [false]);
       }
 
       if (state.badGuess) {
@@ -212,146 +209,6 @@ class SidukoEventsHandler {
     }
   }
   
-  _onKeyDown(oEvent) {
-    if (this.#playerData.guessesRemaining <= 0) {
-      return;
-    }
-    const column = 0 | oEvent.target.dataset.column;
-    const row = 0 | oEvent.target.dataset.row;
-    console.log(
-      `KeyDowm: col: ${column}, row: ${row}, elem: ${oEvent.target.dataset}`
-    );
-    switch (oEvent.code) {
-      case "ArrowLeft":
-        if (column > 0) {
-          this.#puzzle
-            .getData()
-            .cell(column - 1, row)
-            .element.focus();
-        }
-        break;
-
-      case "ArrowRight":
-        if (column < 8) {
-          this.#puzzle
-            .getData()
-            .cell(column + 1, row)
-            .element.focus();
-        }
-
-        break;
-
-      case "ArrowUp":
-        if (row > 0) {
-          this.#puzzle
-            .getData()
-            .cell(column, row - 1)
-            .element.focus();
-        }
-        break;
-
-      case "ArrowDown":
-        if (row < 8) {
-          this.#puzzle
-            .getData()
-            .cell(column, row + 1)
-            .element.focus();
-        }
-        break;
-      case "Backspace":
-      case "Space":
-      case "Delete":
-      case "Digit0":
-        var oElem = document.querySelector(
-          `td[data-column="${column}"][data-row="${row}"]`
-        );
-        if (oElem.classList.contains("entered")) {
-          const oCellData = this.#puzzle.getData().cell(column, row);
-          if (oCellData.fixedValue) {
-            return;
-          }
-          oCellData.entered = false;
-          oCellData.value = null;
-          oCellData.element.innerText = "";
-          oCellData.element.classList.remove("entered");
-
-          this._updateCellHints();
-          SidukoSounds.getInstance().playSound("si_eraser");
-        }
-        break;
-    }
-    oEvent.stopImmediatePropagation();
-  }
-
-  _onKeyPress(oEvent) {
-    if (this.#playerData.guessesRemaining <= 0) {
-      return;
-    }    
-    const oEventTarget = oEvent.target;
-    const iValue = parseInt(oEvent.key, 10);
-
-    if (
-      oEventTarget.nodeName === "TD" &&
-      [1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(iValue) >= 0
-    ) {
-      if (!oEventTarget.classList.contains("fixedval")) {
-        const column = 0 | oEventTarget.dataset.column;
-        const row = 0 | oEventTarget.dataset.row;
-        const oCellData = this.#puzzle.getData().cell(column, row);
-        if (oCellData.fixedValue) {
-          return;
-        }
-
-        if (
-          SidukoCellQueries.getPossibleValues(
-            this.#puzzle.getData(),
-            oCellData
-          ).indexOf(iValue) >= 0
-        ) {
-          const oStartFullnessState = SidukoCellQueries.getFullnessState(
-            this.#puzzle.getData(),
-            oCellData
-          );
-
-          oCellData.value = iValue || 0;
-          oCellData.entered = true;
-          oEventTarget.innerText = this.#puzzle.charset[parseInt(oEvent.key,10) - 1];
-          oEventTarget.classList.add("entered");
-          oEventTarget.title = "";
-
-          const fnAnimEnd = (oEvent) => {
-            oEventTarget.removeEventListener("animationend", fnAnimEnd);
-            oEventTarget.classList.remove("value_entered");
-          };
-          oEventTarget.addEventListener("animationend", fnAnimEnd);
-          oEventTarget.classList.add("value_entered");
-
-          const oEndFullnessState = SidukoCellQueries.getFullnessState(
-            this.#puzzle.getData(),
-            oCellData
-          );
-          let oFullnessStateChanges = SidukoCellQueries.getFullnessStateChanges(
-            oStartFullnessState,
-            oEndFullnessState,
-            oCellData
-          );
-          if (!oFullnessStateChanges) {
-            oFullnessStateChanges = {};
-          }
-          oFullnessStateChanges.playerCellUsed = true;
-          oFullnessStateChanges.cell = oCellData;
-          this.gameplayChangedHandler(oFullnessStateChanges);
-
-          this._updateCellHints();
-          this.__triggerBonuses(oCellData);  
-          SidukoSounds.getInstance().playSound("Click1");  
-          SidukoElementEffects.slideCellOut(oCellData.element);
-                  
-        }
-      }
-      oEvent.stopImmediatePropagation();
-    }
-  }
 
   __showValueEntryPopup(oEvent) {
     if (this.__lastFocusedCell == this.#focusedCell) {

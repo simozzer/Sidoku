@@ -266,6 +266,12 @@ class SidukoMain {
       this.#game.solution      
     );
     this.#eventHandler.attachEvents();
+    this.#eventHandler.addEventListener("levelComplete", () => {
+      //TODO::
+      window.clearInterval(this.#gameTimeOut);
+      this.#gameTimeOut = null;
+      window.alert(`Level Complete! ${this.#gameSecondsRemaining} seconds remaining`);
+    });
 
     this._addInitialBoosts(oGame,oPlayerData);
     oPlayerData.renderBoosts();
@@ -363,7 +369,6 @@ class SidukoMain {
       () => {
         if (this.#gameSecondsRemaining > 0) {
           this.#gameSecondsRemaining--;
-
 
           const totalWidth = document.getElementById("progressBarProgress")
             .parentElement.clientWidth;
