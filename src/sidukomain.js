@@ -142,7 +142,7 @@ class SidukoMain {
 
     oBoost = new SidukoBadValueRemovalBoostData(
       "Eraser",
-      "Removes up es to a specified number of cells which contain an incorrect value",
+      "Removes up to a specified number of cells which contain an incorrect value",
       oGame
     );
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
@@ -153,17 +153,14 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
-    oBoost.cost = 2;
-
-
-
+    oBoost.cost = 4;
 
     oBoost = new SidukoHighlightBoostData(
       "Highlight",
       "Shows highlights for incorrect values [this will only be available when you're off-track]",
       oGame
     );    
-    oBoost.turnsRemaining = 1;
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
     oPlayerData.addBoostItem(oBoost);
     oBoost.boostBuyHint = "Increase the max cell count for the Highlight bonus";

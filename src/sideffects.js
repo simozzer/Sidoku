@@ -78,9 +78,14 @@ class SidukoElementEffects {
     
     for(let i=0; i < allCells.length; i++) {
       SidukoElementEffects.slideCellOut(allCells[i]);
-      await new Promise(resolve => setTimeout(resolve, 75));  // simulate async operation
+      SidukoElementEffects.slideCellOut(allCells[allCells.length - 1 - i]);
+      allCells[allCells.length - 1 - i].style.backgroundColor = "black";
+      allCells[allCells.length - 1 - i].style.backgroundColor = "white";
+      await new Promise(resolve => setTimeout(resolve, 35));  // simulate async operation
       allCells[i].style.backgroundColor = "white";  // reset cell background color after animation
       allCells[i].style.color = "black";  // reset cell text color after animation
+
+
     }
     
     return Promise.resolve();

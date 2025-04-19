@@ -28,7 +28,7 @@
 
   // WILD CARDS
 
-  // Remove incorrect cells
+  // Remove incorrect cells (DONE)
 
   // DOUBLE MODE (EVERY COL/ROW/INNER CELL solved reveals items with matching value in other COL/ROW/INNER CELL)
 
