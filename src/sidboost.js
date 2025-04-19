@@ -287,6 +287,15 @@ class SidukoRandomValueBoostData extends SidukoBoostData {
 }
 
 class SidukoHighlightBoostData extends SidukoBoostData {
+
+  getCanUse(playerData) {
+    if (super.getCanUse()) {      
+      return SidukoBonuses.canHighlightCellsWithBadValues(
+        this.puzzle
+      );
+    }
+    return false;
+  }
   use() {
     if (this.getCanUse()) {
       SidukoBonuses.highlightCellsWithBadValues(this.puzzle, this);

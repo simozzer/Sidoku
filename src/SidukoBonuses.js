@@ -366,6 +366,18 @@ class SidukoBonuses {
     return iCellsRevealed;
   }
 
+  static canHighlightCellsWithBadValues(oPuzzle) {
+    const aCells = oPuzzle.getData().cells.filter((c) => c.value > 0 && c.entered);
+    let iValuesFound = 0;
+    for(let i = 0; i < aCells.length; i++) {
+      const oCell = aCells[i];
+      if (oCell.value !== oPuzzle.solution.getData().cell(oCell.column, oCell.row).value) {        
+        iValuesFound++;
+      }
+    }
+    return iValuesFound >= SidukoConstants.MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT;
+  }
+
 
   //Examines all the cells and looks for the cells for which only 1 value is possible, and solves them
   static autoFillCellsWithOnePossibleValue(
