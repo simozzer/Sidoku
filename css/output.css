@@ -406,7 +406,7 @@
   border: 2px solid gold;
 }
 #everywhere {
-  opacity: 70%;
+  opacity: 95%;
   padding-inline: calc(var(--spacing) * 2);
 }
 table.sidukoTable {
