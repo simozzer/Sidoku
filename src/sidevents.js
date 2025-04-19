@@ -313,12 +313,8 @@ class SidukoEventsHandler {
 
           this._updateCellHints();
           this.__triggerBonuses(oCellData);  
-          /*
-          const aCharset = SidukoConstants.ALL_CHARSETS[Math.floor(Math.random() * SidukoConstants.ALL_CHARSETS.length)];
-          this.#puzzle.charset = aCharset;
-          SidukoHtmlGenerator.updateCharset(this.#puzzle);
-          */
           SidukoSounds.getInstance().playSound("Click1");  
+          SidukoElementEffects.slideCellOut(oCellData.element);
                   
         }
       }
@@ -481,63 +477,14 @@ class SidukoEventsHandler {
         oCellData.element.classList.add("value_entered");
 
         this._updateCellHints();
-        /*
-        const aCharset = SidukoConstants.ALL_CHARSETS[Math.floor(Math.random() * SidukoConstants.ALL_CHARSETS.length)];
-        this.#puzzle.charset = aCharset;
-        SidukoHtmlGenerator.updateCharset(this.#puzzle);
-        */
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
+        SidukoElementEffects.slideCellOut(oCellData.element);
         
       }
 
 
       //TODO:
-      let dup = SidukoElementEffects.getElementOverlay(oCellData.element);
-      document.body.appendChild(dup);
-    
-
-      const fnSlideEnd = () => {
-        dup.classList.add("hidden");
-        dup.classList.add("remove");
-        dup.removeEventListener("animationend", fnSlideEnd);
-        document.body.removeChild(dup);    
-        dup = null;    
-      }
-      dup.addEventListener("animationend", fnSlideEnd, dup);
-
-      const animIndex = Math.floor(Math.random() * 8);
-      switch (animIndex) {
-        case 0:
-          dup.classList.add("slide_out_top_right");
-          break;
-        case 1:
-          dup.classList.add("slide_out_top_left");
-          break;
-        case 2:
-          dup.classList.add("slide_out_bottom_right");
-          break;
-        case 3:
-          dup.classList.add("slide_out_bottom_left");
-          break;
-        case 4:
-          dup.classList.add("slide_out_mid_right");
-          break;
-        case 5:
-          dup.classList.add("slide_out_mid_left");
-          break;
-        case 6:
-          dup.classList.add("slide_out_mid_bottom");
-          break;
-        case 7:
-          dup.classList.add("slide_out_mid_top");
-          break;          
-        default:
-          console.log("Invalid animation index");
-      }
-
-
-
       oEvent.stopImmediatePropagation();
     }
   }
