@@ -967,6 +967,7 @@ div#playerStatus {
   background-color: lightyellow;
   font-weight: 600;
   font-size: 1.5em;
+  text-align: center;
 }
 .cellValueEntryPopup table tr td:hover {
   padding: 16px;
