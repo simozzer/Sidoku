@@ -72,3 +72,5 @@
 
 
 // add bonus to allow completion with less than 100%
+
+// EARLY COMPLETION.. when all remaining cells have just 1 possible value
