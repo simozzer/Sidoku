@@ -167,8 +167,6 @@ class SidukoEventsHandler {
       }
 
       if (state.badGuess) {
-        // TODO: SPAM GUESS PENALTY should be a function of cells remaining
-        debugger;
         if (this.#playerData.guessesRemaining >= SidukoConstants.SPAM_GUESS_PENALTY) {
           SidukoNotifications.getInstance().queueAlert("Spamming guesses looses you some of your remaining guesses!!!");
           this.#playerData.guessesRemaining -= SidukoConstants.SPAM_GUESS_PENALTY;
@@ -473,6 +471,8 @@ class SidukoEventsHandler {
       return;
     }
 
+
+    
     const sClickedValue = oEvent.target.innerText;
     const iValIndex = this.#puzzle.charset.indexOf(sClickedValue);
     if (iValIndex >= 0 && iValIndex < 9) {
@@ -523,6 +523,7 @@ class SidukoEventsHandler {
         if (!this.__badGuessCount) {
           this.__badGuessCount = 1;          
         } else {
+          //TODO:: Each click reduce count
           this.__badGuessCount++;
           if (this.__badGuessCount > 3) {
             this.gameplayChangedHandler({badGuess: true});

@@ -2,10 +2,13 @@
 
 .flipHorz {
     transform: scaleX(-1);
+		background-color: purple;
+		border: 2px solid white;
 }
 
 .flipVert {
 	transform: scaleY(-1);
+	border: 2px solid gold;
 }
 
 
