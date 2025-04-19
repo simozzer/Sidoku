@@ -322,7 +322,9 @@ class SidukoMain {
             oBoost.turnsRemaining = oBoost.turnsRemaining + 1;
           }
           oBoost.exhausted = oBoost.turnsRemaining <= 0;
-          this.#playerData.funds -= SidukoConstants.BOOST_LIFE_COST;        
+          if (this.#playerData.funds >= oBoost.cost) {
+            this.#playerData.funds -= oBoost.cost
+          };        
         }
 
         oPlayerData.renderBoosts(oGame);

@@ -402,7 +402,7 @@ class SidukoEventsHandler {
         this.#playerData.funds++;
       } else {
         SidukoNotifications.getInstance().queueBonus("Penalty triggered...that'll cost you!");
-        if (this.#playerData.funds >= 1) {
+        if (this.#playerData.funds > 0) {
           this.#playerData.funds--;
         } else if (this.#playerData.guessesRemaining > 5) {
           this.#playerData.guessesRemaining = this.#playerData.guessesRemaining - 5;                    
