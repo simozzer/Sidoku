@@ -5,9 +5,9 @@ class SidukoConstants {
   static BOOST_UP_LEVEl_COST = 3;
   static BOOST_LIFE_COST = 2;
 
-  static DEFAULT_FUNDS = 5;
+  static DEFAULT_FUNDS = 3;
 
-  static GAME_DURATION_SECONDS = 540;
+  static GAME_DURATION_SECONDS = 500;
   static TIME_BOOST_SECONDS = 60;
 
   static GUESSES_MULTIPLER = 1.3;
