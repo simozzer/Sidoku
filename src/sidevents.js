@@ -506,7 +506,7 @@ class SidukoEventsHandler {
       }
       dup.addEventListener("animationend", fnSlideEnd, dup);
 
-      const animIndex = Math.floor(Math.random() * 4);
+      const animIndex = Math.floor(Math.random() * 8);
       switch (animIndex) {
         case 0:
           dup.classList.add("slide_out_top_right");
@@ -519,8 +519,19 @@ class SidukoEventsHandler {
           break;
         case 3:
           dup.classList.add("slide_out_bottom_left");
-          console.log("NOQQQQ");
           break;
+        case 4:
+          dup.classList.add("slide_out_mid_right");
+          break;
+        case 5:
+          dup.classList.add("slide_out_mid_left");
+          break;
+        case 6:
+          dup.classList.add("slide_out_mid_bottom");
+          break;
+        case 7:
+          dup.classList.add("slide_out_mid_top");
+          break;          
         default:
           console.log("Invalid animation index");
       }

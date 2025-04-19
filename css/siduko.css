@@ -667,6 +667,7 @@ div#playerStatus {
 	color:rgb(15, 10, 10)
 }
 
+/* Slide item out top left*/
 @keyframes slide_out_top_left_cell {
 	from {
 		opacity: 1;
@@ -682,6 +683,7 @@ div#playerStatus {
 	animation-duration: 0.6s;
 }
 
+/* Slide item out bottom left*/
 @keyframes slide_out_bottom_left_cell {
 	from {
 		opacity: 1;
@@ -697,6 +699,7 @@ div#playerStatus {
 	animation-duration: 0.6s;
 }
 
+/* Slide item out top right*/
 @keyframes slide_out_top_right_cell {
 	from {
 		opacity: 1;
@@ -712,6 +715,7 @@ div#playerStatus {
 	animation-duration: 0.6s;
 }
 
+/* Slide item out bottom left*/
 @keyframes slide_out_bottom_right_cell {
 	from {
 		opacity: 1;
@@ -726,6 +730,87 @@ div#playerStatus {
 	animation-name: slide_out_bottom_right_cell;
 	animation-duration: 0.6s;
 }
+
+/* Slide item out bottom right*/
+@keyframes slide_out_bottom_right_cell {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		top: 100%;
+		left: 100%;
+	}
+}
+.slide_out_bottom_right {
+	animation-name: slide_out_bottom_right_cell;
+	animation-duration: 0.6s;
+}
+
+/* Slide item out mid left*/
+@keyframes slide_out_mid_left_cell {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		top: 50%;
+		left: 0;
+	}
+}
+.slide_out_mid_left {
+	animation-name: slide_out_mid_left_cell;
+	animation-duration: 0.6s;
+}
+
+/* Slide item out mid right*/
+@keyframes slide_out_mid_right_cell {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		top: 50%;
+		left: 100%;
+	}
+}
+.slide_out_mid_right {
+	animation-name: slide_out_mid_right_cell;
+	animation-duration: 0.6s;
+}
+
+/* Slide item out mid top*/
+@keyframes slide_out_mid_top_cell {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		top: 0;
+		left: 50%;
+	}
+}
+.slide_out_mid_top {
+	animation-name: slide_out_mid_top_cell;
+	animation-duration: 0.6s;
+}
+
+/* Slide item out mid bottom*/
+@keyframes slide_out_mid_bottom_cell {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		top: 100%;
+		left: 50%;
+	}
+}
+.slide_out_mid_bottom {
+	animation-name: slide_out_mid_bottom_cell;
+	animation-duration: 0.6s;
+}
+
 
 @tailwind base;
 @tailwind components;
