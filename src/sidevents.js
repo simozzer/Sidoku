@@ -368,6 +368,14 @@ class SidukoEventsHandler {
 
         valueEntry.style.top = oEvent.clientY + "px";
         valueEntry.style.left = oEvent.clientX + "px";
+
+        const valueClearButton = document.getElementById("cellValueClearButton");
+        if (this.#focusedCell.value) {
+          valueClearButton.classList.remove("hidden");
+        } else {
+          valueClearButton.classList.add("hidden");
+        }
+
         valueEntry.classList.remove("hidden");
 
         valueEntry.focus();
