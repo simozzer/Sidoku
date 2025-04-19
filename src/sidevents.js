@@ -167,7 +167,8 @@ class SidukoEventsHandler {
       }
 
       if (state.badGuess) {
-        
+        // TODO: SPAM GUESS PENALTY should be a function of cells remaining
+        debugger;
         if (this.#playerData.guessesRemaining >= SidukoConstants.SPAM_GUESS_PENALTY) {
           SidukoNotifications.getInstance().queueAlert("Spamming guesses looses you some of your remaining guesses!!!");
           this.#playerData.guessesRemaining -= SidukoConstants.SPAM_GUESS_PENALTY;

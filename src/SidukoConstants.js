@@ -17,7 +17,7 @@ class SidukoConstants {
 
   static MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT = 3;
 
-  static SPAM_GUESS_PENALTY = 2; // number of guesses lost for spamming input
+  static SPAM_GUESS_PENALTY = 4; // number of guesses lost for spamming input
 
   static EMOJI_SET = ["☀️", "🌻", "☄️", "💫", "🎵", "♻️", "🔨", "🧸", "💎"];
   static NUM_SET = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -28,7 +28,7 @@ class SidukoConstants {
   static ARROWS_SET = ["🡸", "🡹", "🡺", "🡻", "🡼", "🡽", "🡾", "🡿", "*"];
   static NUMBER_CIRCLES_SET = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
   static BRAILLE_SET = ["⠼⠁", "⠼⠃", "⠼⠉", "⠼⠙", "⠼⠑", "⠼⠋", "⠼⠛", "⠼⠐", "⠼⠓"];
-  static RUDE_SET = ["C", "N", "T", "F", "U", "K", "S", "H", "I"]; // POINTS FOR SICK, FUCK, CUNT, SHIT,  SHIN,  THIS,  HISS, CHIN, FIST,
+  static RUDE_SET = ["I", "N", "T", "F", "S", "K", "U", "H", "C"]; // POINTS FOR SUCK, SICK, FUCK, CUNT, SHIT, SHIN, THIS, HISS, CHIN, FIST,
   // KIT, SIT,HIT, FIT,FUN, FIN, HIS,
   static ALL_CHARSETS = [
     SidukoConstants.EMOJI_SET,

@@ -48,74 +48,7 @@ class SidukoMain {
     }
   }
 
-  async start() {
-
-    if (typeof Storage !== "undefined") {
-      if (!localStorage.gamesStarted) {
-        localStorage.gamesStarted = 1;
-      } else {
-        localStorage.gamesStarted++;
-      }
-      console.log(`Games started: ${localStorage.gamesStarted}`);
-    }
-
-    const intro = document.getElementById("introScreen");
-    const introListener = intro.addEventListener("animationend", () => {
-        intro.removeEventListener("animationend", introListener);
-        intro.classList.remove("fadeIntro");
-        intro.style.display = "none";      
-      }
-    );
-          
-    intro.classList.add("fadeIntro");
-
-    
-    if (this.#gameTimeOut) {
-      window.clearInterval(this.#gameTimeOut);
-      this.#gameTimeOut = null;
-    }
-    await this._solve();
-    document.getElementById("menucontainer").style.display = "none";
-    const oPlayerData = this.#playerData;
-    const oGame = this.#game;
-
-    const aEmptyCells = this.#game.getData().cells.filter((cell) => cell.value === 0);
-
-    let randomBonusIndex = Math.floor(Math.random() * aEmptyCells.length -1);
-    if (randomBonusIndex >= 0) {     
-      aEmptyCells[randomBonusIndex].bonusTrigger = true;
-      aEmptyCells[randomBonusIndex].element.innerText = "B";
-    }
-
-    if (Math.random() < 0.3) {
-      const aRemainingCells = aEmptyCells.filter((cell) => !cell.bonusTrigger);
-      randomBonusIndex = Math.floor(Math.random() * aRemainingCells.length -1);
-      if (randomBonusIndex >= 0) {        
-        aRemainingCells[randomBonusIndex].randomBonusTrigger = true;
-      }
-    }
-    
-    oPlayerData.guessesRemaining = Math.round(aEmptyCells.length * SidukoConstants.GUESSES_MULTIPLER);
-
-    this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);
-    const tableDOM = this.#htmlGenerator.getPuzzleDOM();
-    const puzzleElementHolder = document.getElementById("everywhere");
-    puzzleElementHolder.textContent = "";
-    puzzleElementHolder.appendChild(tableDOM);
-
-    if (this.#eventHandler) {
-      this.#eventHandler.detatchEvents();
-      this.#eventHandler = null;
-    }
-
-    this.#eventHandler = new SidukoEventsHandler(
-      this.#game,
-      tableDOM,
-      this.#playerData,
-      this.#game.solution      
-    );
-    this.#eventHandler.attachEvents();
-
+  _addInitialBoosts(oGame, oPlayerData) {
     let oBoost = new SidukoRowBoostData(
       "Row",
       "Reveals up to a specified number of cells in a random row",
@@ -206,9 +139,6 @@ class SidukoMain {
     oBoost.exhausted = oBoost.turnsRemaining <= 0;   
     oBoost.cost = 3; // cost is lower, as the user could solve this easily
 
-
-    
-
     oBoost = new SidukoHighlightBoostData(
       "Highlight",
       "Shows highlights for incorrect values",
@@ -250,7 +180,78 @@ class SidukoMain {
     oBoost.boostable = false;
     oBoost.maxCellCount = null;
     oBoost.cost = 2;
+  }
 
+
+  async start() {
+
+    if (typeof Storage !== "undefined") {
+      if (!localStorage.gamesStarted) {
+        localStorage.gamesStarted = 1;
+      } else {
+        localStorage.gamesStarted++;
+      }
+      console.log(`Games started: ${localStorage.gamesStarted}`);
+    }
+
+    const intro = document.getElementById("introScreen");
+    const introListener = intro.addEventListener("animationend", () => {
+        intro.removeEventListener("animationend", introListener);
+        intro.classList.remove("fadeIntro");
+        intro.style.display = "none";      
+      }
+    );
+          
+    intro.classList.add("fadeIntro");
+
+    
+    if (this.#gameTimeOut) {
+      window.clearInterval(this.#gameTimeOut);
+      this.#gameTimeOut = null;
+    }
+    await this._solve();
+    document.getElementById("menucontainer").style.display = "none";
+    const oPlayerData = this.#playerData;
+    const oGame = this.#game;
+
+    const aEmptyCells = this.#game.getData().cells.filter((cell) => cell.value === 0);
+
+    let randomBonusIndex = Math.floor(Math.random() * aEmptyCells.length -1);
+    if (randomBonusIndex >= 0) {     
+      aEmptyCells[randomBonusIndex].bonusTrigger = true;
+      aEmptyCells[randomBonusIndex].element.innerText = "B";
+    }
+
+    if (Math.random() < 0.3) {
+      const aRemainingCells = aEmptyCells.filter((cell) => !cell.bonusTrigger);
+      randomBonusIndex = Math.floor(Math.random() * aRemainingCells.length -1);
+      if (randomBonusIndex >= 0) {        
+        aRemainingCells[randomBonusIndex].randomBonusTrigger = true;
+      }
+    }
+    
+    oPlayerData.guessesRemaining = Math.round(aEmptyCells.length * SidukoConstants.GUESSES_MULTIPLER);
+
+    this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);
+    const tableDOM = this.#htmlGenerator.getPuzzleDOM();
+    const puzzleElementHolder = document.getElementById("everywhere");
+    puzzleElementHolder.textContent = "";
+    puzzleElementHolder.appendChild(tableDOM);
+
+    if (this.#eventHandler) {
+      this.#eventHandler.detatchEvents();
+      this.#eventHandler = null;
+    }
+
+    this.#eventHandler = new SidukoEventsHandler(
+      this.#game,
+      tableDOM,
+      this.#playerData,
+      this.#game.solution      
+    );
+    this.#eventHandler.attachEvents();
+
+    this._addInitialBoosts(oGame,oPlayerData);
     oPlayerData.renderBoosts();
 
     document.getElementById("playerBoostsTableBody").addEventListener(
