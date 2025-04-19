@@ -11,6 +11,7 @@ class SidukoSounds {
     this.#getSound("si_incorrect_row", 0.4);
     this.#getSound("si_correct_row", 0.6);
     this.#getSound("si_bonus_exhausted", 0.6);
+    this.#getSound("si_eraser",0.4);
   }
 
   playSound(sSoundName) {

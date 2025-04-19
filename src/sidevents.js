@@ -245,7 +245,7 @@ class SidukoEventsHandler {
           oCellData.element.classList.remove("entered");
 
           this._updateCellHints();
-          SidukoSounds.getInstance().playSound("swipe_9");
+          SidukoSounds.getInstance().playSound("si_eraser");
         }
         break;
     }
@@ -430,7 +430,7 @@ class SidukoEventsHandler {
       valueEntry.classList.add("hidden");
       oEvent.stopImmediatePropagation();
       this._updateCellHints();
-      SidukoSounds.getInstance().playSound("swipe_9");
+      SidukoSounds.getInstance().playSound("si_eraser");
       return;
     }
 
