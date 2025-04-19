@@ -175,8 +175,8 @@ class SidukoEventsHandler {
         console.log("Unknown state");
       }
       if (bonus > 0) {
-        logMessage(`BONUS AWARDED $${bonus}!`);
-        this.#playerData.funds += bonus;
+        logMessage(`BONUS AWARDED $${bonus * bonus}!`);
+        this.#playerData.funds += (bonus * bonus);
         this.#playerData.renderBoosts();
       }
     }

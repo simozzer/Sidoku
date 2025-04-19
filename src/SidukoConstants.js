@@ -3,9 +3,9 @@ class SidukoConstants {
   static INITIAL_SEEKER_LIVES = 0;
 
   static BOOST_UP_LEVEL_COST = 3;
-  static BOOST_LIFE_COST = 2;
+  static BOOST_LIFE_COST = 3;
 
-  static DEFAULT_FUNDS = 6;
+  static DEFAULT_FUNDS = 5;
 
   static GAME_DURATION_SECONDS = 500;
   static TIME_BOOST_SECONDS = 60;
