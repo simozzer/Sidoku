@@ -306,3 +306,23 @@ class SidukoHighlightBoostData extends SidukoBoostData {
   }
 }
 
+class SidukoBadValueRemovalBoostData extends SidukoBoostData {
+
+  getCanUse(playerData) {
+    if (super.getCanUse()) {      
+      return SidukoBonuses.hasBadValues(
+        this.puzzle
+      );
+    }
+    return false;
+  }
+  use() {
+    if (this.getCanUse()) {
+      SidukoBonuses.removeCellsWithBadValues(this.puzzle, this);
+      this.turnsRemaining--;
+      return true;
+    }    
+    return false;
+  }
+}
+

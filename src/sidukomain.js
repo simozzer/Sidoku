@@ -139,6 +139,25 @@ class SidukoMain {
     oBoost.exhausted = oBoost.turnsRemaining <= 0;   
     oBoost.cost = 3; // cost is lower, as the user could solve this easily
 
+
+    oBoost = new SidukoBadValueRemovalBoostData(
+      "Eraser",
+      "Removes up es to a specified number of cells which contain an incorrect value",
+      oGame
+    );
+    oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
+    oBoost.decrementsEachTurn = false;
+    oPlayerData.addBoostItem(oBoost);
+    oBoost.boostBuyHint = "Increase the max cell count for the Eraser bonus";
+    oBoost.buyHint = `Add another Eraser bonus to be used when you choose`;;
+    oBoost.boostable = true;
+    oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
+    oBoost.cost = 2;
+
+
+
+
     oBoost = new SidukoHighlightBoostData(
       "Highlight",
       "Shows highlights for incorrect values [this will only be available when you're off-track]",

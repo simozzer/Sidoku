@@ -378,6 +378,44 @@ class SidukoBonuses {
     return iValuesFound >= SidukoConstants.MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT;
   }
 
+  static hasBadValues(oPuzzle) {
+    const aCells = oPuzzle.getData().cells.filter((c) => c.value > 0 && c.entered);
+    for(let i = 0; i < aCells.length; i++) {
+      const oCell = aCells[i];
+      if (oCell.value !== oPuzzle.solution.getData().cell(oCell.column, oCell.row).value) {        
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static removeCellsWithBadValues(oPuzzle, bonusData) {
+    const aCells = oPuzzle.getData().cells.filter((c) => c.value > 0);
+    const iMaxCells = bonusData.maxCellCount;
+    let iCellsRevealed = 0;
+    for(let i = 0; i < aCells.length; i++) {
+      const oCell = aCells[i];
+      if (oCell.value !== oPuzzle.solution.getData().cell(oCell.column, oCell.row).value) {        
+        iCellsRevealed++;
+        SidukoSounds.getInstance().playSound("si_eraser");
+        oCell.value = 0;
+       
+        oCell.element.className = "";
+        oCell.entered = false;       
+        const fnAnimEnd = () => {
+          oCell.element.classList.remove("erasing_value");
+          oCell.element.innerText = "";
+          oCell.element.removeEventListener("animationend", fnAnimEnd);
+        };
+        oCell.element.addEventListener("animationend", fnAnimEnd);
+        oCell.element.classList.add("erasing_value");
+        if(iCellsRevealed >= iMaxCells) {
+          break;
+        }
+      }
+    }
+    return iCellsRevealed;
+  }
 
   //Examines all the cells and looks for the cells for which only 1 value is possible, and solves them
   static autoFillCellsWithOnePossibleValue(
