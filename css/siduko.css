@@ -35,7 +35,9 @@ table.sidukoTable {
     @apply text-center;
     @apply text-slate-800;
     @apply text-2xl;
-	user-select: none;
+		user-select: none;
+		min-width: 37px;
+    min-height: 37px;
 }
 
 @keyframes doCellHighlight {
@@ -672,17 +674,19 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: white;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 0px;
 		left: 0px;
+		rotate: 360deg;
 		background-color: black;
 	}
 }
 .slide_out_top_left {
 	animation-name: slide_out_top_left_cell;
-	animation-duration: 0.6s;
+	animation-duration: 0.8s;
 }
 
 /* Slide item out bottom left*/
@@ -690,17 +694,19 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: firebrick;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 100%;
 		left: 0px;
+		rotate: -360;
 		background-color: goldenrod;
 	}
 }
 .slide_out_bottom_left {
 	animation-name: slide_out_bottom_left_cell;
-	animation-duration: 0.6s;
+	animation-duration: 0.9s;
 }
 
 /* Slide item out top right*/
@@ -708,17 +714,19 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: brown;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 0px;
 		left: 100%;
+		rotate: 180deg;
 		background-color: burlywood;
 	}
 }
 .slide_out_top_right {
 	animation-name: slide_out_top_right_cell;
-	animation-duration: 0.6s;
+	animation-duration: 0.7s;
 }
 
 /* Slide item out bottom left*/
@@ -726,17 +734,19 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: aqua;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 100%;
 		left: 100%;
+		rotate: -180deg;
 		background-color: red;
 	}
 }
 .slide_out_bottom_right {
 	animation-name: slide_out_bottom_right_cell;
-	animation-duration: 0.6s;
+	animation-duration: 0.4s;
 }
 
 /* Slide item out bottom right*/
@@ -744,17 +754,19 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: orange;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 100%;
 		left: 100%;
+		rotate: 720deg;
 		background-color: orangered;
 	}
 }
 .slide_out_bottom_right {
 	animation-name: slide_out_bottom_right_cell;
-	animation-duration: 0.6s;
+	animation-duration: 0.9s;
 }
 
 /* Slide item out mid left*/
@@ -762,11 +774,13 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: purple;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 50%;
 		left: 0;
+		rotate: -720deg;
 		background-color: lightpink;
 	}
 }
@@ -780,10 +794,12 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: yellow;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 50%;
+		rotate: 1080deg;
 		left: 100%;
 		background-color: orange;
 	}
@@ -798,11 +814,13 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: lightblue;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
 		top: 0;
 		left: 50%;
+		rotate: -1080deg;
 		background-color: darkblue;
 	}
 }
@@ -816,6 +834,7 @@ div#playerStatus {
 	from {
 		opacity: 1;
 		background-color: green;
+		rotate: 0deg;
 	}
 	to {
 		opacity: 0;
