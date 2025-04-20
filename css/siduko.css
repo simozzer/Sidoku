@@ -406,17 +406,27 @@ table.sidukoTable {
 
 .progressBarContainer {
 	margin: 8px;
-	height: 3em;
+	height: 5em;
 	width: calc(100%-16px);
 	background-color: white;
 	border: 2px solid blue;
 }
 
 .progressBarProgress {
-	height: 1em;
+	height: 3em;
 	width: 30%;
 	background-color:rgba(223, 8, 58, 0.349);
 }
+
+
+#progressBarTextOverlay {	
+	position: relative;
+	width: 100%;
+	text-align: center;
+	margin-top: -1.7em;
+	font-size: 1.8em;
+}
+
 
 
 #playerBoostsTableBody tr.exhausted {
@@ -465,13 +475,6 @@ table.sidukoTable {
     font-size: 1em;
 	padding: 0 8px;
 	display: block;
-}
-
-#progressBarTextOverlay {
-	width:100%;
-	text-align: center;
-	margin-top: -1.2em;
-	font-size: 1.8em;
 }
 
 @keyframes puzzlesolvedCells {
