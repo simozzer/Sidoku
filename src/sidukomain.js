@@ -44,7 +44,6 @@ class SidukoMain {
     });
 
     document.getElementById("boost_menu_popup_use_button").addEventListener("click", () => {
-      debugger;
       const oBoost = this.__focusedBoost;
       if (oBoost && oBoost.getCanUse()) {
         const sBoostName = oBoost.name;
