@@ -110,8 +110,6 @@
                                 <thead>
                                     <tr>
                                         <th>Skill</th>                                     
-                                        <th>Boost</th>                                       
-                                        <th>Buy</th>
                                     </tr>
                                 </thead>
                                 <tbody id="playerBoostsTableBody"></tbody> 
@@ -148,6 +146,14 @@
         <div id="alert" class="hidden"></div>
         <div id="info" class="hidden"></div>
         <div id="bonus_message" class="hidden"></div>
+
+        <div id="boost_menu_popup" class="hidden" tabindex="-1">
+            <div id="boost_menu_popup_text"></div>
+            <div id="boost_menu_popup_lives"></div>
+            <div id="boost_menu_popup_use_button" class="use_boost_button boost_menu_popup_button">Use</div>
+            <div id="boost_menu_popup_buy_button" class="buy_boost_button boost_menu_popup_button">Buy</div>
+            <div id="boost_menu_popup_boost_button" class="buy_boost_button hidden boost_menu_popup_button">Boost</div>
+        </div>
 
         <footer class="flex mx-auto align-bottom 3xl bg-slate-600 min-w-full content-center">            
             <div class="text-5xl min-w-full text-center p-5">

@@ -139,53 +139,22 @@ class SidukoPlayerData {
       glyphDiv.classList.add("boost_glyph");
       glyphDiv.innerText = boost.glyph;
       containerTd.appendChild(glyphDiv);
+      /*
       const nameDiv = document.createElement("div");
       const sBoostRemainingText = boost.turnsRemaining > 0 ? " *" + boost.turnsRemaining : "";
       const sCellCountText = boost.maxCellCount > 0 && boost.turnsRemaining > 0? ` Level:${boost.maxCellCount}` : "";
       nameDiv.innerText = `${sBoostRemainingText}${sCellCountText}`;
       nameDiv.classList.add("boost_text");
       containerTd.appendChild(nameDiv);      
+      */
       row.appendChild(containerTd);
-      nameDiv.classList.add("boost_text");
-      containerTd.appendChild(nameDiv);      
+      //nameDiv.classList.add("boost_text");
+      //containerTd.appendChild(nameDiv);      
       row.appendChild(containerTd);
-
-      if (boost.getCanUse() && !boost.decrementsEachTurn) {
-        row.classList.add("can_use_boost");
-      }
-
-      const levelCell = document.createElement("td");
-      if (
-        boost.boostable &&
-        this.funds >= SidukoConstants.BOOST_UP_LEVEL_COST &&
-        !boost.exhausted
-      ) {
-        const levelButton = document.createElement("input");
-        levelButton.classList.add("boostBoostButton");
-        levelButton.type = "button";
-        levelButton.value = `$${SidukoConstants.BOOST_UP_LEVEL_COST}`;
-        levelButton.style.display = "button"; // TODO
-        levelButton.title = boost.boostBuyHint;
-        levelCell.appendChild(levelButton);
-      }
-      row.appendChild(levelCell);
-
-      const buyCell = document.createElement("td");
-      if (this.funds >= boost.cost) {
-        const buyButton = document.createElement("input");
-        buyButton.classList.add("buyBoostButton");
-        buyButton.type = "button";
-        buyButton.value = `$${boost.cost}`;
-        buyButton.title = boost.buyHint;
-        buyCell.appendChild(buyButton);
-      }
-      row.appendChild(buyCell);
-
-      boost.domElement = row;
       if (boost.exhausted) {
-        boost.domElement.classList.add("exhausted");
+        row.classList.add("exhausted");
       } else {
-        boost.domElement.classList.remove("exhausted");
+        row.classList.remove("exhausted");
       }
       tbody.appendChild(row);
     });

@@ -30,7 +30,69 @@ class SidukoMain {
     this.#gameSecondsRemaining = -1;
 
     SidukoHtmlGenerator.updateCharset(this.#game);
+    document.getElementById("boost_menu_popup").addEventListener("blur", () => {
+      document.getElementById("boost_menu_popup").classList.add("hidden");
+    });
+    document.getElementById("boost_menu_popup_buy_button").addEventListener("click", () => {      
+      if (this.__focusedBoost && this.#playerData.funds >= this.__focusedBoost.cost) {
+        this.#playerData.funds -= this.__focusedBoost.cost;
+        this.__focusedBoost.turnsRemaining++;
+        this.__focusedBoost.exhausted = this.__focusedBoost.turnsRemaining <= 0;
+        this.#playerData.renderBoosts();
+        document.getElementById("boost_menu_popup").classList.add("hidden");
+      }
+    });
+
+
+
+
+    document.getElementById("boost_menu_popup_use_button").addEventListener("click", () => {
+      const oBoost = this.__focusedBoost;
+      if (oBoost && this.#playerData.funds >= oBoost.cost) {
+        const sBoostName = oBoost.name;
+        this.#playerData.funds -= oBoost.cost;
+
+        if (sBoostName === "Time") {
+          let gameSeconds = this.#gameSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
+          if (gameSeconds > SidukoConstants.GAME_DURATION_SECONDS) {
+            gameSeconds = SidukoConstants.GAME_DURATION_SECONDS;
+          }
+          this.#gameSecondsRemaining = gameSeconds;
+        }
+        if (this.#playerData.guessesRemaining > 0 && oBoost.use()) {
+        
+          if (oBoost.turnsRemaining <= 0) {
+            oBoost.exhausted = true;
+            SidukoSounds.getInstance().playSound("si_bonus_exhausted");
+            SidukoNotifications.getInstance().queueAlert(`Boost "${sBoostName}" exhausted`);     
+            SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for "${sBoostName}"`);   
+          }
+
+          if (oBoost.maxCellCount > 2) {
+            oBoost.maxCellCount--;
+          }
+
+        } else {
+          SidukoNotifications.getInstance().queueAlert(
+            "Failed to use boost", 2000
+          );
+        }
+      }        
+      document.getElementById("boost_menu_popup").classList.add("hidden");
+    });
+
+    document.getElementById("boost_menu_popup_boost_button").addEventListener("click", async () => {
+      const oBoost = this.__focusedBoost;
+      if (this.#playerData.funds >= oBoost.cost) {
+        oBoost.maxCellCount = oBoost.maxCellCount + 1;
+        this.#playerData.funds -= oBoost.cost;;
+        oBoost.exhausted = oBoost.turnsRemaining <= 0;
+        this.#playerData.renderBoosts();
+      }
+      document.getElementById("boost_menu_popup").classList.add("hidden");
+    });
   }
+
 
   async _solve() {
     return new Promise(async (resolve, reject) => {
@@ -51,7 +113,7 @@ class SidukoMain {
   _addInitialBoosts(oGame, oPlayerData) {
     let oBoost = new SidukoRowBoostData(
       "Row",
-      "Reveals up to a specified number of cells in a random row",
+      "from a random row",
       oGame,
       SidukoConstants.CHAR_ROW
     );
@@ -67,14 +129,14 @@ class SidukoMain {
 
     oBoost = new SidukoColumnBoostData(
       "Column",
-      "Reveals up to a specified number of cells in a random column",
+      "from a random column",
       oGame,
       SidukoConstants.CHAR_COLUMN
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
-    oBoost.boostBuyHint = `Increment max cell count for Rows`;
+    oBoost.boostBuyHint = `Increment max cell count for Columns`;
     oBoost.buyHint = `Add a columns bonus to your collection`;
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
@@ -83,7 +145,7 @@ class SidukoMain {
 
     oBoost = new SidukoInnerTableBoostData(
       "InnerTable",
-      "Reveals up to a specified number of cells in a random inner table",
+      "from a random inner table",
       oGame,
       SidukoConstants.CHAR_INNER_TABLE
     );
@@ -99,7 +161,7 @@ class SidukoMain {
 
     oBoost = new SidukoRandomBoostData(
       "Random",
-      "Reveals up to a specified number of random cells",
+      "random cells",
       oGame,
       SidukoConstants.CHAR_RANDOM_CELL
     );
@@ -115,7 +177,7 @@ class SidukoMain {
 
     oBoost = new SidukoRandomValueBoostData(
       "Random Value",
-      "Reveals up to a specified number of random cells with a randomly chose value",
+      "cells with a randomly chosen value",
       oGame,
       SidukoConstants.CHAR_RANDOM_VALUE
     );
@@ -131,7 +193,7 @@ class SidukoMain {
 
     oBoost = new SidukoSeekerBoostData(
       "Seeker",
-      "Solves values that can only exist in 1 cell",
+      "values that can only exist in 1 cell",
       oGame,
       SidukoConstants.CHAR_SEEKER
     );
@@ -148,7 +210,7 @@ class SidukoMain {
 
     oBoost = new SidukoBadValueRemovalBoostData(
       "Eraser",
-      "Removes up to a specified number of cells which contain an incorrect value",
+      "cells which contain an incorrect value",
       oGame,
       SidukoConstants.CHAR_ERASE_BAD
     );
@@ -293,80 +355,49 @@ class SidukoMain {
         if (this.#playerData.guessesRemaining <= 0) {
           return;
         }
+        if (!oEv.target.classList.contains("boost_glyph")) {
+          return;
+        }
         let rowElement = oEv.target;
         while (rowElement.tagName !== "TR") {
           rowElement = rowElement.parentNode;
         }
-        /*
-        if (oEv.target.tagName === "TD") {
-          rowElement = oEv.target.parentNode;
-        } else if (oEv.target.tagName === "TR") {
-          rowElement = oEv.target;
-        } else if (oEv.target.tagName === "INPUT") {
-          rowElement = oEv.target.parentNode.parentNode;
-        } else {
-          console.warn("Invalid click event target for Boost", oEv.target);
-        }
-        */
+
         const sBoostName = rowElement.childNodes[0].dataset["boostName"];
         let oBoost = oPlayerData.getBoost(sBoostName);
 
-        const clickedColumn = Array.from(rowElement.childNodes).indexOf(
-          oEv.target.parentNode
-        );        
-        if (clickedColumn === 1) {
-          // boost
-          if (this.#playerData.funds >= oBoost.cost) {
-            oBoost.maxCellCount = oBoost.maxCellCount + 1;
-            this.#playerData.funds -= oBoost.cost;;
-            oBoost.exhausted = oBoost.turnsRemaining <= 0;
-          }
-        } else if (clickedColumn === 0) {
-          // USE
+        const sClickedBoostName = rowElement.childNodes[0].attributes["data-boost-name"].value;
+        this.__focusedBoost = this.#playerData.getBoost(sClickedBoostName);
 
-          if (rowElement.classList.contains("can_use_boost")) {
-            if (sBoostName === "Time") {
-              let gameSeconds =
-                this.#gameSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
-              if (gameSeconds > SidukoConstants.GAME_DURATION_SECONDS) {
-                gameSeconds = SidukoConstants.GAME_DURATION_SECONDS;
-              }
-              this.#gameSecondsRemaining = gameSeconds;
-            }
-            if (this.#playerData.guessesRemaining > 0 && oBoost.use()) {
-            
-              if (oBoost.turnsRemaining <= 0) {
-                oBoost.exhausted = true;
-                SidukoSounds.getInstance().playSound("si_bonus_exhausted");
-                SidukoNotifications.getInstance().queueAlert(`Boost "${sBoostName}" exhausted`);     
-                SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for "${sBoostName}"`);   
-              }
-
-              if (oBoost.maxCellCount > 2) {
-                oBoost.maxCellCount--;
-              }
-
-            } else {
-              SidukoNotifications.getInstance().queueAlert(
-                "Failed to use boost", 2000
-              );
-            }
-          }
-
-        } else if (clickedColumn === 2) {
-          // BUY
-
-          if (sBoostName === "Hints") {
-            oBoost.turnsRemaining =
-              oBoost.turnsRemaining + SidukoConstants.HINT_BUY_BOOST_TURNS;
-          } else {
-            oBoost.turnsRemaining = oBoost.turnsRemaining + 1;
-          }
-          oBoost.exhausted = oBoost.turnsRemaining <= 0;
-          if (this.#playerData.funds >= oBoost.cost) {
-            this.#playerData.funds -= oBoost.cost
-          };        
+        const oBoostPopup = document.getElementById("boost_menu_popup");        
+        document.getElementById("boost_menu_popup_text").innerText = oBoost.description;
+        document.getElementById("boost_menu_popup_lives").innerText = oBoost.turnsRemaining ? oBoost.turnsRemaining  + " lives remaining": "No lives left";
+        if (oBoost.boostable) {
+          const sPrefix = `Reveals up to ${oBoost.maxCellCount} cells `
+          document.getElementById("boost_menu_popup_text").innerText = sPrefix + oBoost.description;
+        }        
+        if (oBoost.getCanUse() && !oBoost.decrementsEachTurn) {
+          document.getElementById("boost_menu_popup_use_button").classList.remove("hidden");
+          document.getElementById("boost_menu_popup_use_button").title = oBoost.hint;
+        } else {
+          document.getElementById("boost_menu_popup_use_button").classList.add("hidden");
         }
+        if (this.#playerData.funds >= oBoost.cost) {
+          document.getElementById("boost_menu_popup_buy_button").classList.remove("hidden");
+          document.getElementById("boost_menu_popup_buy_button").innerText = `Buy: $${oBoost.cost}`;        
+        } else {
+          document.getElementById("boost_menu_popup_buy_button").classList.add("hidden");
+        }
+        if (oBoost.boostable && this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEL_COST && !oBoost.exhausted) {
+          document.getElementById("boost_menu_popup_boost_button").innerText = `Boost: $${SidukoConstants.BOOST_UP_LEVEL_COST}. ${oBoost.boostBuyHint}`;
+          document.getElementById("boost_menu_popup_boost_button").classList.remove("hidden");             
+        } else {
+          document.getElementById("boost_menu_popup_boost_button").classList.add("hidden");
+        }
+        oBoostPopup.style.left = `${event.clientX}px`;
+        oBoostPopup.style.top = `${event.clientY}px`;
+        oBoostPopup.classList.remove("hidden");
+        oBoostPopup.focus();
 
         oPlayerData.renderBoosts(oGame);
         oPlayerData.renderHints(oGame);

@@ -5,7 +5,7 @@ class SidukoConstants {
   static BOOST_UP_LEVEL_COST = 3;
   static BOOST_LIFE_COST = 3;
 
-  static DEFAULT_FUNDS = 5;
+  static DEFAULT_FUNDS = 6;
 
   static GAME_DURATION_SECONDS = 500;
   static TIME_BOOST_SECONDS = 60;
@@ -13,7 +13,7 @@ class SidukoConstants {
   static GUESSES_MULTIPLER = 1.3;
 
   static INITIAL_DEFAULT_BOOST_LIVES = 0;
-  static INITIAL_DEFAULT_BOOST_CELLCOUNT = 1;
+  static INITIAL_DEFAULT_BOOST_CELLCOUNT = 2;
 
   static MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT = 3;
 
