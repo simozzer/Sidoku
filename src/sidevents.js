@@ -192,7 +192,7 @@ class SidukoEventsHandler {
 
   __letJohnMessYourHeadUp() {
     // Do some random shit      
-    if (Math.random() < 0.3) {
+    if (Math.random() < 0.05) {
       //SidukoNotifications.getInstance().queueAlert("John just messed with your head!!!");
       const allCells  = this.#puzzle.getData().cells.filter((cell) => Boolean(cell.value));
       if (allCells && allCells.length > 0) {
