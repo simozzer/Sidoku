@@ -301,7 +301,7 @@ class SidukoEventsHandler {
       }
 
       SidukoHtmlGenerator.updateCharset(this.#puzzle);
-      SidukoNotifications.queueAlert("Some digits have been swapped!!!");
+      SidukoNotifications.getInstance().queueAlert("Some digits have been swapped!!!");
     }
   }
 
