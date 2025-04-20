@@ -307,22 +307,47 @@ class SidukoEventsHandler {
   }
 
   __spinCircles() {
-    const fnRemoveSpin = () => {
-      document.querySelector(".circles").classList.remove("spinLeft");
-      document.querySelector(".circles").classList.remove("spinRight");
-      document.querySelector(".circles").removeEventListener("animationend", fnRemoveSpin);
-    }
-    if (Math.random() > 0.8) {
-      document.addEventListener("animationend", fnRemoveSpin);
-      if (Math.random() < 0.5) {
-        document.querySelector(".circles").classList.add("spinLeft");
-      } else {
-        document.querySelector(".circles").classList.add("spinRight");
-      }
-    }
-  }
+    const oCirclesAnimationElement = document.querySelector(".circles");
+    const oClassList = oCirclesAnimationElement.classList;
 
-  
+    if (oClassList.contains("spinLeft") || oClassList.contains("spinRight") || oClassList.contains("flipHorz") || oClassList.contains("flipVert")) {
+      return;      
+    }
+
+    const area = document.querySelector(".area");
+    area.classList.remove("color1");
+    area.classList.remove("color2");
+    area.classList.remove("color3");
+    area.classList.remove("color4");
+    const c = Math.floor(Math.random() * 3);
+    area.classList.add(`color${c + 1}`);
+
+
+    const fnRemoveSpin = () => {
+      oClassList.remove("spinLeft");      
+      oClassList.remove("spinRight");
+      oClassList.remove("flipHorz");
+      oClassList.remove("flipVert");
+      oCirclesAnimationElement.removeEventListener("animationend", fnRemoveSpin);
+    }
+    
+    oClassList.remove("spinLeft");      
+    oClassList.remove("spinRight");
+    oClassList.remove("flipHorz");
+    oClassList.remove("flipVert");
+    oCirclesAnimationElement.addEventListener("animationend", fnRemoveSpin);
+    const r = Math.random();
+    
+    if (r > 0.75) {
+      oClassList.add("spinLeft");
+    } else if (r > 0.5) {
+      oClassList.add("spinRight");
+    } else if (r > 0.25) {
+      oClassList.add("flipHorz");
+    } else {
+      oClassList.add("flipVert");
+    }      
+  }
 
   __showValueEntryPopup(oEvent) {
     if (this.__lastFocusedCell == this.#focusedCell) {

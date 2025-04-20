@@ -12,7 +12,6 @@
 
 }
 .flipHorz {  
-  border: 4px solid red;
 	animation-name: doFlipHorz;
 	animation-duration: 2s;
 }
@@ -32,7 +31,6 @@
 
 }
 .flipVert {
-  border: 4px solid gold;
   animation-name: doFlipVert;
   animation-duration: 2s;
 }
@@ -1032,7 +1030,7 @@ tr.exhausted .boost_glyph {
 }
 .spinLeft {
 	animation-name: doSpinLeft;
-	animation-duration: 2.5s;
+	animation-duration: 3.5s;
 }
 @keyframes doSpinRight {
 	to {
@@ -1042,7 +1040,28 @@ tr.exhausted .boost_glyph {
 }
 .spinRight {
 	animation-name: doSpinRight;
-	animation-duration: 2.5s;
+	animation-duration: 3.5s;
+}
+
+
+.area.color1 {
+	background-color: #3f7498;
+	transition: background-color 8s;
+}
+
+.area.color2 {
+	background-color: lightcyan;
+	transition: background-color 8s;
+}
+
+.area.color3 {
+	background-color: #4e54c8;
+	transition: background-color 8s;
+}
+
+.area.color4 {
+	background-color: #2396e8;
+	transition: background-color 8s;
 }
 /*End Animations*/
 /*
