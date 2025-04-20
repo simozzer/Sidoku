@@ -520,6 +520,16 @@ class SidukoBonuses {
     return iCellsRevealed > 0;
   }
 
+  static canDoHomeRun(oPuzzle) {
+    const aEmptyCells = oPuzzle.getData().cells.filter((c) => c.value <= 0);
+    const aCellsWithOnePossibleValue = aEmptyCells.filter(cell => SidukoCellQueries.getPossibleValues(oPuzzle.getData(), cell).length === 1);
+    if (aEmptyCells.length === aCellsWithOnePossibleValue.length) {
+      window.alert("Home Run! You can reveal a random cell.");
+    }
+
+
+  }
+
   static triggerRandomBonus(oPuzzle, fnHandleGamplayChanged) {    
     const iRand = Math.floor(Math.random() * 6);
     const dummyBoost = new SidukoBoostData("", "", this);

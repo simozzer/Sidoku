@@ -187,6 +187,7 @@ class SidukoEventsHandler {
 
       this.__letJohnMessYourHeadUp();
       this.__swapDigits();
+      this.__spinCircles();
     }
   }
 
@@ -302,6 +303,22 @@ class SidukoEventsHandler {
 
       SidukoHtmlGenerator.updateCharset(this.#puzzle);
       SidukoNotifications.getInstance().queueAlert("Some digits have been swapped!!!");
+    }
+  }
+
+  __spinCircles() {
+    const fnRemoveSpin = () => {
+      document.querySelector(".circles").classList.remove("spinLeft");
+      document.querySelector(".circles").classList.remove("spinRight");
+      document.querySelector(".circles").removeEventListener("animationend", fnRemoveSpin);
+    }
+    if (Math.random() > 0.8) {
+      document.addEventListener("animationend", fnRemoveSpin);
+      if (Math.random() < 0.5) {
+        document.querySelector(".circles").classList.add("spinLeft");
+      } else {
+        document.querySelector(".circles").classList.add("spinRight");
+      }
     }
   }
 

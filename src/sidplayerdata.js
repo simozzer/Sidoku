@@ -203,6 +203,7 @@ class SidukoPlayerData {
         });
     }
 
+    //todo:: SidukoBonuses.canDoHomeRun(oPuzzle);
     this.renderHints(oPuzzle);
 
     this.renderBoosts();

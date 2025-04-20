@@ -1294,6 +1294,24 @@ tr.exhausted .boost_glyph {
 .hidden {
   display: none;
 }
+@keyframes doSpinLeft {
+  to {
+    rotate: 360deg;
+  }
+}
+.spinLeft {
+  animation-name: doSpinLeft;
+  animation-duration: 1s;
+}
+@keyframes doSpinRight {
+  to {
+    rotate: -360deg;
+  }
+}
+.spinRight {
+  animation-name: doSpinRight;
+  animation-duration: 1s;
+}
 .area {
   background: #4e54c8;
   background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);

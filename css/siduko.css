@@ -1023,6 +1023,25 @@ tr.exhausted .boost_glyph {
 .hidden {
     display: none
 }
+
+@keyframes doSpinLeft {
+	to {
+		rotate: 360deg;
+	}	
+}
+.spinLeft {
+	animation-name: doSpinLeft;
+	animation-duration: 1s;
+}
+@keyframes doSpinRight {
+	to {
+		rotate: -360deg;
+	}	
+}
+.spinRight {
+	animation-name: doSpinRight;
+	animation-duration: 1s;
+}
 /*End Animations*/
 /*
 -- Start BackGround Animation 
@@ -1044,6 +1063,8 @@ tr.exhausted .boost_glyph {
 	height: 96%;
 	overflow: hidden;
 }
+
+
 
 .circles li {
     position: absolute;
