@@ -139,7 +139,7 @@ class SidukoBoostData {
   use() {
     if (this.getCanUse()) {
       this.#turnsRemaining--;
-      SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+      SidukoHtmlGenerator.updateCellHints(this.puzzle);
       return true;
     }
   }
@@ -187,7 +187,7 @@ class SidukoSeekerBoostData extends SidukoBoostData {
         this
       )) {
         this.turnsRemaining--;
-        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+        SidukoHtmlGenerator.updateCellHints(this.puzzle);
         return true;
       }
     }
@@ -204,7 +204,7 @@ class SidukoRowBoostData extends SidukoBoostData {
         this
       )) {
         this.turnsRemaining--;
-        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+        SidukoHtmlGenerator.updateCellHints(this.puzzle);
         return true;
       }
     }
@@ -221,7 +221,7 @@ class SidukoColumnBoostData extends SidukoBoostData {
         this
       )) {
         this.turnsRemaining--;
-        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+        SidukoHtmlGenerator.updateCellHints(this.puzzle);
         return true;
       }
     }
@@ -238,7 +238,7 @@ class SidukoInnerTableBoostData extends SidukoBoostData {
         this
       )) {
         this.turnsRemaining--;
-        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+        SidukoHtmlGenerator.updateCellHints(this.puzzle);
         return true;
       }
     }
@@ -255,7 +255,7 @@ class SidukoRandomBoostData extends SidukoBoostData {
         this
       )) {
         this.turnsRemaining--;
-        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+        SidukoHtmlGenerator.updateCellHints(this.puzzle);
         return true;
       }
     }
@@ -272,7 +272,7 @@ class SidukoRandomValueBoostData extends SidukoBoostData {
         this
       )) {;
         this.turnsRemaining--;
-        SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+        SidukoHtmlGenerator.updateCellHints(this.puzzle);
         return true;
       }
     }
@@ -314,7 +314,7 @@ class SidukoBadValueRemovalBoostData extends SidukoBoostData {
     if (this.getCanUse()) {
       SidukoBonuses.removeCellsWithBadValues(this.puzzle, this);
       this.turnsRemaining--;
-      SidukoHtmlGenerator.updateCellHints(this.#puzzle);
+      SidukoHtmlGenerator.updateCellHints(this.puzzle);
       return true;
     }    
     return false;
