@@ -83,9 +83,9 @@ class SidukoMain {
 
     document.getElementById("boost_menu_popup_boost_button").addEventListener("click", async () => {
       const oBoost = this.__focusedBoost;
-      if (this.#playerData.funds >= oBoost.cost) {
+      if (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEL_COST) {
         oBoost.maxCellCount = oBoost.maxCellCount + 1;
-        this.#playerData.funds -= oBoost.cost;;
+        this.#playerData.funds -= SidukoConstants.BOOST_UP_LEVEL_COST;
         oBoost.exhausted = oBoost.turnsRemaining <= 0;
         this.#playerData.renderBoosts();
       }

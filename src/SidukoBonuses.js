@@ -527,7 +527,7 @@ class SidukoBonuses {
     dummyBoost.maxCellCount = iMaxCells;
     switch (iRand) {
       case 0:
-        SidukoNotifications.queueBonus("😍 Revealing a random cell");
+        SidukoNotifications.getInstance().queueBonus("😍 Revealing a random cell");
         SidukoBonuses.revealRandomValue(
           oPuzzle,          
           fnHandleGamplayChanged,
@@ -535,7 +535,7 @@ class SidukoBonuses {
         );
         break;
       case 1:
-        SidukoNotifications.queueBonus("😀 Revealing cells from a random row");
+        SidukoNotifications.getInstance().queueBonus("😀 Revealing cells from a random row");
         SidukoBonuses.revealCellsWithRandomRow(
           oPuzzle,          
           fnHandleGamplayChanged,
@@ -543,7 +543,7 @@ class SidukoBonuses {
         );
         break;
       case 2:
-        SidukoNotifications.queueBonus("🙌 Revealing cells from a random column");
+        SidukoNotifications.getInstance().queueBonus("🙌 Revealing cells from a random column");
         SidukoBonuses.revealCellsWithRandomColumn(
           oPuzzle,          
           fnHandleGamplayChanged,
@@ -551,7 +551,7 @@ class SidukoBonuses {
         );
         break;
       case 3:
-        SidukoNotifications.queueBonus("💃 Revealing cells from a random inner table");
+        SidukoNotifications.getInstance().queueBonus("💃 Revealing cells from a random inner table");
         SidukoBonuses.revealCellsWithRandomInnerTable(
           oPuzzle,
           fnHandleGamplayChanged,
@@ -559,7 +559,7 @@ class SidukoBonuses {
         );
         break;
       case 4:
-        SidukoNotifications.queueBonus("🤗 Revealing cells which only have 1 possible value");
+        SidukoNotifications.getInstance().queueBonus("🤗 Revealing cells which only have 1 possible value");
         SidukoBonuses.autoFillCellsWithOnePossibleValue(
           oPuzzle,          
           fnHandleGamplayChanged,
@@ -567,7 +567,7 @@ class SidukoBonuses {
         );
         break;
       case 5:
-        SidukoNotifications.queueBonus("🤟 Revealing cells with a common random value");
+        SidukoNotifications.getInstance().queueBonus("🤟 Revealing cells with a common random value");
         SidukoBonuses.revealCellsWithRandomValue(
           oPuzzle,
           fnHandleGamplayChanged,
