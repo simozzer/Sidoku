@@ -1027,20 +1027,22 @@ tr.exhausted .boost_glyph {
 @keyframes doSpinLeft {
 	to {
 		rotate: 360deg;
+		transform: scaleY(-1);
 	}	
 }
 .spinLeft {
 	animation-name: doSpinLeft;
-	animation-duration: 1s;
+	animation-duration: 2.5s;
 }
 @keyframes doSpinRight {
 	to {
 		rotate: -360deg;
+		transform: scaleY(1);
 	}	
 }
 .spinRight {
 	animation-name: doSpinRight;
-	animation-duration: 1s;
+	animation-duration: 2.5s;
 }
 /*End Animations*/
 /*
