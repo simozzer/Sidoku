@@ -394,9 +394,9 @@ class SidukoMain {
           document.getElementById("boost_menu_popup_boost_button").classList.remove("hidden");             
         } else {
           document.getElementById("boost_menu_popup_boost_button").classList.add("hidden");
-        }
-        oBoostPopup.style.left = `${event.clientX}px`;
-        oBoostPopup.style.top = `${event.clientY}px`;
+        }        
+        oBoostPopup.style.left = `${oEv.clientX}px`;
+        oBoostPopup.style.top = `${oEv.clientY}px`;
         oBoostPopup.classList.remove("hidden");
         oBoostPopup.focus();
 

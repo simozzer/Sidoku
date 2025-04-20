@@ -252,6 +252,8 @@ class SidukoEventsHandler {
     });
     this.#cellValueEntry.style.top = oEvent.clientY + "px";
     this.#cellValueEntry.style.left = oEvent.clientX + "px";
+
+    
     const valueClearButton = document.getElementById("cellValueClearButton");
     if (this.#focusedCell.value) {
       valueClearButton.classList.remove("hidden");
@@ -260,6 +262,17 @@ class SidukoEventsHandler {
     }
     this.#cellValueEntry.classList.remove("hidden");
     this.#cellValueEntry.focus();
+
+
+    // Ensure popup menu can bee seen
+    const popupWidth = this.#cellValueEntry.getBoundingClientRect().width;
+    if (oEvent.clientX + popupWidth > document.body.clientWidth - 5) {
+      this.#cellValueEntry.style.left = (document.body.clientWidth - popupWidth - 5) + "px";
+    }
+    const popupHeight = this.#cellValueEntry.getBoundingClientRect().height;
+    if (oEvent.clientY + popupHeight > document.body.clientHeight - 5) {
+      this.#cellValueEntry.style.top = (document.body.clientHeight - popupHeight - 5) + "px";
+    }
   }
 
 
