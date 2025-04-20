@@ -186,6 +186,7 @@ class SidukoEventsHandler {
       }
 
       this.__letJohnMessYourHeadUp();
+      this.__swapDigits();
     }
   }
 
@@ -220,6 +221,90 @@ class SidukoEventsHandler {
       }
     }
   }
+
+  async __swapDigits() {
+    if (Math.random() > 0.96) {
+      const iDigitIndex = Math.floor(Math.random() * 9);
+      let iOtherDigitIndex = Math.floor(Math.random() * 9);
+      while (iOtherDigitIndex === iDigitIndex) {
+        iOtherDigitIndex = Math.floor(Math.random() * 9);
+      }
+      const aSourceCells = this.#puzzle.solution.getData().cells.filter(
+        (cell) => cell.value === iDigitIndex +1
+      );
+      const aTargetCells = this.#puzzle.solution.getData().cells.filter(
+        (cell) => cell.value === iOtherDigitIndex +1
+      );
+      if (aSourceCells.length !== aTargetCells.length) {
+        window.alert("Cannot swap digits.. length mismatch");
+        return;
+      }
+      if (aSourceCells.length !== 9) {
+        window.alert("Cannot swap digits.. length incorrect");
+        return;
+      }
+    
+      const sourceChar = this.#puzzle.charset[iDigitIndex];
+      const swapChar = this.#puzzle.charset[iOtherDigitIndex];
+
+      this.#puzzle.charset[iDigitIndex] = swapChar;
+      this.#puzzle.charset[iOtherDigitIndex] = sourceChar;
+
+
+      const aSourceCellElements = aSourceCells.map(cell => {
+        const col = cell.column;
+        const row = cell.row;
+        const oCell = this.#puzzle.getData().cell(col, row);
+        return oCell;
+      });
+      console.log("SOURCE: " + aSourceCellElements.map(cell => cell.column + "," + cell.row + "(" + cell.element.getBoundingClientRect().left + "," + cell.element.getBoundingClientRect().top + ")"));
+
+      const aTargetCellElements = aTargetCells.map(cell => {
+        const col = cell.column;
+        const row = cell.row;
+        const oCell = this.#puzzle.getData().cell(col, row);
+        return oCell;
+      });
+      console.log("TRAGET: " + aTargetCellElements.map(cell => cell.column + "," + cell.row + "(" + cell.element.getBoundingClientRect().left + "," + cell.element.getBoundingClientRect().top + ")"));
+      let iCellIndex = 0
+      while (iCellIndex < aSourceCellElements.length && iCellIndex < aTargetCellElements.length) {
+        const oSourceElem = aSourceCellElements[iCellIndex].element;
+        const oTargetElem = aTargetCellElements[iCellIndex].element;
+        const oSourceOverlay = SidukoElementEffects.getElementOverlay(oSourceElem);
+        oSourceOverlay.innerText = oSourceElem.innerText;
+        const oTargetOverlay = SidukoElementEffects.getElementOverlay(oTargetElem);
+        oTargetOverlay.innerText = oTargetElem.innerText;
+        document.body.appendChild(oSourceOverlay);
+        document.body.appendChild(oTargetOverlay);
+        const oSourceOriginX = parseInt(oSourceElem.getBoundingClientRect().left, 10);
+        const oSourceOriginY = parseInt(oSourceElem.getBoundingClientRect().top, 10);
+        const oTargetOriginX = parseInt(oTargetElem.getBoundingClientRect().left, 10);
+        const oTargetOriginY = parseInt(oTargetElem.getBoundingClientRect().top, 10);
+
+        const framesToSlide = 15;
+        const deltaX = (oSourceOriginX - oTargetOriginX) / framesToSlide;
+        const deltaY = (oSourceOriginY - oTargetOriginY) / framesToSlide;
+        for (let i = 0; i < framesToSlide; i++) {
+          oSourceOverlay.style.left = `${Math.round(oSourceOriginX - (i* deltaX))}px`;
+          oSourceOverlay.style.top = `${Math.round(oSourceOriginY - (i* deltaY))}px`;
+          oTargetOverlay.style.left = `${Math.round(oTargetOriginX + (i* deltaX))}px`;
+          oTargetOverlay.style.top = `${Math.round(oTargetOriginY + (i* deltaY))}px`;
+          await new Promise((resolve) => setTimeout(resolve, 5));
+        }
+        oSourceOverlay.style.left = oTargetOriginX + "px";
+        oSourceOverlay.style.top = oTargetOriginY + "px";
+        oTargetOverlay.style.left = oSourceOriginX + "px";
+        oTargetOverlay.style.top = oSourceOriginY + "px";
+        document.body.removeChild(oSourceOverlay);
+        document.body.removeChild(oTargetOverlay);
+        iCellIndex++;
+      }
+
+      SidukoHtmlGenerator.updateCharset(this.#puzzle);
+      SidukoNotifications.queueAlert("Some digits have been swapped!!!");
+    }
+  }
+
   
 
   __showValueEntryPopup(oEvent) {

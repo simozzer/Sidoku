@@ -1,27 +1,4 @@
-const shinningStarData = [
-  0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 7, 0,
-  0, 0, 0, 0, 8, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 3, 8, 0, 0, 9, 0, 0, 0, 5, 0, 0,
-  0, 1, 0, 0, 6, 0, 8, 0, 2, 0, 0, 0, 4, 0, 6, 0, 0, 0, 0, 7, 2, 0, 0, 0, 0, 9,
-  0, 6, 0,
-];
-const evilPuzzleData = [
-  9, 0, 0, 0, 4, 3, 1, 6, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 9,
-  0, 8, 0, 0, 0, 1, 9, 3, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 6, 0, 0, 0,
-  0, 0, 0, 0, 0, 8, 0, 0, 6, 0, 0, 0, 0, 7, 0, 6, 4, 0, 0, 3, 4, 0, 0, 2, 0, 0,
-  0, 0, 0,
-];
-const hardPuzzleData = [
-  1, 0, 0, 6, 0, 5, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 3, 0, 1, 0, 8, 4,
-  0, 0, 0, 0, 9, 5, 1, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 2, 0, 8, 0, 6,
-  0, 0, 6, 0, 7, 0, 0, 0, 9, 0, 5, 3, 0, 0, 8, 0, 7, 0, 0, 2, 0, 0, 9, 0, 0, 0,
-  1, 0, 0,
-];
-const escargotAiData = [
-  1, 0, 0, 0, 0, 7, 0, 9, 0, 0, 3, 0, 0, 2, 0, 0, 0, 8, 0, 0, 9, 6, 0, 0, 5, 0,
-  0, 0, 0, 5, 3, 0, 0, 9, 0, 0, 0, 1, 0, 0, 8, 0, 0, 0, 2, 6, 0, 0, 0, 0, 4, 0,
-  0, 0, 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0,
-  3, 0, 0,
-];
+
 
 class SidukoPuzzle {
   #rowCells = [];
@@ -53,37 +30,37 @@ class SidukoPuzzle {
     //https://www.vertex42.com/ExcelTips/unicode-symbols.html#currency
     switch (charsetVal) {
       case "alpha":
-        this.charset = SidukoConstants.ALPHA_SET;
+        this.charset = [...SidukoConstants.ALPHA_SET];
         break;
       case "emoji":
-        this.charset = SidukoConstants.EMOJI_SET;
+        this.charset = [...SidukoConstants.EMOJI_SET];
         break;
       case "roman":
-        this.charset = SidukoConstants.ROMAN_SET;
+        this.charset = [...SidukoConstants.ROMAN_SET];
         break;
       case "color":
-        this.charset = SidukoConstants.COLOR_SET;
+        this.charset = [...SidukoConstants.COLOR_SET];
         break;
       case "fractions":
-        this.charset = SidukoConstants.FRACTIONS_SET;
+        this.charset = [...SidukoConstants.FRACTIONS_SET];
         break;      
       case "arrows":
-        this.charset = SidukoConstants.ARROWS_SET;
+        this.charset = [...SidukoConstants.ARROWS_SET];
         break;  
       case "numcircles":
-        this.charset = SidukoConstants.NUMBER_CIRCLES_SET;
+        this.charset = [...SidukoPuzzle.SidukoConstants.NUMBER_CIRCLES_SET];
         break;
       case "braille":
-        this.charset = SidukoConstants.BRAILLE_SET;
+        this.charset = [...SidukoConstants.BRAILLE_SET];
         break;  
       case "spelling":
-        this.charset = SidukoConstants.COMMON_LETTERS_SET;
+        this.charset = [...SidukoConstants.COMMON_LETTERS_SET];
         break;  
       case "rude":
-        this.charset = SidukoConstants.RUDE_SET;
+        this.charset = [...SidukoConstants.RUDE_SET];
         break;  
       default:
-        this.charset = SidukoConstants.NUM_SET;
+        this.charset = [...SidukoConstants.NUM_SET];
         break;
     }
     
@@ -116,7 +93,7 @@ class SidukoPuzzle {
   }
 
   set charset(sCharset) {
-    this.#charset = sCharset;
+    this.#charset = [...sCharset];
   }
 
   getHistory() {
