@@ -76,6 +76,9 @@ class SidukoPuzzle {
       case "braille":
         this.charset = SidukoConstants.BRAILLE_SET;
         break;  
+      case "spelling":
+        this.charset = SidukoConstants.COMMON_LETTERS_SET;
+        break;  
       case "rude":
         this.charset = SidukoConstants.RUDE_SET;
         break;  

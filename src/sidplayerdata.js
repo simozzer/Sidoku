@@ -103,22 +103,56 @@ class SidukoPlayerData {
     }
   }
 
+  __sortBoosts() {
+    const aBoosts = [...this.#boosts];
+    this.#boosts.sort((oBoost1, oBoost2) => {
+      if (oBoost1.getCanUse() && !oBoost2.getCanUse()) {
+        return -1;
+      } else if (oBoost2.getCanUse() && !oBoost1.getCanUse()) {
+        return 1;
+      }
+      if (oBoost1.turnsRemaining > oBoost2.turnsRemaining) {
+        return -1;
+      } else if (oBoost1.turnsRemaining < oBoost2.turnsRemaining) {
+        return 1;
+      }
+      if (oBoost1.maxCellCount > oBoost2.maxCellCount) {
+        return -1;
+      } else if (oBoost1.maxCellCount < oBoost2.maxCellCount) {
+        return 1;
+      }
+      oBoost1.name.localeCompare(oBoost2.name);
+    });
+    this.#boosts = aBoosts;
+  }
+
   renderBoosts() {
+    this.__sortBoosts();
     const tbody = document.getElementById("playerBoostsTableBody");
     tbody.innerHTML = "";
     this.#boosts.forEach((boost) => {
       const row = document.createElement("tr");
-      const nameCell = document.createElement("td");
+      row.title = `${boost.description}`;
+      const containerTd = document.createElement("td");    
+      containerTd.dataset.boostName = boost.name;
+      const glyphDiv = document.createElement("div");
+      glyphDiv.classList.add("boost_glyph");
+      glyphDiv.innerText = boost.glyph;
+      containerTd.appendChild(glyphDiv);
+      const nameDiv = document.createElement("div");
+      const sBoostRemainingText = boost.turnsRemaining > 0 ? "Lives: " + boost.turnsRemaining : "";
+      const sCellCountText = boost.maxCellCount > 0 ? ` Level:${boost.maxCellCount}` : "";
+      nameDiv.innerText = `${sBoostRemainingText}${sCellCountText}`;
+      nameDiv.classList.add("boost_text");
+      containerTd.appendChild(nameDiv);      
+      row.appendChild(containerTd);
+      nameDiv.classList.add("boost_text");
+      containerTd.appendChild(nameDiv);      
+      row.appendChild(containerTd);
 
-      nameCell.innerText = `${boost.turnsRemaining | 0} * ${boost.name}`;
-
-      nameCell.dataset.boostName = boost.name;
-      row.appendChild(nameCell);
-      const maxCellCountCell = document.createElement("td");
-      maxCellCountCell.innerText =
-        boost.maxCellCount > 0 ? boost.maxCellCount : "";
-      row.appendChild(maxCellCountCell);
-      row.title = boost.description;
+      if (boost.getCanUse() && !boost.decrementsEachTurn) {
+        row.classList.add("can_use_boost");
+      }
 
       const levelCell = document.createElement("td");
       if (
@@ -135,15 +169,6 @@ class SidukoPlayerData {
         levelCell.appendChild(levelButton);
       }
       row.appendChild(levelCell);
-
-      const useCell = document.createElement("td");
-      const useButton = document.createElement("input");
-      useButton.classList.add("useBoostButton");
-      useButton.type = "button";
-      useButton.value = "Use";
-      useButton.style.display = boost.getCanUse() && !boost.decrementsEachTurn ? "button" : "none";
-      useCell.appendChild(useButton);
-      row.appendChild(useCell);
 
       const buyCell = document.createElement("td");
       if (this.funds >= boost.cost) {

@@ -52,7 +52,8 @@ class SidukoMain {
     let oBoost = new SidukoRowBoostData(
       "Row",
       "Reveals up to a specified number of cells in a random row",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_ROW
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
@@ -67,7 +68,8 @@ class SidukoMain {
     oBoost = new SidukoColumnBoostData(
       "Column",
       "Reveals up to a specified number of cells in a random column",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_COLUMN
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
@@ -82,7 +84,8 @@ class SidukoMain {
     oBoost = new SidukoInnerTableBoostData(
       "InnerTable",
       "Reveals up to a specified number of cells in a random inner table",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_INNER_TABLE
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
@@ -97,7 +100,8 @@ class SidukoMain {
     oBoost = new SidukoRandomBoostData(
       "Random",
       "Reveals up to a specified number of random cells",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_RANDOM_CELL
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
@@ -112,7 +116,8 @@ class SidukoMain {
     oBoost = new SidukoRandomValueBoostData(
       "Random Value",
       "Reveals up to a specified number of random cells with a randomly chose value",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_RANDOM_VALUE
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
@@ -127,7 +132,8 @@ class SidukoMain {
     oBoost = new SidukoSeekerBoostData(
       "Seeker",
       "Solves values that can only exist in 1 cell",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_SEEKER
     );
     oBoost.turnsRemaining = SidukoConstants.INITIAL_SEEKER_LIVES;
     oBoost.decrementsEachTurn = false;
@@ -143,7 +149,8 @@ class SidukoMain {
     oBoost = new SidukoBadValueRemovalBoostData(
       "Eraser",
       "Removes up to a specified number of cells which contain an incorrect value",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_ERASE_BAD
     );
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
@@ -158,7 +165,8 @@ class SidukoMain {
     oBoost = new SidukoHighlightBoostData(
       "Highlight",
       "Shows highlights for incorrect values [this will only be available when you're off-track]",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_HIGHLIGHT_BAD
     );    
     oBoost.turnsRemaining = SidukoConstants.INITIAL_DEFAULT_BOOST_LIVES;
     oBoost.decrementsEachTurn = false;
@@ -174,7 +182,8 @@ class SidukoMain {
     oBoost = new SidukoHintsBoostData(
       "Hints",
       "Shows tooltips for the possible values in a cell",
-      oGame
+      oGame,
+      SidukoConstants.CHAR_HINT
     );
     oPlayerData.addBoostItem(oBoost);
     oBoost.turnsRemaining = SidukoConstants.HINT_BUY_BOOST_TURNS;
@@ -187,7 +196,8 @@ class SidukoMain {
     oBoost = new SidukoBoostData(
       "Time",
       `Adds a maximum of ${SidukoConstants.TIME_BOOST_SECONDS} seconds to the timer`,
-      oGame
+      oGame,
+      SidukoConstants.CHAR_CLOCK
     );
     oBoost.turnsRemaining = 0;
     oBoost.decrementsEachTurn = false;
@@ -195,6 +205,7 @@ class SidukoMain {
     oBoost.buyHint = `Add a time boost bonus to be used when you choose`;
     oBoost.boostable = false;
     oBoost.maxCellCount = null;
+    oBoost.exhausted = oBoost.turnsRemaining <= 0;
     oBoost.cost = 2;
   }
 
@@ -282,7 +293,11 @@ class SidukoMain {
         if (this.#playerData.guessesRemaining <= 0) {
           return;
         }
-        let rowElement;
+        let rowElement = oEv.target;
+        while (rowElement.tagName !== "TR") {
+          rowElement = rowElement.parentNode;
+        }
+        /*
         if (oEv.target.tagName === "TD") {
           rowElement = oEv.target.parentNode;
         } else if (oEv.target.tagName === "TR") {
@@ -292,50 +307,53 @@ class SidukoMain {
         } else {
           console.warn("Invalid click event target for Boost", oEv.target);
         }
+        */
         const sBoostName = rowElement.childNodes[0].dataset["boostName"];
         let oBoost = oPlayerData.getBoost(sBoostName);
 
         const clickedColumn = Array.from(rowElement.childNodes).indexOf(
           oEv.target.parentNode
         );        
-        if (clickedColumn === 2) {
+        if (clickedColumn === 1) {
           // boost
           if (this.#playerData.funds >= oBoost.cost) {
             oBoost.maxCellCount = oBoost.maxCellCount + 1;
             this.#playerData.funds -= oBoost.cost;;
             oBoost.exhausted = oBoost.turnsRemaining <= 0;
           }
-        } else if (clickedColumn === 3) {
+        } else if (clickedColumn === 0) {
           // USE
 
-          if (sBoostName === "Time") {
-            let gameSeconds =
-              this.#gameSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
-            if (gameSeconds > SidukoConstants.GAME_DURATION_SECONDS) {
-              gameSeconds = SidukoConstants.GAME_DURATION_SECONDS;
+          if (rowElement.classList.contains("can_use_boost")) {
+            if (sBoostName === "Time") {
+              let gameSeconds =
+                this.#gameSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
+              if (gameSeconds > SidukoConstants.GAME_DURATION_SECONDS) {
+                gameSeconds = SidukoConstants.GAME_DURATION_SECONDS;
+              }
+              this.#gameSecondsRemaining = gameSeconds;
             }
-            this.#gameSecondsRemaining = gameSeconds;
+            if (this.#playerData.guessesRemaining > 0 && oBoost.use()) {
+            
+              if (oBoost.turnsRemaining <= 0) {
+                oBoost.exhausted = true;
+                SidukoSounds.getInstance().playSound("si_bonus_exhausted");
+                SidukoNotifications.getInstance().queueAlert(`Boost "${sBoostName}" exhausted`);     
+                SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for "${sBoostName}"`);   
+              }
+
+              if (oBoost.maxCellCount > 2) {
+                oBoost.maxCellCount--;
+              }
+
+            } else {
+              SidukoNotifications.getInstance().queueAlert(
+                "Failed to use boost", 2000
+              );
+            }
           }
-          if (this.#playerData.guessesRemaining > 0 && oBoost.use()) {
-          
-            if (oBoost.turnsRemaining <= 0) {
-              oBoost.exhausted = true;
-              SidukoSounds.getInstance().playSound("si_bonus_exhausted");
-              SidukoNotifications.getInstance().queueAlert(`Boost "${sBoostName}" exhausted`);     
-              SidukoNotifications.getInstance().queueInfo(`Consider buying more boosts for "${sBoostName}"`);   
-            }
 
-            if (oBoost.maxCellCount > 2) {
-              oBoost.maxCellCount--;
-            }
-
-          } else {
-            SidukoNotifications.getInstance().queueAlert(
-              "Failed to use boost", 2000
-            );
-          }
-
-        } else if (clickedColumn === 4) {
+        } else if (clickedColumn === 2) {
           // BUY
 
           if (sBoostName === "Hints") {

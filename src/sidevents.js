@@ -200,8 +200,20 @@ class SidukoEventsHandler {
         const oCell = allCells[iRandomCellIndex];
         if (oCell && oCell.element) {
           if (Math.random() < 0.5) {
+            const fnFlipVertAnimEnd = () => {
+              oCell.element.classList.add("flippedVert");
+              oCell.element.classList.remove("flipVert");
+              oCell.element.removeEventListener("animationend", fnFlipVertAnimEnd);
+            }
+            oCell.element.addEventListener("animationend", fnFlipVertAnimEnd);
             oCell.element.classList.add("flipVert");
           } else {
+            const fnFlipHorzAnimEnd = () => {
+              oCell.element.classList.add("flippedHorz");
+              oCell.element.classList.remove("flipHorz");
+              oCell.element.removeEventListener("animationend", fnFlipHorzAnimEnd);
+            }
+            oCell.element.addEventListener("animationend", fnFlipHorzAnimEnd);
             oCell.element.classList.add("flipHorz");
           }
         }

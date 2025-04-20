@@ -27,7 +27,10 @@ class SidukoConstants {
   static FRACTIONS_SET = ["⅐", "⅑", "⅒", "⅓", "⅔", "⅕", "⅖", "⅗", "⅘"];
   static ARROWS_SET = ["🡸", "🡹", "🡺", "🡻", "🡼", "🡽", "🡾", "🡿", "*"];
   static NUMBER_CIRCLES_SET = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
-  static BRAILLE_SET = ["⠼⠁", "⠼⠃", "⠼⠉", "⠼⠙", "⠼⠑", "⠼⠋", "⠼⠛", "⠼⠐", "⠼⠓"];
+  static BRAILLE_SET = ["⠁", "⠂", "⠃", "⠄", "⠅", "⠆", "⠇", "⠈", "⠉"];
+  static COMMON_LETTERS_SET = ["E", "T", "A", "O", "I", "N", "S", "R", "H"];
+
+  
   static RUDE_SET = ["I", "N", "T", "F", "S", "K", "U", "H", "C"]; // POINTS FOR SUCK, SICK, FUCK, CUNT, SHIT, SHIN, THIS, HISS, CHIN, FIST,
   // KIT, SIT,HIT, FIT,FUN, FIN, HIS,
   static ALL_CHARSETS = [
@@ -44,5 +47,16 @@ class SidukoConstants {
     SidukoConstants.RUDE_SET,
     
   ];
+
+  static CHAR_CLOCK = "⌚";
+  static CHAR_ROW = "⏩";
+  static CHAR_COLUMN = "⏬";
+  static CHAR_INNER_TABLE = "🞖";
+  static CHAR_SEEKER = "🍭";
+  static CHAR_ERASE_BAD = "⌫";
+  static CHAR_HINT = "ⓘ";
+  static CHAR_RANDOM_VALUE = "🎲";
+  static CHAR_RANDOM_CELL = "❔";
+  static CHAR_HIGHLIGHT_BAD = "❕";
 
 }

@@ -397,13 +397,41 @@
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
 }
+@keyframes doFlipHorz {
+  from {
+    transform: scaleX(1);
+    color: red;
+  }
+  to {
+    transform: scaleX(-1);
+    color: green;
+  }
+}
 .flipHorz {
-  transform: scaleX(-1);
   border: 4px solid red;
+  animation-name: doFlipHorz;
+  animation-duration: 2s;
+}
+.flippedHorz {
+  transform: scaleX(-1);
+}
+@keyframes doFlipVert {
+  from {
+    transform: scaleY(1);
+    color: red;
+  }
+  to {
+    transform: scaleY(-1);
+    color: blue;
+  }
 }
 .flipVert {
-  transform: scaleY(-1);
   border: 4px solid gold;
+  animation-name: doFlipVert;
+  animation-duration: 2s;
+}
+.flippedVert {
+  transform: scaleY(-1);
 }
 #everywhere {
   opacity: 95%;
@@ -698,7 +726,7 @@ table.sidukoTable {
   display: contents;
 }
 #leftPanel table {
-  min-width: 400px;
+  min-width: 250px;
   min-height: 400px;
 }
 #leftPanel>div {
@@ -1194,6 +1222,31 @@ div#playerStatus {
 .slide_out_mid_bottom {
   animation-name: slide_out_mid_bottom_cell;
   animation-duration: 0.8s;
+}
+.boost_glyph {
+  font-size: 1.2em;
+  line-height: 1.2em;
+  background-color: blanchedalmond;
+  color: blue;
+  border: 4px solid white;
+  border-radius: 10px;
+  max-width: 3em;
+  float: left;
+  margin-left: 6px;
+}
+tr.can_use_boost .boost_glyph:hover {
+  text-decoration: underline;
+  font-weight: 800;
+  color: yellow;
+  background-color: blue;
+}
+tr.exhausted .boost_glyph {
+  opacity: 0.5;
+  font-size: 0.8em;
+  line-height: 1.1em;
+  background-color: black;
+  color: lightslategray;
+  border: 2px solid white;
 }
 @keyframes animatetop {
   from {

@@ -13,8 +13,9 @@ class SidukoBoostData {
   #boostBuyHint;
   #boostable;
   #cost;
+  #glyph
 
-  constructor(name, description, puzzle) {
+  constructor(name, description, puzzle, glyph) {
     this.#name = name;
     this.#maxCellCount = 1;
     this.#accuracy = 0.3;
@@ -29,6 +30,7 @@ class SidukoBoostData {
     this.#boostable = false;
     this.#boostBuyHint = "";
     this.#cost = SidukoConstants.BOOST_LIFE_COST;
+    this.#glyph = glyph;
   }
 
   get puzzle() {
@@ -87,6 +89,10 @@ class SidukoBoostData {
     this.#cost = value;
   }
 
+  get glyph() {
+    return this.#glyph;
+  }
+  
   boostAccuracy() {
     if (this.accuracy < 1) {
       this.#accuracy += 0.1;
@@ -115,6 +121,16 @@ class SidukoBoostData {
     return this.#exhausted;
   }
 
+  set exhausted(value) {
+    if (value && this.#domElement) {
+      this.#domElement.classList.add("exhausted");
+      this.#turnsRemaining = null;
+    } else if (this.#domElement) {
+      this.#domElement.classList.remove("exhausted");
+    }
+    this.#exhausted = value;
+  }
+
   get forSale() {
     return this.#forSale;
   }
@@ -128,15 +144,6 @@ class SidukoBoostData {
     }
   }
 
-  set exhausted(value) {
-    if (value && this.#domElement) {
-      this.#domElement.classList.add("exhausted");
-      this.#turnsRemaining = null;
-    } else if (this.#domElement) {
-      this.#domElement.classList.remove("exhausted");
-    }
-    this.#exhausted = value;
-  }
 
   getCanUse() {
     return this.#turnsRemaining > 0 && !this.exhausted;
