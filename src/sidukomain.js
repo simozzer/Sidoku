@@ -50,8 +50,7 @@ class SidukoMain {
     document.getElementById("boost_menu_popup_use_button").addEventListener("click", () => {
       const oBoost = this.__focusedBoost;
       if (oBoost && oBoost.getCanUse()) {
-        const sBoostName = oBoost.name;
-        this.#playerData.funds -= oBoost.cost;
+        const sBoostName = oBoost.name;       
 
         if (sBoostName === "Time") {
           let gameSeconds = this.#gameSecondsRemaining + SidukoConstants.TIME_BOOST_SECONDS;
