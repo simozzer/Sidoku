@@ -203,16 +203,6 @@ class SidukoPlayerData {
         });
     }
 
-
-    this.#boosts.forEach((b) => {
-      b.forSale = this.funds >= b.cost;
-      if (b.forSale) {
-        b.domElement.classList.add("forSale");
-      } else {
-        b.domElement.classList.remove("forSale");
-      }
-    });
-
     this.renderHints(oPuzzle);
 
     this.renderBoosts();

@@ -5,7 +5,6 @@ class SidukoBoostData {
   #turnsRemaining;
   #description;
   #decrementsEachTurn;
-  #domElement;
   #exhausted;
   #forSale;
   #puzzle;
@@ -22,7 +21,6 @@ class SidukoBoostData {
     this.#turnsRemaining = null;
     this.#description = description;
     this.#decrementsEachTurn = false;
-    this.#domElement = null;
     this.#exhausted = false;
     this.#forSale = false;
     this.#puzzle = puzzle;
@@ -122,12 +120,6 @@ class SidukoBoostData {
   }
 
   set exhausted(value) {
-    if (value && this.#domElement) {
-      this.#domElement.classList.add("exhausted");
-      this.#turnsRemaining = null;
-    } else if (this.#domElement) {
-      this.#domElement.classList.remove("exhausted");
-    }
     this.#exhausted = value;
   }
 
@@ -137,11 +129,6 @@ class SidukoBoostData {
 
   set forSale(value) {
     this.#forSale = value;
-    if (value && this.#domElement) {
-      this.#domElement.classList.add("forSale");
-    } else {
-      this.#domElement.classList.remove("forSale");
-    }
   }
 
 
@@ -160,13 +147,6 @@ class SidukoBoostData {
     this.#decrementsEachTurn = value;
   }
 
-  get domElement() {
-    return this.#domElement;
-  }
-
-  set domElement(value) {
-    this.#domElement = value;
-  }
 }
 
 class SidukoHintsBoostData extends SidukoBoostData {
