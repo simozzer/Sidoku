@@ -36,7 +36,11 @@ class SidukoMain {
     document.getElementById("boost_menu_popup_buy_button").addEventListener("click", () => {      
       if (this.__focusedBoost && this.#playerData.funds >= this.__focusedBoost.cost) {
         this.#playerData.funds -= this.__focusedBoost.cost;
-        this.__focusedBoost.turnsRemaining++;
+        if (this.__focusedBoost.name === "Hints") {
+          this.__focusedBoost.turnsRemaining += SidukoConstants.HINT_BUY_BOOST_TURNS;
+        } else {
+          this.__focusedBoost.turnsRemaining++;
+        }
         this.__focusedBoost.exhausted = this.__focusedBoost.turnsRemaining <= 0;
         this.#playerData.renderBoosts();
         document.getElementById("boost_menu_popup").classList.add("hidden");
