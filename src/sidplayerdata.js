@@ -141,7 +141,7 @@ class SidukoPlayerData {
       containerTd.appendChild(glyphDiv);
       const nameDiv = document.createElement("div");
       const sBoostRemainingText = boost.turnsRemaining > 0 ? "Lives: " + boost.turnsRemaining : "";
-      const sCellCountText = boost.maxCellCount > 0 ? ` Level:${boost.maxCellCount}` : "";
+      const sCellCountText = boost.maxCellCount > 0 && boost.turnsRemaining > 0? ` Level:${boost.maxCellCount}` : "";
       nameDiv.innerText = `${sBoostRemainingText}${sCellCountText}`;
       nameDiv.classList.add("boost_text");
       containerTd.appendChild(nameDiv);      
