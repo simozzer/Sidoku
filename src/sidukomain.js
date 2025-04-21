@@ -366,7 +366,7 @@ class SidukoMain {
     this._addInitialBoosts(oGame,oPlayerData);
     oPlayerData.renderBoosts();
 
-    document.getElementById("playerBoostsTableBody").addEventListener(
+    document.getElementById("boostinformation").addEventListener(
       "click",
       (oEv) => {
         if (this.#playerData.guessesRemaining <= 0) {
@@ -375,16 +375,10 @@ class SidukoMain {
         if (!oEv.target.classList.contains("boost_glyph")) {
           return;
         }
-        let rowElement = oEv.target;
-        while (rowElement.tagName !== "TR") {
-          rowElement = rowElement.parentNode;
-        }
 
-        const sBoostName = rowElement.childNodes[0].dataset["boostName"];
+        const sBoostName = oEv.target.dataset["boostName"];
         let oBoost = oPlayerData.getBoost(sBoostName);
-
-        const sClickedBoostName = rowElement.childNodes[0].attributes["data-boost-name"].value;
-        this.__focusedBoost = this.#playerData.getBoost(sClickedBoostName);
+        this.__focusedBoost = this.#playerData.getBoost(sBoostName);
 
         const oBoostPopup = document.getElementById("boost_menu_popup");        
         document.getElementById("boost_menu_popup_text").innerText = oBoost.description;

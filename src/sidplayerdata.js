@@ -122,37 +122,32 @@ class SidukoPlayerData {
 
   renderBoosts() {
     this.__sortBoosts();
-    const tbody = document.getElementById("playerBoostsTableBody");
-    tbody.innerHTML = "";
+    const availableBoostsElement = document.getElementById("availableBoosts");    
+    availableBoostsElement.innerHTML = "";
+    const unavailableBoostsElement = document.getElementById("unavailableBoosts");
+    unavailableBoostsElement.innerHTML = "";
+
     this.#boosts.forEach((boost) => {
-      const row = document.createElement("tr");
-      row.title = `${boost.description}`;
-      const containerTd = document.createElement("td");    
-      containerTd.dataset.boostName = boost.name;
+
       const glyphDiv = document.createElement("div");
       glyphDiv.classList.add("boost_glyph");
       glyphDiv.innerText = boost.glyph;
-      containerTd.appendChild(glyphDiv);
-      /*
-      const nameDiv = document.createElement("div");
-      const sBoostRemainingText = boost.turnsRemaining > 0 ? " *" + boost.turnsRemaining : "";
-      const sCellCountText = boost.maxCellCount > 0 && boost.turnsRemaining > 0? ` Level:${boost.maxCellCount}` : "";
-      nameDiv.innerText = `${sBoostRemainingText}${sCellCountText}`;
-      nameDiv.classList.add("boost_text");
-      containerTd.appendChild(nameDiv);      
-      */
-      row.appendChild(containerTd);
-      //nameDiv.classList.add("boost_text");
-      //containerTd.appendChild(nameDiv);      
-      row.appendChild(containerTd);
-      if (boost.exhausted) {
-        row.classList.add("exhausted");
+      glyphDiv.title = `${boost.description}`;
+      glyphDiv.dataset.boostName = boost.name;
+
+      if (boost.getCanUse()) {
+        availableBoostsElement.appendChild(glyphDiv);
       } else {
-        row.classList.remove("exhausted");
+        unavailableBoostsElement.appendChild(glyphDiv);
       }
-      tbody.appendChild(row);
+  
+      if (boost.exhausted) {
+        glyphDiv.classList.add("exhausted");
+      } else {
+        glyphDiv.classList.remove("exhausted");
+      }
     });
-    return tbody;
+    return;
   }
 
   renderHints(oPuzzle) {

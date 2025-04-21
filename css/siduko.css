@@ -253,6 +253,33 @@ table.sidukoTable {
 	color:red;
 }
 
+.boost-group {
+	justify-content: center;
+	padding: 20px;
+}
+
+.boost_glyph {
+	font-size: 1.2em;
+	line-height: 1.2em;
+	background-color: blanchedalmond;
+	color: blue;
+	border: 4px solid white;
+	border-radius: 10px;
+	max-width: 3em;
+	text-align: center;
+	display: inline-block;
+	min-width: 3em;
+	margin: 15px;
+	vertical-align: middle;
+	padding-top: 0.4em;
+}
+
+.boost-group .boost_glyph {
+	height: 50px;
+	width: 50px;
+}
+
+
 @keyframes show_alert_one {
 	from {
 		opacity: 0.3;
@@ -952,18 +979,7 @@ div#playerStatus {
 	animation-duration: 0.8s;
 }
 
-.boost_glyph {
-	font-size: 1.2em;
-	line-height: 1.2em;
-	background-color: blanchedalmond;
-	color: blue;
-	border: 4px solid white;
-	border-radius: 10px;
-	max-width: 3em;
-	text-align: center;
-	display: inline-block;
-	min-width: 3em;
-}
+
 
 
 
