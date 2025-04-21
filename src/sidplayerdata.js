@@ -24,13 +24,7 @@ class SidukoPlayerData {
   }
 
   get funds() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const cheatMode = urlParams.get('cheat');    
-    if (cheatMode) {
-      return 100;
-    } else {
-      return this.#funds;
-    }    
+    return this.#funds;
   }
 
   set funds(value) {

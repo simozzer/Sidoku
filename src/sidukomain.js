@@ -21,7 +21,14 @@ class SidukoMain {
     this.#game.solution = this.#solution;
 
     this.#playerData = new SidukoPlayerData();
-    this.#playerData.funds = SidukoConstants.DEFAULT_FUNDS;
+    const urlParams = new URLSearchParams(window.location.search);
+    const cheatMode = urlParams.get('cheat');    
+    if (cheatMode  && cheatMode === "iamcheating") {
+      this.#playerData.funds = 100;
+    } else {
+      this.#playerData.funds = SidukoConstants.DEFAULT_FUNDS;
+    }        
+    
     this.#playerData.guessesRemaining = -1;
 
     this.#playerData.puzzle = this.#game;
@@ -274,6 +281,7 @@ class SidukoMain {
 
   async start() {
 
+    // Increase games played
     if (typeof Storage !== "undefined") {
       if (!localStorage.gamesStarted) {
         localStorage.gamesStarted = 1;
@@ -341,6 +349,15 @@ class SidukoMain {
     this.#eventHandler.attachEvents();
     this.#eventHandler.addEventListener("levelComplete", () => {
       //TODO::
+      if (typeof Storage !== "undefined") {
+        let mostTimeRemaining = localStorage.mostTimeRemaining;
+        if (!mostTimeRemaining || mostTimeRemaining < this.#gameSecondsRemaining) {
+          localStorage.mostTimeRemaining = this.#gameSecondsRemaining;
+          console.log(`Most time remaining: ${localStorage.mostTimeRemaining}`);
+        }
+        console.log(`Time remaining: ${this.#gameSecondsRemaining}`);
+      }
+
       window.clearInterval(this.#gameTimeOut);
       this.#gameTimeOut = null;
       window.alert(`Level Complete! ${this.#gameSecondsRemaining} seconds remaining`);
@@ -437,6 +454,17 @@ class SidukoMain {
         } else {
           window.clearInterval(this.#gameTimeOut);
           this.#gameTimeOut = null;
+          
+          // Record games timed out.
+          if (typeof Storage !== "undefined") {
+            if (!localStorage.gamesStarted) {
+              localStorage.gamesTimedOut = 1;
+            } else {
+              localStorage.gamesTimedOut++;
+            }
+            console.log(`Games Timedout: ${localStorage.gamesTimedOut}`);
+          }
+
           window.alert(
             "You ran out of time!\nTechnically speaking the game is over and you lost.\nFeel free to carry on playing, or refresh to start another puzzle."
           );        

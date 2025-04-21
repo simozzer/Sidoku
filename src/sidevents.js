@@ -159,7 +159,17 @@ class SidukoEventsHandler {
       if (state.board) {
         logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");      
         SidukoElementEffects.explodeAllCells();
-        //window.alert("Well done. That's if for now, I haven't implemented anything more. Well done!");
+
+        // Increase puzzles solved
+        if (typeof Storage !== "undefined") {
+          if (!localStorage.puzzlesSolved) {
+            localStorage.puzzlesSolved = 1;
+          } else {
+            localStorage.puzzlesSolved++;
+          }
+          console.log(`puzzles solved: ${localStorage.puzzlesSolved}`);
+        }              
+
         this.triggerEvent("levelComplete", [false]);
       }
 
