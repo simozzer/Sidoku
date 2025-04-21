@@ -344,7 +344,7 @@ table.sidukoTable {
 }
 
 .no_lives_left {
-	color:red;
+	display: none;
 }
 @keyframes show_alert_one {
 	from {
@@ -1059,9 +1059,6 @@ div#playerStatus {
 	animation-name: slide_out_mid_bottom_cell;
 	animation-duration: 0.8s;
 }
-
-
-
 
 
 .boost_menu_popup_button {

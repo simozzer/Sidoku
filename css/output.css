@@ -442,7 +442,6 @@
   color: white;
   padding: 6px;
   user-select: none;
-  max-width: 200px;
 }
 #everywhere {
   opacity: 95%;
@@ -707,11 +706,9 @@ table.sidukoTable {
 #unavailableBoosts .boost_glyph {
   background-color: darkgray;
 }
-
 .no_lives_left {
   display: none;
 }
-
 @keyframes show_alert_one {
   from {
     opacity: 0.3;
