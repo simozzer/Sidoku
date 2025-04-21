@@ -573,9 +573,17 @@ table.sidukoTable {
   animation-duration: 4s;
 }
 @keyframes doHomeRun {
+  from {
+    color: black;
+    background-attachment: white;
+    font-weight: 800;
+    rotate: 0deg;
+  }
   to {
     color: white;
     background-color: black;
+    font-weight: 200;
+    rotate: -360deg;
   }
 }
 .sidukoTable table td table td.homeRun {
