@@ -317,6 +317,8 @@ class SidukoEventsHandler {
   }
 
   __spinCircles() {
+    return;
+    //TODO disable for now as it doesn't work on some phones
     const oCirclesAnimationElement = document.querySelector(".circles");
     const oClassList = oCirclesAnimationElement.classList;
 
