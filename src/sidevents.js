@@ -548,6 +548,11 @@ class SidukoEventsHandler {
         if (this.__entryTimeout) {
           if (oCellData.value === this.#puzzle.solution.getData().cell(oCellData.column, oCellData.row).value) {
             this.__entryTimeoutBonus = this.__entryTimeoutBonus ? this.__entryTimeoutBonus + 1 : 1;
+          } else {
+            //incorrect answers in a streak will be penalised
+            if (this.__entryTimeoutBonus > 0) {
+                this.__entryTimeoutBonus -= 1;
+            }            
           }
           console.log("Entry bonus: " + this.__entryTimeoutBonus);
           window.clearTimeout(this.__entryTimeout);
