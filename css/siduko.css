@@ -63,6 +63,7 @@ table.sidukoTable {
     @apply bg-slate-800;
 	opacity: 70%;
 	border-spacing: 3px;
+	filter: drop-shadow(26px 26px 30px aqua);
 }
 
 .sidukoTable .cell {
@@ -305,6 +306,10 @@ table.sidukoTable {
 	height: 50px;
 	width: 50px;
 	filter: drop-shadow(2px 3px 3px lightblue);
+}
+
+.boost-group #passiveBoosts .boost_glpyh {
+	background-color: darkgrey;
 }
 
 

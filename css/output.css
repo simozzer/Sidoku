@@ -29,6 +29,7 @@
     --color-fuchsia-800: oklch(0.452 0.211 324.591);
     --color-slate-200: oklch(0.929 0.013 255.508);
     --color-slate-400: oklch(0.704 0.04 256.788);
+    --color-slate-500: oklch(0.554 0.046 257.417);
     --color-slate-600: oklch(0.446 0.043 257.281);
     --color-slate-800: oklch(0.279 0.041 260.031);
     --color-gray-800: oklch(0.278 0.033 256.848);
@@ -288,6 +289,9 @@
   .bg-slate-400 {
     background-color: var(--color-slate-400);
   }
+  .bg-slate-500 {
+    background-color: var(--color-slate-500);
+  }
   .bg-slate-600 {
     background-color: var(--color-slate-600);
   }
@@ -458,6 +462,7 @@ table.sidukoTable {
   background-color: var(--color-slate-800);
   opacity: 70%;
   border-spacing: 3px;
+  filter: drop-shadow(26px 26px 30px aqua);
 }
 .sidukoTable .cell {
   border-style: var(--tw-border-style);
@@ -678,6 +683,9 @@ table.sidukoTable {
   height: 50px;
   width: 50px;
   filter: drop-shadow(2px 3px 3px lightblue);
+}
+.boost-group #passiveBoosts .boost_glpyh {
+  background-color: darkgrey;
 }
 .boostInformation {
   max-width: 290px;
