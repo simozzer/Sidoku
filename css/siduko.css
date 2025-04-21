@@ -194,10 +194,9 @@ table.sidukoTable {
 }
 
 #playerStatus {	
-    text-align: center;
-    font-size: larger;
-    font-size: 1.4em;	
-    height: 10%;    
+	text-align: center;
+	height: 10%;
+	margin: 4px;  
 }
 
 #playerStatus h4 {
