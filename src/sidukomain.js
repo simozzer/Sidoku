@@ -376,7 +376,7 @@ class SidukoMain {
 
       window.clearInterval(this.#gameTimeOut);
       this.#gameTimeOut = null;
-      SidukoNotifications.getInstance.queueAlert(`Level Complete! ${this.#gameSecondsRemaining} seconds remaining`);
+      SidukoNotifications.getInstance().queueAlert(`Level Complete! ${this.#gameSecondsRemaining} seconds remaining`);
     });
 
     this._addInitialBoosts(oGame,oPlayerData);
