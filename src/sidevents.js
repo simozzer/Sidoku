@@ -317,8 +317,7 @@ class SidukoEventsHandler {
   }
 
   __spinCircles() {
-    return;
-    //TODO disable for now as it doesn't work on some phones
+
     const oCirclesAnimationElement = document.querySelector(".circles");
     const oClassList = oCirclesAnimationElement.classList;
 
@@ -334,6 +333,9 @@ class SidukoEventsHandler {
     const c = Math.floor(Math.random() * 3);
     area.classList.add(`color${c + 1}`);
 
+
+    return;
+    //TODO disable for now as it doesn't work on some phones
 
     const fnRemoveSpin = () => {
       oClassList.remove("spinLeft");      
@@ -568,7 +570,7 @@ class SidukoEventsHandler {
       SidukoHtmlGenerator.updateCellHints(this.#puzzle);
     } else {
       this.#puzzle.getData().cells.forEach((cell) => {
-        cell.element.title = "";
+        cell.element.title = "N/A";
       });
     }
   }
