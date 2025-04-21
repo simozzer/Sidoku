@@ -59,7 +59,7 @@ class SidukoEventsHandler {
   }
 
  
-  gameplayChangedHandler(state) {
+  async gameplayChangedHandler(state) {
     const oGame = this.#puzzle;    
     let bonus = 0;
     if (state) {
@@ -199,7 +199,21 @@ class SidukoEventsHandler {
 
       const oHomeRunBoost = this.#playerData.getBoost("Home run");
       if (oHomeRunBoost && oHomeRunBoost.getCanUse()) {        
-        oHomeRunBoost.use();        
+        await oHomeRunBoost.use();        
+        logMessage(`🔥🔥🔥***Board Filled***🔥🔥🔥`, "board_filled");      
+        SidukoElementEffects.explodeAllCells();
+
+        // Increase puzzles solved
+        if (typeof Storage !== "undefined") {
+          if (!localStorage.puzzlesSolved) {
+            localStorage.puzzlesSolved = 1;
+          } else {
+            localStorage.puzzlesSolved++;
+          }
+          console.log(`puzzles solved: ${localStorage.puzzlesSolved}`);
+        }              
+
+        this.triggerEvent("levelComplete", [false]);
       }
 
 

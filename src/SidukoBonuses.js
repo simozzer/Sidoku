@@ -528,7 +528,7 @@ class SidukoBonuses {
     }
   }
 
-  static async doHomeRun(oPuzzle, fnHandleGamplayChanged, boostData) {
+  static async doHomeRun(oPuzzle) {
     const aEmptyCells = oPuzzle.getData().cells.filter((c) => c.value <= 0);
     const aCellsWithOnePossibleValue = aEmptyCells.filter(cell => SidukoCellQueries.getPossibleValues(oPuzzle.getData(), cell).length === 1);
     for (let i =0; i<aCellsWithOnePossibleValue.length; i++) {
@@ -536,11 +536,14 @@ class SidukoBonuses {
       const fnAnimEnd = () => {
         oCell.element.classList.remove("homeRun");        
         oCell.element.removeEventListener("animationend", fnAnimEnd);
+        oCell.classList.add("aided");
+        oCell.classList.add("gifted");
       }
       oCell.element.innerText = oPuzzle.charset[oPuzzle.solution.getData().cell(oCell.column, oCell.row).value - 1];
       oCell.element.addEventListener("animationend", fnAnimEnd);
       oCell.element.classList.add("homeRun");
-      await new Promise((resolve) => setTimeout(resolve, 53));
+      
+      await new Promise((resolve) => setTimeout(resolve, 83));
     }
   }
 

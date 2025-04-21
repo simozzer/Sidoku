@@ -194,7 +194,7 @@ table.sidukoTable {
 
 .sidukoTable table td table td.homeRun {
 	animation-name: doHomeRun;
-	animation: duration: 0.9s;
+	animation: 0.9s;
 }
 
 #rightPanel {
