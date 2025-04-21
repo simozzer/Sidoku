@@ -65,6 +65,7 @@ class SidukoPlayerData {
   get puzzle() {
     return this.#puzzle;
   }
+  
   // returns a reference to a newly added boost, or an existing item
   // if one with the same name already exists
   addBoost(boostName, boosDescription, puzzle) {
@@ -126,6 +127,8 @@ class SidukoPlayerData {
     availableBoostsElement.innerHTML = "";
     const unavailableBoostsElement = document.getElementById("unavailableBoosts");
     unavailableBoostsElement.innerHTML = "";
+    const passiveBoostsElement = document.getElementById("passiveBoosts");
+    passiveBoostsElement.innerHTML = "";
 
     this.#boosts.forEach((boost) => {
 
@@ -135,7 +138,9 @@ class SidukoPlayerData {
       glyphDiv.title = `${boost.description}`;
       glyphDiv.dataset.boostName = boost.name;
 
-      if (boost.getCanUse()) {
+      if (boost.passive) {
+        passiveBoostsElement.appendChild(glyphDiv);
+      } else if (boost.getCanUse()) {
         availableBoostsElement.appendChild(glyphDiv);
       } else {
         unavailableBoostsElement.appendChild(glyphDiv);

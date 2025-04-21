@@ -30,9 +30,12 @@ class SidukoConstants {
   static BRAILLE_SET = ["⠁", "⠂", "⠃", "⠄", "⠅", "⠆", "⠇", "⠈", "⠉"];
   static COMMON_LETTERS_SET = ["E", "T", "A", "O", "I", "N", "S", "R", "H"];
 
+  INTFSKUHC
   
   static RUDE_SET = ["I", "N", "T", "F", "S", "K", "U", "H", "C"]; // POINTS FOR SUCK, SICK, FUCK, CUNT, SHIT, SHIN, THIS, HISS, CHIN, FIST,
   // KIT, SIT,HIT, FIT,FUN, FIN, HIS,
+  static RUDE_SET_WORD_LIST = ["funk","hick","hunk","nick","suck","tuck","husk","sick","tick","chin","inch","such","sunk","fish","inks","itch","knit","sink","skin","tusk","cuts","fins","huns","hunt","kits","shun","skit","cist","fist","fits","hint","huts","shin","shut","sift","thin","thus","tics","hist","hits","nuts","shit","stun","this","unit","nits","suit","tins"];
+
   static ALL_CHARSETS = [
     SidukoConstants.EMOJI_SET,
     SidukoConstants.NUM_SET,

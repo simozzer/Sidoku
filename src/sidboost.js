@@ -13,6 +13,7 @@ class SidukoBoostData {
   #boostable;
   #cost;
   #glyph
+  #passive;
 
   constructor(name, description, puzzle, glyph) {
     this.#name = name;
@@ -29,6 +30,7 @@ class SidukoBoostData {
     this.#boostBuyHint = "";
     this.#cost = SidukoConstants.BOOST_LIFE_COST;
     this.#glyph = glyph;
+    this.#passive = false;
   }
 
   get puzzle() {
@@ -146,6 +148,14 @@ class SidukoBoostData {
 
   set decrementsEachTurn(value) {
     this.#decrementsEachTurn = value;
+  }
+
+  get passive() {
+    return this.#passive;
+  }
+
+  set passive(value) {
+    this.#passive = value;
   }
 
 }
@@ -313,6 +323,20 @@ class SidukoBadValueRemovalBoostData extends SidukoBoostData {
       SidukoBonuses.removeCellsWithBadValues(this.puzzle, this);
       this.turnsRemaining--;
       SidukoHtmlGenerator.updateCellHints(this.puzzle);
+      return true;
+    }    
+    return false;
+  }
+}
+
+class SidukoHomeRunBoostData extends SidukoBoostData {
+  getCanUse() {    
+      return SidukoBonuses.canDoHomeRun(this.puzzle);
+  }
+
+  use() {
+    if (this.getCanUse()) {
+      SidukoBonuses.doHomeRun(this.puzzle, this);
       return true;
     }    
     return false;

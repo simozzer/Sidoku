@@ -276,6 +276,22 @@ class SidukoMain {
     oBoost.maxCellCount = null;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
     oBoost.cost = 2;
+
+    oBoost = new SidukoHomeRunBoostData(
+      "Home run",
+      `Auto completes puzzle when just single value cells remain`,
+      oGame,
+      SidukoConstants.CHAR_BASEBALL
+    );
+    oBoost.passive = true;
+    oBoost.turnsRemaining = 0;
+    oBoost.decrementsEachTurn = false;
+    oPlayerData.addBoostItem(oBoost);
+    oBoost.boostable = false;
+    oBoost.maxCellCount = null;
+    oBoost.exhausted = false;
+    oBoost.forSale = false;
+    
   }
 
 
@@ -382,16 +398,18 @@ class SidukoMain {
 
         const oBoostPopup = document.getElementById("boost_menu_popup");        
         document.getElementById("boost_menu_popup_text").innerText = oBoost.description;
-        document.getElementById("boost_menu_popup_lives").innerText = oBoost.turnsRemaining ? oBoost.turnsRemaining  + " lives remaining": "No lives left";
-        if (oBoost.turnsRemaining <= 0 &&!oBoost.decrementsEachTurn) {
-          document.getElementById("boost_menu_popup_lives").classList.add("no_lives_left");
-        } else {
+        if (oBoost.passive) {
+          document.getElementById("boost_menu_popup_lives").innerText = "";
           document.getElementById("boost_menu_popup_lives").classList.remove("no_lives_left");
+
+        } else {
+          document.getElementById("boost_menu_popup_lives").innerText = oBoost.turnsRemaining ? oBoost.turnsRemaining  + " lives remaining": "No lives left";
+          if (oBoost.turnsRemaining <= 0 &&!oBoost.decrementsEachTurn) {
+            document.getElementById("boost_menu_popup_lives").classList.add("no_lives_left");
+          } else {
+            document.getElementById("boost_menu_popup_lives").classList.remove("no_lives_left");
+          }
         }
-
-
-
-
         if (oBoost.boostable) {
           const sPrefix = `Reveals up to ${oBoost.maxCellCount} cells `
           document.getElementById("boost_menu_popup_text").innerText = sPrefix + oBoost.description;
@@ -402,7 +420,7 @@ class SidukoMain {
         } else {
           document.getElementById("boost_menu_popup_use_button").classList.add("hidden");
         }
-        if (this.#playerData.funds >= oBoost.cost) {
+        if ((this.#playerData.funds >= oBoost.cost) && (!oBoost.passive)) {
           document.getElementById("boost_menu_popup_buy_button").classList.remove("hidden");
           document.getElementById("boost_menu_popup_buy_button").innerText = `Buy: $${oBoost.cost}`;        
         } else {

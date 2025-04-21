@@ -184,6 +184,19 @@ table.sidukoTable {
 	animation-duration: 4s;
 }
 
+@keyframes doHomeRun {
+	to {
+		color:white;
+		background-color: black;
+	}
+	
+}
+
+.sidukoTable table td table td.homeRun {
+	animation-name: doHomeRun;
+	animation: duration: 0.9s;
+}
+
 #rightPanel {
     background-color: black;
     margin-top:24px;

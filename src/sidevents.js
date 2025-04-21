@@ -177,9 +177,16 @@ class SidukoEventsHandler {
         if (this.#playerData.guessesRemaining >= SidukoConstants.SPAM_GUESS_PENALTY) {
           SidukoNotifications.getInstance().queueAlert("Spamming guesses looses you some of your remaining guesses!!!");
           this.#playerData.guessesRemaining -= SidukoConstants.SPAM_GUESS_PENALTY;
-        }
-        
+        }        
       }
+
+      if (bonus > 0) {
+        const reward = Math.floor(bonus *1.8);
+        SidukoNotifications.getInstance().queueBonus(`Bonus awarded! You've gained $${reward}!`);        
+        this.#playerData.funds += reward;
+        this.#playerData.renderBoosts();
+      }
+
       if (state.playerCellUsed) {
         console.log("Cell used by player");
         this.#playerData.doTurnPlayed(true, oGame);
@@ -189,15 +196,18 @@ class SidukoEventsHandler {
       } else {
         console.log("Unknown state");
       }
-      if (bonus > 0) {
-        logMessage(`BONUS AWARDED $${bonus * bonus}!`);
-        this.#playerData.funds += (bonus * bonus);
-        this.#playerData.renderBoosts();
+
+      const oHomeRunBoost = this.#playerData.getBoost("Home run");
+      if (oHomeRunBoost && oHomeRunBoost.getCanUse()) {        
+        oHomeRunBoost.use();        
       }
+
 
       this.__letJohnMessYourHeadUp();
       this.__swapDigits();
       this.__spinCircles();
+
+      this.__doWordSearch();
     }
   }
 
@@ -231,6 +241,14 @@ class SidukoEventsHandler {
         }
       }
     }
+  }
+
+  __doWordSearch() {
+   // const searcher = new SidukoWordSearch(this.#puzzle, SidukoConstants.RUDE_SET_WORD_LIST);
+    
+    
+    // DO NOT USE WHEN CHARS CAN BESWAPPED searcher.findWords();
+    
   }
 
   async __swapDigits() {
@@ -333,8 +351,10 @@ class SidukoEventsHandler {
     const c = Math.floor(Math.random() * 3);
     area.classList.add(`color${c + 1}`);
 
-
-    return;
+    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    if (isChrome) {
+      return;
+    }
     //TODO disable for now as it doesn't work on some phones
 
     const fnRemoveSpin = () => {
