@@ -44,6 +44,7 @@
 	color:white;
 	padding: 6px;
 	user-select: none;
+	max-width: 240px;
 }
 
 
@@ -346,6 +347,7 @@ table.sidukoTable {
 .no_lives_left {
 	display: none;
 }
+
 @keyframes show_alert_one {
 	from {
 		opacity: 0.3;

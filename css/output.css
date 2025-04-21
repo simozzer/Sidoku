@@ -442,6 +442,7 @@
   color: white;
   padding: 6px;
   user-select: none;
+  max-width: 240px;
 }
 #everywhere {
   opacity: 95%;
