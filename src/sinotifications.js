@@ -90,7 +90,7 @@ class SidukoNotifications {
         oBonus.startTime = new Date().getTime();
         this.#bonusElement.textContent = oBonus.message;
         this.#bonusElement.style.left = `${Math.round((document.body.clientWidth - 325) / 2)}px`;
-        this.#bonusElement.style.top = `200px`;
+        this.#bonusElement.style.top = `750px`;
         this.#bonusElement.classList.remove('hidden');
 
         let fnStopBonus = () => {          

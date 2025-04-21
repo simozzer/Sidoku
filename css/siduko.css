@@ -308,8 +308,8 @@ table.sidukoTable {
 	filter: drop-shadow(2px 3px 3px lightblue);
 }
 
-.boost-group #passiveBoosts .boost_glpyh {
-	background-color: darkgrey;
+#passiveBoosts .boost_glpyh {
+	background-color: rgb(68, 37, 108);
 }
 
 

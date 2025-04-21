@@ -603,8 +603,9 @@ class SidukoEventsHandler {
           if (timeRemaining <= 0) {
             if ((!this.__lastEntryTimeoutBonus) || this.__entryTimeoutBonus > this.__lastEntryTimeoutBonus) {
               this.__lastEntryTimeoutBonus = this.__entryTimeoutBonus;
-              // TODO;: award bonus as a function of correct cells.
-              SidukoNotifications.getInstance().queueInfo(`a quick streak of ${this.__lastEntryTimeoutBonus} - best this game!`)
+              if (this.__lastEntryTimeoutBonus > 1) {               
+                SidukoNotifications.getInstance().queueInfo(`a quick streak of ${this.__lastEntryTimeoutBonus} - best this game!`)
+              }
             }
           
             window.clearInterval(this.__entryTimeout);

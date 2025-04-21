@@ -26,7 +26,6 @@
     --color-indigo-600: oklch(0.511 0.262 276.966);
     --color-indigo-800: oklch(0.398 0.195 277.366);
     --color-violet-600: oklch(0.541 0.281 293.009);
-    --color-fuchsia-800: oklch(0.452 0.211 324.591);
     --color-slate-200: oklch(0.929 0.013 255.508);
     --color-slate-400: oklch(0.704 0.04 256.788);
     --color-slate-500: oklch(0.554 0.046 257.417);
@@ -389,9 +388,6 @@
   .text-cyan-300 {
     color: var(--color-cyan-300);
   }
-  .text-fuchsia-800 {
-    color: var(--color-fuchsia-800);
-  }
   .text-red-300 {
     color: var(--color-red-300);
   }
@@ -446,6 +442,7 @@
   color: white;
   padding: 6px;
   user-select: none;
+  max-width: 200px;
 }
 #everywhere {
   opacity: 95%;
@@ -684,8 +681,8 @@ table.sidukoTable {
   width: 50px;
   filter: drop-shadow(2px 3px 3px lightblue);
 }
-.boost-group #passiveBoosts .boost_glpyh {
-  background-color: darkgrey;
+#passiveBoosts .boost_glpyh {
+  background-color: rgb(68, 37, 108);
 }
 .boostInformation {
   max-width: 290px;
@@ -710,9 +707,11 @@ table.sidukoTable {
 #unavailableBoosts .boost_glyph {
   background-color: darkgray;
 }
+
 .no_lives_left {
-  color: red;
+  display: none;
 }
+
 @keyframes show_alert_one {
   from {
     opacity: 0.3;

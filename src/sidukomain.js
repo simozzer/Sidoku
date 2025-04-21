@@ -403,7 +403,7 @@ class SidukoMain {
           document.getElementById("boost_menu_popup_lives").classList.remove("no_lives_left");
 
         } else {
-          document.getElementById("boost_menu_popup_lives").innerText = oBoost.turnsRemaining ? oBoost.turnsRemaining  + " lives remaining": "No lives left";
+          document.getElementById("boost_menu_popup_lives").innerText = oBoost.turnsRemaining ? "Lives remaining: " + oBoost.turnsRemaining : "No lives left";
           if (oBoost.turnsRemaining <= 0 &&!oBoost.decrementsEachTurn) {
             document.getElementById("boost_menu_popup_lives").classList.add("no_lives_left");
           } else {
@@ -425,10 +425,9 @@ class SidukoMain {
           document.getElementById("boost_menu_popup_buy_button").innerText = `Buy: $${oBoost.cost}`;        
         } else {
           document.getElementById("boost_menu_popup_buy_button").classList.add("hidden");
-        }
-        debugger
+        }        
         if (oBoost.boostable && (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEL_COST)) {
-          document.getElementById("boost_menu_popup_boost_button").innerText = `Boost: $${SidukoConstants.BOOST_UP_LEVEL_COST}. ${oBoost.boostBuyHint}`;
+          document.getElementById("boost_menu_popup_boost_button").innerText = `Boost: $${SidukoConstants.BOOST_UP_LEVEL_COST}`;
           document.getElementById("boost_menu_popup_boost_button").classList.remove("hidden");             
         } else {
           document.getElementById("boost_menu_popup_boost_button").classList.add("hidden");
