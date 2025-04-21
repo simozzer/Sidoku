@@ -48,7 +48,7 @@ class SidukoMain {
         } else {
           this.__focusedBoost.turnsRemaining++;
         }
-        this.__focusedBoost.exhausted = this.__focusedBoost.turnsRemaining <= 0;
+        this.__focusedBoost.exhausted = false;
         this.#playerData.renderBoosts();
         document.getElementById("boost_menu_popup").classList.add("hidden");
       }
@@ -426,7 +426,8 @@ class SidukoMain {
         } else {
           document.getElementById("boost_menu_popup_buy_button").classList.add("hidden");
         }
-        if (oBoost.boostable && this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEL_COST && !oBoost.exhausted) {
+        debugger
+        if (oBoost.boostable && (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEL_COST)) {
           document.getElementById("boost_menu_popup_boost_button").innerText = `Boost: $${SidukoConstants.BOOST_UP_LEVEL_COST}. ${oBoost.boostBuyHint}`;
           document.getElementById("boost_menu_popup_boost_button").classList.remove("hidden");             
         } else {
