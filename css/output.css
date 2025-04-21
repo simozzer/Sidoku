@@ -642,7 +642,7 @@ table.sidukoTable {
 }
 .boost-group {
   justify-content: center;
-  padding: 20px;
+  padding: 6px;
 }
 .boost_glyph {
   font-size: 1.2em;
@@ -655,13 +655,16 @@ table.sidukoTable {
   text-align: center;
   display: inline-block;
   min-width: 3em;
-  margin: 15px;
+  margin: 4px;
   vertical-align: middle;
   padding-top: 0.4em;
 }
 .boost-group .boost_glyph {
   height: 50px;
   width: 50px;
+}
+.boostInformation {
+  max-width: 240px;
 }
 @keyframes show_alert_one {
   from {
