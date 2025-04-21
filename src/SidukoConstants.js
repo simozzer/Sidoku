@@ -68,4 +68,8 @@ class SidukoConstants {
   static CHAR_COMPUTER = "💻"; // EARN FULL BONUS WHEN USING BOOSTS
   static CHAR_ROCKET = "🚀"; // COMPLTE THE CURRENT PUZZLE (WITH NO BONUS).
 
+
+  
+  static QUICK_STREAK_TIMEOUT = 4000; // number of ms to wait between entries before timeout for a streak
+
 }

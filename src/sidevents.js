@@ -542,6 +542,35 @@ class SidukoEventsHandler {
         this.__triggerBonuses(oCellData);
         SidukoSounds.getInstance().playSound("Click1");
         SidukoElementEffects.slideCellOut(oCellData.element);  
+
+        if (this.__entryTimeout) {
+          this.__entryTimeoutBonus = this.__entryTimeoutBonus ? this.__entryTimeoutBonus + 1 : 1;
+          console.log("Entry bonus: " + this.__entryTimeoutBonus);
+          window.clearTimeout(this.__entryTimeout);
+          this.__entryTimeout = null;
+        }
+
+        document.getElementById("entryTimerBarContainer").classList.remove("hidden");
+        const entryStartTime = Date.now();
+        const entryEndTime = entryStartTime + SidukoConstants.QUICK_STREAK_TIMEOUT;
+        this.__entryTimeout = window.setInterval(() => {
+          const timeRemaining = entryEndTime - Date.now();
+          const percentAsWidth = Math.trunc((100 * timeRemaining / SidukoConstants.QUICK_STREAK_TIMEOUT));
+          document.getElementById("entryTimerBarProgress").style.width = percentAsWidth + "%";
+          if (timeRemaining <= 0) {
+            if ((!this.__lastEntryTimeoutBonus) || this.__entryTimeoutBonus > this.__lastEntryTimeoutBonus) {
+              this.__lastEntryTimeoutBonus = this.__entryTimeoutBonus;
+              // TODO;: award bonus as a function of correct cells.
+              SidukoNotifications.getInstance().queueInfo(`a quick streak of ${this.__lastEntryTimeoutBonus} - best this game!`)
+            }
+          
+            window.clearInterval(this.__entryTimeout);
+            this.__entryTimeout = null;
+            document.getElementById("entryTimerBarContainer").classList.add("hidden");
+            this.__entryTimeoutBonus = 0;
+          }
+          
+        }, 100);
       } else {
         if (!this.__badGuessCount) {
           this.__badGuessCount = 1;          

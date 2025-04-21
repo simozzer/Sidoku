@@ -458,6 +458,21 @@ table.sidukoTable {
 	font-size: 1.8em;
 }
 
+#entryTimerBarProgress {
+	height: 1em;
+	width: 30%;
+	background-color:rgba(223, 8, 58, 0.349);
+}
+
+#entryTimerBarTextOverlay {	
+	position: relative;
+	width: 100%;
+	text-align: center;
+	margin-top: -1.3em;
+	font-size: 1em;
+	line-height: 1em;
+}
+
 
 
 #playerBoostsTableBody tr.exhausted {

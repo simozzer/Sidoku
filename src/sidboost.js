@@ -153,7 +153,6 @@ class SidukoBoostData {
 class SidukoHintsBoostData extends SidukoBoostData {
   getCanUse(playerData) {
     if (super.getCanUse()) {
-      console.log("hints boost can use");
       return true;
     }
     return false;
@@ -171,7 +170,6 @@ class SidukoHintsBoostData extends SidukoBoostData {
 class SidukoSeekerBoostData extends SidukoBoostData {
   getCanUse(playerData) {
     if (super.getCanUse()) {
-      //        console.log("sekker boost can use");
       return SidukoBonuses.canAutoFillCellsWithOnePossibleValue(
         this.puzzle
       );
