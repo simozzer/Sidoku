@@ -271,7 +271,7 @@ table.sidukoTable {
 	min-width: 3em;
 	margin: 4px;
 	vertical-align: middle;
-	padding-top: 0.4em;
+	padding-top: 0.6em;
 }
 
 .boost-group .boost_glyph {
@@ -281,9 +281,27 @@ table.sidukoTable {
 
 
 .boostInformation {
-	max-width: 240px;
+	max-width: 290px;
+	background-color: darkslateblue;
+	border: 6px double cornflowerblue;
+	border-radius: 10px;
+	font-size: 0.9em;
 }
 
+#passiveBoostS {
+	opacity: 0.5;
+}
+
+.boost-group {
+	background-color: whitesmoke;
+    border: 6px double lightslategrey;
+    color: grey;
+    margin: 4px;
+}
+
+.no_lives_left {
+	color:red;
+}
 @keyframes show_alert_one {
 	from {
 		opacity: 0.3;

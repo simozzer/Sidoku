@@ -180,7 +180,7 @@ class SidukoMain {
     oBoost.boostable = true;
     oBoost.maxCellCount = SidukoConstants.INITIAL_DEFAULT_BOOST_CELLCOUNT;
     oBoost.exhausted = oBoost.turnsRemaining <= 0;
-    oBoost.cost = 4;
+    oBoost.cost = 6;
 
     oBoost = new SidukoRandomValueBoostData(
       "Random Value",
@@ -217,7 +217,7 @@ class SidukoMain {
 
     oBoost = new SidukoBadValueRemovalBoostData(
       "Eraser",
-      "cells which contain an incorrect value",
+      "cells which contain an incorrect value, and corrects them",
       oGame,
       SidukoConstants.CHAR_ERASE_BAD
     );
@@ -233,7 +233,7 @@ class SidukoMain {
 
     oBoost = new SidukoHighlightBoostData(
       "Highlight",
-      "Shows highlights for incorrect values [this will only be available when you're off-track]",
+      "with incorrect values and highlights them [this will only be available when you're off-track]",
       oGame,
       SidukoConstants.CHAR_HIGHLIGHT_BAD
     );    
@@ -383,6 +383,15 @@ class SidukoMain {
         const oBoostPopup = document.getElementById("boost_menu_popup");        
         document.getElementById("boost_menu_popup_text").innerText = oBoost.description;
         document.getElementById("boost_menu_popup_lives").innerText = oBoost.turnsRemaining ? oBoost.turnsRemaining  + " lives remaining": "No lives left";
+        if (oBoost.turnsRemaining <= 0 &&!oBoost.decrementsEachTurn) {
+          document.getElementById("boost_menu_popup_lives").classList.add("no_lives_left");
+        } else {
+          document.getElementById("boost_menu_popup_lives").classList.remove("no_lives_left");
+        }
+
+
+
+
         if (oBoost.boostable) {
           const sPrefix = `Reveals up to ${oBoost.maxCellCount} cells `
           document.getElementById("boost_menu_popup_text").innerText = sPrefix + oBoost.description;
