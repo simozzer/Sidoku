@@ -543,13 +543,17 @@ class SidukoEventsHandler {
         SidukoSounds.getInstance().playSound("Click1");
         SidukoElementEffects.slideCellOut(oCellData.element);  
 
+
+        // update the status for entry timeout
         if (this.__entryTimeout) {
-          this.__entryTimeoutBonus = this.__entryTimeoutBonus ? this.__entryTimeoutBonus + 1 : 1;
+          if (oCellData.value === this.#puzzle.solution.getData().cell(oCellData.column, oCellData.row).value) {
+            this.__entryTimeoutBonus = this.__entryTimeoutBonus ? this.__entryTimeoutBonus + 1 : 1;
+          }
           console.log("Entry bonus: " + this.__entryTimeoutBonus);
           window.clearTimeout(this.__entryTimeout);
           this.__entryTimeout = null;
         }
-
+        
         document.getElementById("entryTimerBarContainer").classList.remove("hidden");
         const entryStartTime = Date.now();
         const entryEndTime = entryStartTime + SidukoConstants.QUICK_STREAK_TIMEOUT;
