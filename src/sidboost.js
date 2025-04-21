@@ -335,7 +335,7 @@ class SidukoHomeRunBoostData extends SidukoBoostData {
   }
 
   use() {
-    if (this.getCanUse()) {
+    if (this.getCanUse() && Math.random() < 0.14) {
       SidukoBonuses.doHomeRun(this.puzzle, this);
       return true;
     }    

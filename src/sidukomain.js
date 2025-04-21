@@ -79,6 +79,10 @@ class SidukoMain {
             oBoost.maxCellCount--;
           }
 
+          this.#playerData.renderBoosts();
+ 
+          SidukoHtmlGenerator.updateCellHints(this.#game);
+
         } else {
           SidukoNotifications.getInstance().queueAlert(
             "Failed to use boost", 2000
