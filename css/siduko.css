@@ -319,6 +319,7 @@ table.sidukoTable {
 	border: 6px double cornflowerblue;
 	border-radius: 10px;
 	font-size: 0.9em;
+	filter: drop-shadow(-26px 26px 30px lightblue)
 }
 
 
@@ -466,8 +467,8 @@ table.sidukoTable {
 		margin-right: 2px;
     color: rgb(221, 232, 232);
     opacity: 0.6;
-	user-select: none;
-	display: contents;
+		user-select: none;
+		display: contents;
 }
 
 #leftPanel table {

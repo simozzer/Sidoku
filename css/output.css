@@ -693,6 +693,7 @@ table.sidukoTable {
   border: 6px double cornflowerblue;
   border-radius: 10px;
   font-size: 0.9em;
+  filter: drop-shadow(-26px 26px 30px lightblue);
 }
 #unavailableBoosts {
   background-color: darkgray;
