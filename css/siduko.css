@@ -318,7 +318,7 @@ table.sidukoTable {
 	border: 6px double cornflowerblue;
 	border-radius: 10px;
 	font-size: 0.9em;
-	filter: drop-shadow(-26px 26px 30px lightblue)
+	filter: drop-shadow(-26px 26px 30px lightblue);
 }
 
 
@@ -1166,6 +1166,11 @@ tr.exhausted .boost_glyph {
 .area.color4 {
 	background-color: #2396e8;
 	transition: background-color 8s;
+}
+
+#introScreen {
+	filter: drop-shadow(-50px 50px 50px lightyellow);
+	opacity: 0.85;
 }
 /*End Animations*/
 /*
