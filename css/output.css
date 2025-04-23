@@ -27,6 +27,7 @@
     --color-indigo-800: oklch(0.398 0.195 277.366);
     --color-violet-600: oklch(0.541 0.281 293.009);
     --color-slate-200: oklch(0.929 0.013 255.508);
+    --color-slate-300: oklch(0.869 0.022 252.894);
     --color-slate-400: oklch(0.704 0.04 256.788);
     --color-slate-500: oklch(0.554 0.046 257.417);
     --color-slate-600: oklch(0.446 0.043 257.281);
@@ -221,6 +222,9 @@
   .block {
     display: block;
   }
+  .contents {
+    display: contents;
+  }
   .flex {
     display: flex;
   }
@@ -274,6 +278,9 @@
   }
   .content-center {
     align-content: center;
+  }
+  .items-center {
+    align-items: center;
   }
   .justify-center {
     justify-content: center;
@@ -338,6 +345,9 @@
   .to-indigo-600 {
     --tw-gradient-to: var(--color-indigo-600);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
@@ -413,8 +423,14 @@
   .text-red-300 {
     color: var(--color-red-300);
   }
+  .text-slate-300 {
+    color: var(--color-slate-300);
+  }
   .text-slate-400 {
     color: var(--color-slate-400);
+  }
+  .text-slate-800 {
+    color: var(--color-slate-800);
   }
   .italic {
     font-style: italic;
@@ -1374,20 +1390,18 @@ div#playerStatus {
 .boost_menu_popup_button {
   text-align: center;
   font-weight: 300;
-  margin: 3px;
   background-color: white;
   color: black;
   border: 3px solid antiquewhite;
   border-radius: 4px;
   user-select: none;
-  margin: auto;
-  margin: 15px;
+  margin-right: 8px;
+  float: left;
 }
 .boost_menu_popup_button:hover {
-  font-weight: 600;
+  font-weight: 500;
   background-color: lightpink;
   color: darkblue;
-  text-decoration: underline;
 }
 tr.exhausted .boost_glyph {
   opacity: 0.5;
@@ -1396,6 +1410,10 @@ tr.exhausted .boost_glyph {
   background-color: black;
   color: lightslategray;
   border: 2px solid white;
+}
+.boost_button {
+  text-align: center;
+  display: inline-block;
 }
 @keyframes animatetop {
   from {

@@ -49,6 +49,7 @@ class SidukoMain {
           this.__focusedBoost.turnsRemaining++;
         }
         this.__focusedBoost.exhausted = false;
+        SidukoHtmlGenerator.updateCellHints(this.#game);
         this.#playerData.renderBoosts();
         document.getElementById("boost_menu_popup").classList.add("hidden");
       }
@@ -80,7 +81,6 @@ class SidukoMain {
           }
 
           this.#playerData.renderBoosts();
- 
           SidukoHtmlGenerator.updateCellHints(this.#game);
 
         } else {
@@ -172,7 +172,7 @@ class SidukoMain {
 
     oBoost = new SidukoRandomBoostData(
       "Random",
-      "random cells",
+      "randomly",
       oGame,
       SidukoConstants.CHAR_RANDOM_CELL
     );
@@ -188,7 +188,7 @@ class SidukoMain {
 
     oBoost = new SidukoRandomValueBoostData(
       "Random Value",
-      "cells with a randomly chosen value",
+      "with a randomly chosen value",
       oGame,
       SidukoConstants.CHAR_RANDOM_VALUE
     );
@@ -221,7 +221,7 @@ class SidukoMain {
 
     oBoost = new SidukoBadValueRemovalBoostData(
       "Eraser",
-      "cells which contain an incorrect value, and corrects them",
+      "which contain an incorrect value, and corrects them",
       oGame,
       SidukoConstants.CHAR_ERASE_BAD
     );
@@ -433,6 +433,7 @@ class SidukoMain {
         if (oBoost.boostable && (this.#playerData.funds >= SidukoConstants.BOOST_UP_LEVEL_COST)) {
           document.getElementById("boost_menu_popup_boost_button").innerText = `Boost: $${SidukoConstants.BOOST_UP_LEVEL_COST}`;
           document.getElementById("boost_menu_popup_boost_button").classList.remove("hidden");             
+          document.getElementById("boost_menu_popup_boost_button").title = oBoost.boostBuyHint;
         } else {
           document.getElementById("boost_menu_popup_boost_button").classList.add("hidden");
         }        

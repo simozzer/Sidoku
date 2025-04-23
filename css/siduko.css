@@ -1066,21 +1066,19 @@ div#playerStatus {
 .boost_menu_popup_button {
 	text-align: center;
 	font-weight: 300;
-	margin: 3px;
 	background-color: white;
 	color: black;
 	border: 3px solid antiquewhite;
 	border-radius: 4px;
 	user-select: none;
-	margin: auto;
-	margin: 15px;
+	margin-right: 8px;
+	float: left;
 }
 
 .boost_menu_popup_button:hover {
-	font-weight: 600;
+	font-weight: 500;
 	background-color: lightpink;
-	color: darkblue;
-	text-decoration: underline;
+	color: darkblue;	
 }
 
 
@@ -1092,6 +1090,12 @@ tr.exhausted .boost_glyph {
 	color: lightslategray;
 	border: 2px solid white;
 }
+
+.boost_button {
+  text-align: center;
+  display: inline-block;
+}
+
 
 @tailwind base;
 @tailwind components;

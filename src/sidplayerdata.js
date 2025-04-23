@@ -121,6 +121,25 @@ class SidukoPlayerData {
     this.#boosts = aBoosts;
   }
 
+  __getBonusButtonDom(boost) {
+    const boostButton = document.createElement("div");
+    boostButton.classList.add("boost_button");
+
+    const glyphDiv = document.createElement("div");
+    glyphDiv.classList.add("boost_glyph");
+    glyphDiv.innerText = boost.glyph;
+    if (boost.boostable) {
+      const sPrefix = `Reveals up to ${boost.maxCellCount} cells `
+      glyphDiv.title = sPrefix + boost.description;
+    } else {
+      glyphDiv.title = `${boost.description}`;
+    }
+    glyphDiv.dataset.boostName = boost.name;
+
+    boostButton.appendChild(glyphDiv);
+    return boostButton;
+  }
+
   renderBoosts() {
     this.__sortBoosts();
     const availableBoostsElement = document.getElementById("availableBoosts");    
@@ -132,25 +151,15 @@ class SidukoPlayerData {
 
     this.#boosts.forEach((boost) => {
 
-      const glyphDiv = document.createElement("div");
-      glyphDiv.classList.add("boost_glyph");
-      glyphDiv.innerText = boost.glyph;
-      glyphDiv.title = `${boost.description}`;
-      glyphDiv.dataset.boostName = boost.name;
-
+      const button = this.__getBonusButtonDom(boost);
       if (boost.passive) {
-        passiveBoostsElement.appendChild(glyphDiv);
+        passiveBoostsElement.appendChild(button);
       } else if (boost.getCanUse()) {
-        availableBoostsElement.appendChild(glyphDiv);
+        availableBoostsElement.appendChild(button);
       } else {
-        unavailableBoostsElement.appendChild(glyphDiv);
+        unavailableBoostsElement.appendChild(button);
       }
   
-      if (boost.exhausted) {
-        glyphDiv.classList.add("exhausted");
-      } else {
-        glyphDiv.classList.remove("exhausted");
-      }
     });
     return;
   }
