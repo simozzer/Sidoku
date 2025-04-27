@@ -210,6 +210,12 @@
   .static {
     position: static;
   }
+  .float-right {
+    float: right;
+  }
+  .clear-none {
+    clear: none;
+  }
   .mx-8 {
     margin-inline: calc(var(--spacing) * 8);
   }
@@ -227,6 +233,9 @@
   }
   .hidden {
     display: none;
+  }
+  .inline-block {
+    display: inline-block;
   }
   .table {
     display: table;
@@ -391,6 +400,10 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
   .font-light {
     --tw-font-weight: var(--font-weight-light);
     font-weight: var(--font-weight-light);
@@ -461,15 +474,10 @@
   color: white;
   padding: 6px;
   user-select: none;
-  max-width: 240px;
 }
 #everywhere {
   opacity: 95%;
   padding-inline: calc(var(--spacing) * 2);
-}
-table.sidukoTable {
-  max-width: 380px;
-  max-height: 380px;
 }
 .sidukoTable table {
   border-color: var(--color-white);
@@ -502,8 +510,7 @@ table.sidukoTable {
   font-size: var(--text-2xl);
   line-height: var(--tw-leading, var(--text-2xl--line-height));
   user-select: none;
-  min-width: 37px;
-  min-height: 37px;
+  width: 5em;
 }
 @keyframes doCellHighlight {
   from {
@@ -636,25 +643,6 @@ table.sidukoTable {
   color: darkblue;
   font-weight: 600;
 }
-.introScreenContent {
-  margin: 40px;
-  padding: 50px;
-  border: 10px solid gold;
-  border-radius: 50px;
-  user-select: none;
-  background-color: #d3d3e5;
-  opacity: 0.8;
-  text-align: center;
-}
-.introScreenContent h3 {
-  font-weight: 800;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-.introScreenContent h4 {
-  font-weight: 600;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 1.2em;
-}
 #alert {
   position: absolute;
   border: 3px dotted green;
@@ -665,7 +653,6 @@ table.sidukoTable {
   z-index: 20;
   top: 700px;
   left: 15px;
-  max-width: 300px;
 }
 .show-cheat:hover {
   color: red;
@@ -679,10 +666,8 @@ table.sidukoTable {
   line-height: 1.2em;
   color: blue;
   border-radius: 10px;
-  max-width: 3em;
   text-align: center;
   display: inline-block;
-  min-width: 3em;
   margin: 4px;
   vertical-align: middle;
   padding-top: 0.6em;
@@ -702,7 +687,6 @@ table.sidukoTable {
   background-color: rgb(68, 37, 108);
 }
 .boostInformation {
-  max-width: 290px;
   background-color: darkslateblue;
   border: 6px double cornflowerblue;
   border-radius: 10px;
@@ -825,28 +809,6 @@ table.sidukoTable {
 .fadeIntro {
   animation-name: fade_intro_screen;
   animation-duration: 2.5s;
-}
-#leftPanel {
-  background-color: rgb(77, 10, 10);
-  margin-top: 24px;
-  margin-right: 2px;
-  color: rgb(221, 232, 232);
-  opacity: 0.6;
-  user-select: none;
-  display: contents;
-}
-#leftPanel table {
-  min-width: 250px;
-  min-height: 400px;
-}
-#leftPanel>div {
-  flex-direction: column;
-  justify-content: space-between;
-}
-.fillVert {
-  height: 100%;
-  margin: 4px;
-  padding: 4px;
 }
 @keyframes fadeLogMessage {
   from {
@@ -1047,9 +1009,7 @@ table.sidukoTable {
   border: 6px double red;
   border-radius: 8px;
   font-size: 1.1em;
-  max-width: 400px;
   text-align: center;
-  min-width: 400px;
   font-weight: 800;
 }
 .messageBox.initial {
@@ -1122,14 +1082,6 @@ table.sidukoTable {
 }
 div#playerStatus {
   animation: shake 0.8s ease-in-out infinite alternate;
-}
-#leftPanel thead {
-  font-size: small;
-  font-family: monospace;
-  font-weight: 700;
-}
-#leftPanel tbody {
-  font-family: math;
 }
 .cellValueEntryPopup {
   position: absolute;
@@ -1438,7 +1390,7 @@ tr.exhausted .boost_glyph {
 }
 #introScreen {
   filter: drop-shadow(-50px 50px 50px lightyellow);
-  opacity: 0.85;
+  opacity: 0.95;
 }
 .area {
   background: #4e54c8;

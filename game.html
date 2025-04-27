@@ -33,14 +33,28 @@
         </script>
         <script src="./src/sidwordsearch.js">
         </script>    
+               
         <link rel="stylesheet" href="./css/output.css">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
     </head>
     
     <body onLoad="doGameLoaded()" class="bg-orange-200 flex flex-col min-h-svh">
         <div class="mx-auto text-center block bg-sky-500 p-2 min-w-full">
-            <div class="text-center text-3xl">🧩Siduko</div>
-            <div class="fg-blue-100 text-sm" >A game based on Sudoku</div>
+            <div class="inline-block">
+                <div class="text-center text-3xl">🧩Siduko</div>
+                <div class="fg-blue-100 text-sm" >A game based on Sudoku</div>
+            </div>
+            <div class="float-right clear-none">
+                <div id="playerStatus">
+                    <h4>Guesses Left: </h4>
+                    <div id="playerGuessesRemaining"></div>     
+                    <hr/>       
+                    <h4>Funds: </h4>
+                    <div id="playerFunds"></div>
+                </div>  
+            </div>
         </div>
         
         <div class="h-full grow">
@@ -87,9 +101,9 @@
                 
             </div>
             <div id="introScreen">
-                <div class="introScreenContent">
-                    <h3>The Thing Is</h3> <br/>
-                    Solve a puzzle within the timeout, or don't, it's really up to you. <br/><br/>
+                <div class="text-center p-4">
+                    <div class="font-bold">The Thing Is</div> <br/>
+                    Solve a puzzle within the timeout, or don'...t, it's really up to you. <br/><br/>
                     You can buy bonuses like the 'Hints' which appear for the cells.<br/><br/>
                     Earn cash for bonuses by filling lines, columns or inner tables.<br/><br/>
                     Choose a level of difficulty to start playing. <br/>                    
@@ -112,32 +126,30 @@
             <div id="mainGameArea" class="hidden">
                 <div class="flex justify-center p-4">
                     <div id="leftPanel" class="bg-gradient-to-r from-violet-600 to-indigo-600 overflow-hidden">
-                        <div class="flex text-yellow-70 fillVert">
-                            <div class="boostInformation text-center" id="boostinformation">
-                                <div class="boost_group">
-                                    <label for="availableBoosts">Available/Active Boosts</label>
-                                    <div id="availableBoosts" name="availableBoosts" class="flex-wrap boost-group"></div> 
-                                </div>
-                                <div class="boost_group">
-                                    <label for="unavailableBoosts">Boosts To Buy/Unavailable</label>      
-                                    <div id="unavailableBoosts" name="unavailableBoosts" class="bg-slate-600 text-slate-400 flex-wrap boost-group"></div>
-                                </div>
-                                <div class="boost_group">
-                                    <label for="passiveBoosts">Passive Boosts</label>      
-                                    <div id="passiveBoosts" name="passiveBoosts" class="flex-wrap boost-group bg-slate-500">                                        
-                                    </div>
-                                </div>            
-                            </div>
-                            <div id="playerStatus">
-                                <h4>Guesses Left: </h4>
-                                <div id="playerGuessesRemaining"></div>     
-                                <hr/>       
-                                <h4>Funds: </h4>
-                                <div id="playerFunds"></div>
-                            </div>  
-                        </div>                                            
+                                               
                     </div>
-                    <div id="everywhere" class="p-6 py-8"></div>  
+                    <div id="everywhere" class="p-6 py-8">
+                        <div>TABLE AREA
+                            <div class="flex text-yellow-70">
+                                <div class="boostInformation text-center" id="boostinformation">
+                                    <div class="boost_group">
+                                        <label for="availableBoosts" class="hidden">Available/Active Boosts</label>
+                                        <div id="availableBoosts" name="availableBoosts" class="flex-wrap boost-group"></div> 
+                                    </div>
+                                    <div class="boost_group">
+                                        <label for="unavailableBoosts" class="hidden">Boosts To Buy/Unavailable</label>      
+                                        <div id="unavailableBoosts" name="unavailableBoosts" class="bg-slate-600 text-slate-400 flex-wrap boost-group"></div>
+                                    </div>
+                                    <div class="boost_group">
+                                        <label for="passiveBoosts" class="hidden">Passive Boosts</label>      
+                                        <div id="passiveBoosts" name="passiveBoosts" class="flex-wrap boost-group bg-slate-500">                                        
+                                        </div>
+                                    </div>            
+                                </div>
+    
+                            </div>   
+                        </div>
+                    </div>  
                 </div>
                     <div class="progressBarContainer p-4">
                         <div id="progressBarProgress" class="progressBarProgress bg-gradient-to-r from-red-400 to-green-600"></div>

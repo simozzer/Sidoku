@@ -334,12 +334,13 @@ class SidukoHomeRunBoostData extends SidukoBoostData {
       return SidukoBonuses.canDoHomeRun(this.puzzle);
   }
 
-  use() {
-    if (this.getCanUse() && Math.random() < 0.14) {
-      SidukoBonuses.doHomeRun(this.puzzle, this);
+  async use() {
+    if (this.getCanUse()) {
+      await SidukoBonuses.doHomeRun(this.puzzle, this);
       return true;
     }    
     return false;
   }
 }
+
 

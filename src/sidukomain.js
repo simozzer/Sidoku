@@ -12,8 +12,12 @@ class SidukoMain {
 
     this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);
     const tableDOM = this.#htmlGenerator.getPuzzleDOM();
-    const puzzleElementHolder = document.getElementById("everywhere");
-    puzzleElementHolder.textContent = "";
+    let puzzleElementHolder = document.querySelector("#everywhere table");
+    if (puzzleElementHolder) {
+      puzzleElementHolder.textContent = "";
+    } else {
+      puzzleElementHolder = document.querySelector("#everywhere");
+    }
     puzzleElementHolder.appendChild(tableDOM);
 
     this.#solution = new SidukoPuzzle(this);
@@ -351,10 +355,14 @@ class SidukoMain {
 
     this.#htmlGenerator = new SidukoHtmlGenerator(this.#game);
     const tableDOM = this.#htmlGenerator.getPuzzleDOM();
-    const puzzleElementHolder = document.getElementById("everywhere");
-    puzzleElementHolder.textContent = "";
+    let puzzleElementHolder = document.querySelector("#everywhere table");
+    if (puzzleElementHolder) {
+      puzzleElementHolder.textContent = "";  
+    } else {
+      puzzleElementHolder = document.querySelector("#everywhere");
+    }
     puzzleElementHolder.appendChild(tableDOM);
-
+    
     if (this.#eventHandler) {
       this.#eventHandler.detatchEvents();
       this.#eventHandler = null;
