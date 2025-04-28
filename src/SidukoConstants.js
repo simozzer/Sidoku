@@ -1,6 +1,6 @@
 class SidukoConstants {
   static HINT_BUY_BOOST_TURNS = 5;
-  static INITIAL_SEEKER_LIVES = 0;
+  static INITIAL_SEEKER_LIVES = 4;
 
   static BOOST_UP_LEVEL_COST = 3;
   static BOOST_LIFE_COST = 3;
@@ -12,8 +12,8 @@ class SidukoConstants {
 
   static GUESSES_MULTIPLER = 1.3;
 
-  static INITIAL_DEFAULT_BOOST_LIVES = 1;
-  static INITIAL_DEFAULT_BOOST_CELLCOUNT = 2;
+  static INITIAL_DEFAULT_BOOST_LIVES = 2;
+  static INITIAL_DEFAULT_BOOST_CELLCOUNT = 5;
 
   static MIN_BAD_CELLS_TO_ACTIVATE_HIGHLIGHT = 3;
 
